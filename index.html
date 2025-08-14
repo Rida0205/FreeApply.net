@@ -12,22 +12,21 @@
       font-family: 'Cairo', Arial, sans-serif;
       background: linear-gradient(120deg, #f6fbff 0%, #e3f2fd 100%);
       color: #222;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      box-sizing: border-box;
     }
     .container {
-      max-width: 540px;
-      width: 100%;
-      padding: 36px 14px;
+      max-width: 600px;
+      width: 95vw;
+      margin: 0 auto;
+      padding: 40px 0 30px 0;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: stretch;
       gap: 26px;
     }
     h1 {
-      font-size: 2.4em;
+      font-size: 2.1em;
       font-weight: bold;
       color: #1976d2;
       margin: 0 0 8px 0;
@@ -35,7 +34,7 @@
       text-align: center;
     }
     .subtitle {
-      font-size: 1.2em;
+      font-size: 1.1em;
       color: #009688;
       margin-bottom: 10px;
       font-weight: 600;
@@ -46,14 +45,14 @@
       background: #fff;
       border-radius: 18px;
       box-shadow: 0 6px 22px rgba(33,150,211,0.10);
-      padding: 32px 22px 28px 22px;
+      padding: 24px 16px 22px 16px;
       width: 100%;
       box-sizing: border-box;
       margin-bottom: 0;
       text-align: right;
       direction: rtl;
-      font-size: 1.37em;
-      line-height: 2.1;
+      font-size: 1.27em;
+      line-height: 2;
       font-weight: 400;
       animation: fadein 1.1s;
       margin-top: 4px;
@@ -74,21 +73,21 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       margin-bottom: 0;
       margin-top: 0;
       padding: 0;
-      align-items: flex-end;
+      align-items: stretch;
     }
     .feature-card {
       background: #f7fafc;
       border-radius: 13px;
       box-shadow: 0 2px 10px rgba(0,137,123,0.07);
-      padding: 17px 17px;
+      padding: 13px 13px;
       display: flex;
       align-items: center;
-      gap: 13px;
-      font-size: 1.09em;
+      gap: 10px;
+      font-size: 1em;
       color: #222;
       border: 1px solid #e0f2f1;
       text-align: right;
@@ -99,7 +98,7 @@
       justify-content: right;
     }
     .feature-icon {
-      font-size: 1.3em;
+      font-size: 1.22em;
       color: #009688;
       margin-left: 5px;
       margin-right: 0;
@@ -107,49 +106,52 @@
     .btn-whatsapp {
       background: linear-gradient(90deg, #1976d2 0%, #25D366 100%);
       color: #fff;
-      padding: 15px 40px 15px 28px;
+      padding: 13px 30px 13px 22px;
       border-radius: 40px;
       text-decoration: none;
-      font-size: 1.13em;
+      font-size: 1.06em;
       font-weight: bold;
       border: none;
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      margin-top: 22px;
+      gap: 11px;
+      margin-top: 18px;
       cursor: pointer;
       box-shadow: 0 4px 18px rgba(33,150,211,0.15);
       transition: background 0.2s, box-shadow 0.2s;
+      align-self: flex-start;
     }
     .btn-whatsapp:hover {
       background: linear-gradient(90deg, #25D366 0%, #1976d2 100%);
       box-shadow: 0 8px 28px rgba(33,150,211,0.23);
     }
     .whatsapp-icon {
-      font-size: 1.4em;
+      font-size: 1.25em;
       color: #fff;
       display: inline-block;
       margin-right: 0px;
       margin-left: 0px;
     }
-    @media (max-width: 520px) {
+    @media (max-width: 700px) {
       .container {
-        padding: 12px 1vw;
-        gap: 12px;
-      }
-      .card {
-        padding: 18px 6px 18px 6px;
-        font-size: 1.12em;
+        max-width: 98vw;
+        width: 98vw;
+        padding: 18px 0 16px 0;
       }
       h1 {
-        font-size: 1.25em;
+        font-size: 1.2em;
       }
-      .subtitle, .feature-card {
-        font-size: 1em;
+      .card {
+        font-size: 1.02em;
+        padding: 12px 5px 14px 5px;
+      }
+      .feature-card {
+        font-size: 0.96em;
+        padding: 9px 4px;
       }
       .btn-whatsapp {
-        padding: 12px 16px 12px 10px;
-        font-size: 1em;
+        font-size: 0.97em;
+        padding: 10px 14px 10px 10px;
         gap: 8px;
       }
     }
@@ -187,7 +189,7 @@
     <a href="https://wa.me/" class="btn-whatsapp" target="_blank">
       <span class="whatsapp-icon">
         <!-- أيقونة واتساب SVG -->
-        <svg width="28" height="28" viewBox="0 0 32 32" fill="none" style="vertical-align:middle">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align:middle">
           <circle cx="16" cy="16" r="16" fill="#25D366"/>
           <path d="M22.4 17.9c-.4-.2-2.2-1.1-2.5-1.2-.3-.1-.5-.2-.7.1-.2.3-.7.8-.8.9-.1.2-.3.2-.6.1-.3-.1-1.1-.4-2-1.2-.7-.6-1.2-1.3-1.3-1.6-.1-.3 0-.5.1-.6.1-.1.2-.3.4-.5.1-.2.1-.4 0-.6-.1-.2-.7-1.7-.9-2.4-.2-.6-.5-.5-.7-.5-.2 0-.4 0-.7.4-.2.4-.8 1.2-.8 2.2 0 1 .8 2.1 1 2.3.2.3 1.4 2.2 3.5 3 2.1.7 2.1.5 2.5.5.4-.1 1.2-.5 1.4-1.1.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.7-.3z" fill="#fff"/>
         </svg>
