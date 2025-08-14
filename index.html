@@ -10,167 +10,178 @@
       margin: 0;
       padding: 0;
       font-family: 'Cairo', Arial, sans-serif;
-      background: linear-gradient(120deg, #e0f7fa 0%, #ffffff 100%);
-      color: #212529;
+      background: linear-gradient(120deg, #f6fbff 0%, #e3f2fd 100%);
+      color: #222;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .main-content {
+    .container {
+      max-width: 540px;
       width: 100%;
-      max-width: 490px;
-      padding: 52px 18px 52px 18px;
+      padding: 36px 14px;
       box-sizing: border-box;
-      text-align: center;
-      margin: 48px 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-    }
-    .logo {
-      width: 80px;
-      margin-bottom: 24px;
-      border-radius: 20px;
-      object-fit: contain;
-      background: #f4f7fa;
-      box-shadow: none;
-      display: block;
+      gap: 26px;
     }
     h1 {
-      font-size: 2.2em;
-      font-weight: 800;
-      margin: 0 0 18px 0;
-      color: #0d47a1;
-      letter-spacing: 1px;
+      font-size: 2.4em;
+      font-weight: bold;
+      color: #1976d2;
+      margin: 0 0 8px 0;
+      letter-spacing: 0.5px;
+      text-align: center;
     }
     .subtitle {
-      font-size: 1.15em;
-      color: #00897b;
-      margin-bottom: 32px;
-      font-weight: 700;
-      letter-spacing: 0.2px;
+      font-size: 1.2em;
+      color: #009688;
+      margin-bottom: 10px;
+      font-weight: 600;
+      text-align: center;
+      letter-spacing: 0.1px;
     }
-    .intro {
-      font-size: 1.14em;
-      color: #333;
-      margin-bottom: 32px;
-      line-height: 2;
+    .card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 6px 22px rgba(33,150,211,0.10);
+      padding: 32px 22px 28px 22px;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 0;
       text-align: right;
       direction: rtl;
-      width: 100%;
+      font-size: 1.37em;
+      line-height: 2.1;
+      font-weight: 400;
+      animation: fadein 1.1s;
+      margin-top: 4px;
     }
-    .features {
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .bold {
+      font-weight: bold;
+      color: #1976d2;
+      background: linear-gradient(90deg,#e3f2fd 30%,#fff 100%);
+      border-radius: 4px;
+      padding: 0 4px;
+      display: inline;
+    }
+    .features-list {
+      width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 18px;
-      margin-bottom: 36px;
+      gap: 16px;
+      margin-bottom: 0;
+      margin-top: 0;
+      padding: 0;
       align-items: flex-end;
-      width: 100%;
     }
-    .feature {
+    .feature-card {
+      background: #f7fafc;
+      border-radius: 13px;
+      box-shadow: 0 2px 10px rgba(0,137,123,0.07);
+      padding: 17px 17px;
       display: flex;
       align-items: center;
       gap: 13px;
       font-size: 1.09em;
       color: #222;
-      justify-content: right;
-      background: #e0f2f1;
-      padding: 11px 19px;
-      border-radius: 8px;
-      border: 1px solid #b2dfdb;
-      max-width: 370px;
-      margin: 0;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.03);
-      direction: rtl;
+      border: 1px solid #e0f2f1;
       text-align: right;
+      direction: rtl;
+      width: 100%;
+      box-sizing: border-box;
+      font-weight: 500;
+      justify-content: right;
     }
     .feature-icon {
       font-size: 1.3em;
-      color: #00897b;
+      color: #009688;
+      margin-left: 5px;
+      margin-right: 0;
     }
     .btn-whatsapp {
-      background: linear-gradient(90deg, #00897b 0%, #25D366 100%);
+      background: linear-gradient(90deg, #1976d2 0%, #25D366 100%);
       color: #fff;
-      padding: 15px 44px 15px 30px;
-      border-radius: 48px;
+      padding: 15px 40px 15px 28px;
+      border-radius: 40px;
       text-decoration: none;
-      font-size: 1.15em;
-      font-weight: 700;
-      letter-spacing: 0.6px;
+      font-size: 1.13em;
+      font-weight: bold;
       border: none;
-      transition: background 0.3s, box-shadow 0.3s;
       display: inline-flex;
       align-items: center;
-      gap: 14px;
-      margin-top: 16px;
+      gap: 12px;
+      margin-top: 22px;
       cursor: pointer;
-      box-shadow: 0 4px 18px rgba(0,137,123,0.15);
+      box-shadow: 0 4px 18px rgba(33,150,211,0.15);
+      transition: background 0.2s, box-shadow 0.2s;
     }
     .btn-whatsapp:hover {
-      background: linear-gradient(90deg, #25D366 0%, #00897b 100%);
-      box-shadow: 0 6px 24px rgba(38,166,154,0.21);
+      background: linear-gradient(90deg, #25D366 0%, #1976d2 100%);
+      box-shadow: 0 8px 28px rgba(33,150,211,0.23);
     }
     .whatsapp-icon {
-      font-size: 1.5em;
+      font-size: 1.4em;
       color: #fff;
-      background: none;
       display: inline-block;
+      margin-right: 0px;
+      margin-left: 0px;
     }
     @media (max-width: 520px) {
-      .main-content {
-        padding: 24px 4vw 24px 4vw;
-        margin: 14px 0;
+      .container {
+        padding: 12px 1vw;
+        gap: 12px;
+      }
+      .card {
+        padding: 18px 6px 18px 6px;
+        font-size: 1.12em;
       }
       h1 {
-        font-size: 1.5em;
+        font-size: 1.25em;
       }
-      .intro, .subtitle {
+      .subtitle, .feature-card {
         font-size: 1em;
-      }
-      .feature {
-        max-width: 98vw;
-        font-size: 0.99em;
-        padding: 9px 4px;
       }
       .btn-whatsapp {
-        padding: 11px 16px 11px 12px;
+        padding: 12px 16px 12px 10px;
         font-size: 1em;
-        gap: 10px;
-      }
-      .logo {
-        width: 54px;
-        margin-bottom: 14px;
+        gap: 8px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="main-content">
-    <!-- شعار الموقع (اختياري) -->
-    <img src="logo.png" alt="FreeApply.net" class="logo" onerror="this.style.display='none'" />
+  <div class="container">
+    <!-- العنوان والحديث خارج البطاقة -->
     <h1>FreeApply.net</h1>
     <div class="subtitle">« والله في عون العبد ما دام العبد في عون أخيه »</div>
-    <p class="intro">
-      FreeApply.net منصة مغربية تتيح لك التسجيل في المباريات الوطنية، تتبع طلباتك، وإنشاء سيرتك الذاتية باحترافية وسهولة.<br>
-      هدفنا تمكين الشباب المغربي وتيسير الطريق نحو تحقيق الطموحات، في بيئة رقمية عصرية وآمنة، وكل ذلك مجاناً وبدون أي تعقيدات.
-    </p>
-    <div class="features">
-      <div class="feature">
+    <!-- الوصف الكبير داخل بطاقة -->
+    <div class="card">
+      FreeApply.net منصة مغربية تتيح لك <span class="bold">التسجيل</span> في المباريات الوطنية، <span class="bold">تتبع</span> طلباتك، وإنشاء <span class="bold">سيرة ذاتية</span> باحترافية وسهولة.<br>
+      هدفنا <span class="bold">تمكين الشباب المغربي</span> وتيسير الطريق نحو تحقيق الطموحات، في بيئة رقمية <span class="bold">عصرية</span> و<span class="bold">آمنة</span>، وكل ذلك <span class="bold">مجاناً</span> وبدون أي تعقيدات.
+    </div>
+    <!-- الميزات -->
+    <div class="features-list">
+      <div class="feature-card">
         <span class="feature-icon">📝</span>
-        <p>التسجيل السريع في المباريات المغربية</p>
+        <span>التسجيل السريع في المباريات المغربية</span>
       </div>
-      <div class="feature">
+      <div class="feature-card">
         <span class="feature-icon">📊</span>
-        <p>تتبع فوري لطلباتك ونتائجك</p>
+        <span>تتبع فوري لطلباتك ونتائجك</span>
       </div>
-      <div class="feature">
+      <div class="feature-card">
         <span class="feature-icon">💼</span>
-        <p>إنشاء سيرة ذاتية احترافية بسهولة</p>
+        <span>إنشاء سيرة ذاتية احترافية بسهولة</span>
       </div>
-      <div class="feature">
+      <div class="feature-card">
         <span class="feature-icon">🤝</span>
-        <p>دعم وإرشاد مجاني في كل خطوة</p>
+        <span>دعم وإرشاد مجاني في كل خطوة</span>
       </div>
     </div>
     <a href="https://wa.me/" class="btn-whatsapp" target="_blank">
