@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreeApply.net - منصة مغربية لدعم الشباب</title>
+  <style>
+    body {
+      background: #fff;
+      font-family: 'Cairo', Arial, sans-serif;
+      color: #222;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(44, 62, 80, 0.09);
+      max-width: 420px;
+      width: 95%;
+      padding: 36px 26px;
+      text-align: center;
+      border: 1px solid #f0f4f8;
+      margin: 24px 0;
+    }
+    .logo {
+      width: 70px;
+      margin-bottom: 18px;
+      border-radius: 16px;
+      background: #f4f7fa;
+      object-fit: contain;
+      box-shadow: 0 2px 12px rgba(44, 62, 80, 0.06);
+    }
+    h1 {
+      font-size: 2em;
+      font-weight: 700;
+      color: #0d6efd;
+      margin: 0 0 10px 0;
+      letter-spacing: 0.5px;
+    }
+    .subtitle {
+      font-size: 1.13em;
+      color: #19b37a;
+      margin-bottom: 18px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+    .intro {
+      font-size: 1.08em;
+      color: #333;
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      margin-bottom: 28px;
+    }
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1em;
+      color: #222;
+      justify-content: right;
+      background: #f7fbfc;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #f2f6f8;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+    .feature-icon {
+      font-size: 1.3em;
+      color: #19b37a;
+      margin-left: 6px;
+    }
+    .quote {
+      background: #f8fafb;
+      border-right: 4px solid #19b37a;
+      padding: 10px 12px;
+      margin-bottom: 20px;
+      font-size: 1em;
+      border-radius: 8px;
+      color: #0d6efd;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .quote span {
+      display: block;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 2px;
+    }
+    .btn {
+      background: linear-gradient(90deg, #0d6efd 0%, #19b37a 100%);
+      color: #fff;
+      padding: 15px 36px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 1.08em;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border: none;
+      transition: background 0.3s, box-shadow 0.3s;
+      display: inline-block;
+      margin-top: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(13,110,253,0.09);
+    }
+    .btn:hover {
+      background: linear-gradient(90deg, #19b37a 0%, #0d6efd 100%);
+      box-shadow: 0 6px 22px rgba(18,184,134,0.15);
+    }
+    @media (max-width: 480px) {
+      .container {
+        padding: 22px 6px;
+      }
+      h1 {
+        font-size: 1.5em;
+      }
+      .intro, .subtitle {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- ضع شعارك هنا أو أزل السطر -->
+    <img src="logo.png" alt="FreeApply.net" class="logo" onerror="this.style.display='none'" />
+    <h1>FreeApply.net</h1>
+    <div class="subtitle">منصة ذكية لتسهيل فرص الشباب المغربي</div>
+    <p class="intro">
+      FreeApply.net تساعدك في الانطلاق نحو مستقبل أفضل عبر خدمات التسجيل في المباريات الوطنية، تتبع طلباتك، وإنشاء سيرة ذاتية احترافية بسهولة وبدون أي مقابل.<br>
+      هدفنا تمكين الشباب المغربي وتيسير الطريق أمامهم لتحقيق طموحاتهم، في بيئة رقمية عصرية وآمنة، مجاناً وبدون تعقيدات.
+    </p>
+    <div class="features">
+      <div class="feature">
+        <span class="feature-icon">📝</span>
+        <p>التسجيل السريع في المباريات المغربية</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">📊</span>
+        <p>تتبع فوري لطلباتك ونتائجك</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">💼</span>
+        <p>إنشاء سيرة ذاتية احترافية بسهولة</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🤝</span>
+        <p>دعم وإرشاد مجاني في كل خطوة</p>
+      </div>
+    </div>
+    <div class="quote">
+      <q>« والله في عون العبد ما دام العبد في عون أخيه »</q>
+      <span>حديث نبوي شريف</span>
+    </div>
+    <a href="#signup" class="btn">ابدأ الآن مجاناً</a>
+  </div>
+</body>
+</html>
