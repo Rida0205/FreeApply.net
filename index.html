@@ -9,151 +9,158 @@
       min-height: 100vh;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
       font-family: 'Cairo', Arial, sans-serif;
-      color: #222;
-      direction: rtl;
-      background: linear-gradient(135deg, #eaf6fb 0%, #f8f9fa 100%);
+      background: linear-gradient(120deg, #e3f2fd 0%, #f8fafc 100%);
+      color: #212529;
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .main-content {
       width: 100%;
-      max-width: 480px;
+      max-width: 500px;
+      padding: 54px 20px 54px 20px;
+      margin: 40px 0;
       box-sizing: border-box;
       text-align: center;
-      margin: 48px auto 48px auto; /* هوامش واضحة أعلى وأسفل */
-      padding: 0 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      background: none;
     }
     .logo {
-      width: 70px;
-      margin-bottom: 18px;
-      border-radius: 16px;
-      background: #f4f7fa;
+      width: 76px;
+      margin-bottom: 24px;
+      border-radius: 18px;
       object-fit: contain;
-      box-shadow: 0 2px 12px rgba(44, 62, 80, 0.06);
+      background: #f4f7fa;
+      box-shadow: none;
     }
     h1 {
-      font-size: 2em;
-      font-weight: 700;
-      color: #0d6efd;
-      margin: 0 0 10px 0;
-      letter-spacing: 0.5px;
+      font-size: 2.4em;
+      font-weight: 800;
+      margin: 0 0 16px 0;
+      color: #1565c0;
+      letter-spacing: 1px;
     }
     .subtitle {
-      font-size: 1.13em;
-      color: #19b37a;
-      margin-bottom: 20px;
-      font-weight: 500;
+      font-size: 1.2em;
+      color: #26a69a;
+      margin-bottom: 28px;
+      font-weight: 600;
       letter-spacing: 0.2px;
     }
     .intro {
-      font-size: 1.08em;
+      font-size: 1.12em;
       color: #333;
-      margin-bottom: 28px;
-      line-height: 1.7;
+      margin-bottom: 32px;
+      line-height: 1.8;
     }
     .features {
       display: flex;
       flex-direction: column;
-      gap: 13px;
-      margin-bottom: 28px;
+      gap: 16px;
+      margin-bottom: 36px;
       align-items: center;
     }
     .feature {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 1em;
+      gap: 12px;
+      font-size: 1.08em;
       color: #222;
       justify-content: right;
-      background: #f7fbfc;
-      padding: 10px 18px;
-      border-radius: 8px;
-      border: 1px solid #f2f6f8;
-      max-width: 340px;
-      margin: 0 auto;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+      background: none;
+      padding: 0;
+      border-radius: 0;
+      border: none;
+      box-shadow: none;
+      transition: color 0.2s;
     }
     .feature-icon {
-      font-size: 1.3em;
-      color: #19b37a;
-      margin-left: 6px;
+      font-size: 1.5em;
+      color: #26a69a;
+    }
+    .feature:hover {
+      color: #1565c0;
     }
     .quote {
-      background: #f8fafb;
-      border-right: 4px solid #19b37a;
-      padding: 10px 12px;
-      margin-bottom: 20px;
-      font-size: 1em;
-      border-radius: 8px;
-      color: #0d6efd;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      background: none;
+      border: none;
+      padding: 0;
+      margin-bottom: 30px;
+      font-size: 1.06em;
+      border-radius: 0;
+      color: #1565c0;
+      font-style: italic;
+      font-weight: 600;
       display: inline-block;
       max-width: 340px;
     }
     .quote span {
       display: block;
-      color: #666;
-      font-size: 0.95em;
+      color: #777;
+      font-size: 0.97em;
       margin-top: 2px;
+      font-weight: 400;
+      font-style: normal;
     }
     .btn {
-      background: linear-gradient(90deg, #0d6efd 0%, #19b37a 100%);
+      background: linear-gradient(90deg, #1565c0 0%, #26a69a 100%);
       color: #fff;
-      padding: 15px 36px;
-      border-radius: 30px;
+      padding: 15px 40px;
+      border-radius: 40px;
       text-decoration: none;
-      font-size: 1.08em;
-      font-weight: 600;
+      font-size: 1.13em;
+      font-weight: 700;
       letter-spacing: 0.5px;
       border: none;
       transition: background 0.3s, box-shadow 0.3s;
       display: inline-block;
-      margin-top: 10px;
+      margin-top: 12px;
       cursor: pointer;
-      box-shadow: 0 4px 16px rgba(13,110,253,0.09);
+      box-shadow: 0 4px 16px rgba(21,101,192,0.10);
     }
     .btn:hover {
-      background: linear-gradient(90deg, #19b37a 0%, #0d6efd 100%);
-      box-shadow: 0 6px 22px rgba(18,184,134,0.15);
+      background: linear-gradient(90deg, #26a69a 0%, #1565c0 100%);
+      box-shadow: 0 6px 22px rgba(38,166,154,0.15);
     }
     @media (max-width: 480px) {
       .main-content {
-        margin: 32px auto 32px auto;
-        padding: 0 4px;
+        padding: 32px 6px 32px 6px;
+        margin: 14px 0;
       }
       h1 {
-        font-size: 1.4em;
+        font-size: 1.5em;
       }
       .intro, .subtitle {
         font-size: 1em;
       }
       .feature, .quote {
         max-width: 98vw;
-        font-size: 0.97em;
-        padding: 9px 4px;
+        font-size: 0.99em;
       }
       .btn {
         padding: 12px 18px;
         font-size: 1em;
+      }
+      .logo {
+        width: 56px;
+        margin-bottom: 14px;
       }
     }
   </style>
 </head>
 <body>
   <div class="main-content">
-    <!-- ضع شعارك هنا أو أزل السطر -->
+    <!-- شعار الموقع (اختياري) -->
     <img src="logo.png" alt="FreeApply.net" class="logo" onerror="this.style.display='none'" />
     <h1>FreeApply.net</h1>
     <div class="subtitle">منصة ذكية لتسهيل فرص الشباب المغربي</div>
     <p class="intro">
-      FreeApply.net تساعدك في الانطلاق نحو مستقبل أفضل عبر خدمات التسجيل في المباريات الوطنية، تتبع طلباتك، وإنشاء سيرة ذاتية احترافية بسهولة وبدون أي مقابل.<br>
-      هدفنا تمكين الشباب المغربي وتيسير الطريق أمامهم لتحقيق طموحاتهم، في بيئة رقمية عصرية وآمنة، مجاناً وبدون تعقيدات.
+      FreeApply.net هي منصتك للانطلاق نحو مستقبل أفضل! سجّل في المباريات الوطنية، تتبع طلباتك، وأنشئ سيرتك الذاتية باحترافية وسهولة. هدفنا تمكين الشباب المغربي وتيسير الطريق أمامهم لتحقيق طموحاتهم، في بيئة رقمية عصرية وآمنة، مجاناً وبدون تعقيدات.
     </p>
     <div class="features">
       <div class="feature">
