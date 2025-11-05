@@ -426,7 +426,7 @@
 
       <!-- عدّاد الكتب -->
       <div class="books-counter" id="booksCounter">
-        عرض <span id="visibleCount">0</span> من <span id="totalCount">0</span> كتاب
+        عرض <span id="visibleCount">0</span> من <span id="totalCount">0</span> كتاب باللغة <span id="currentLanguageText">العربية</span>
       </div>
 
       <section class="grid" id="grid" role="list" aria-label="شبكة كتب DEEN WAY">
@@ -437,18 +437,10 @@
 
   <script>
     /************************************************************
-     * لإضافة كتاب جديد:
-     * - افتح المصفوفة `books` أدناه.
-     * - أضف كائنًا بالشكل:
-     *   {
-     *     title: 'عنوان الكتاب',
-     *     description: 'نبذة قصيرة (اختياري)',
-     *     coverPath: 'assets/cover1.jpg' أو 'https://.../cover.jpg',
-     *     pdfPath: 'books/book1.pdf' أو 'https://.../book.pdf',
-     *     language: 'اللغة'
-     *   }
+     * بيانات الكتب - يمكن إضافة المزيد من الكتب لكل لغة
      ************************************************************/
     const books = [
+      // الكتب العربية
       {
         title: 'الطريق الأول',
         description: 'مقدمة قصيرة تلخص محتوى الكتاب.',
@@ -477,6 +469,7 @@
         pdfPath: '',
         language: 'العربية'
       },
+      // الكتب الإنجليزية
       {
         title: 'The First Path',
         description: 'Introduction to the main concepts.',
@@ -505,6 +498,7 @@
         pdfPath: '',
         language: 'English'
       },
+      // الكتب الفرنسية
       {
         title: 'Le Premier Chemin',
         description: 'Introduction aux concepts principaux.',
@@ -518,6 +512,81 @@
         coverPath: '',
         pdfPath: '',
         language: 'Français'
+      },
+      // الكتب الإسبانية
+      {
+        title: 'El Primer Camino',
+        description: 'Introducción a los conceptos principales.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Español'
+      },
+      {
+        title: 'Luz del Conocimiento',
+        description: 'Pensamientos y orientación diaria.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Español'
+      },
+      // الكتب الألمانية
+      {
+        title: 'Der Erste Weg',
+        description: 'Einführung in die Hauptkonzepte.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Deutsch'
+      },
+      {
+        title: 'Licht des Wissens',
+        description: 'Tägliche Gedanken und Anleitung.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Deutsch'
+      },
+      // الكتب التركية
+      {
+        title: 'İlk Yol',
+        description: 'Ana kavramlara giriş.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Türkçe'
+      },
+      {
+        title: 'Bilgi Işığı',
+        description: 'Günlük düşünceler ve rehberlik.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Türkçe'
+      },
+      // الكتب الأردية
+      {
+        title: 'پہلا راستہ',
+        description: 'مرکزی تصورات کا تعارف۔',
+        coverPath: '',
+        pdfPath: '',
+        language: 'اردو'
+      },
+      {
+        title: 'علم کی روشنی',
+        description: 'روزانہ کے خیالات اور رہنمائی۔',
+        coverPath: '',
+        pdfPath: '',
+        language: 'اردو'
+      },
+      // الكتب الإندونيسية
+      {
+        title: 'Jalan Pertama',
+        description: 'Pengenalan konsep utama.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Indonesia'
+      },
+      {
+        title: 'Cahaya Pengetahuan',
+        description: 'Pemikiran dan bimbingan harian.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Indonesia'
       }
     ];
 
@@ -526,10 +595,46 @@
     const booksCounter = document.getElementById('booksCounter');
     const visibleCount = document.getElementById('visibleCount');
     const totalCount = document.getElementById('totalCount');
+    const currentLanguageText = document.getElementById('currentLanguageText');
     const languageBtn = document.getElementById('languageBtn');
     const languageDropdown = document.getElementById('languageDropdown');
     const currentLanguage = document.getElementById('currentLanguage');
     const languageOptions = document.querySelectorAll('.language-option');
+
+    // اللغة الحالية (العربية افتراضياً)
+    let currentLang = 'ar';
+    let searchTerm = '';
+
+    // تصفية الكتب حسب اللغة والبحث
+    function getFilteredBooks() {
+      return books.filter(book => {
+        // التصفية حسب اللغة
+        const langMatch = book.language === getLanguageName(currentLang);
+        
+        // التصفية حسب البحث (إن وجد)
+        const searchMatch = !searchTerm || 
+          book.title.toLowerCase().includes(searchTerm) ||
+          (book.description && book.description.toLowerCase().includes(searchTerm)) ||
+          (book.language && book.language.toLowerCase().includes(searchTerm));
+        
+        return langMatch && searchMatch;
+      });
+    }
+
+    // الحصول على اسم اللغة من الكود
+    function getLanguageName(langCode) {
+      const langMap = {
+        'ar': 'العربية',
+        'en': 'English',
+        'fr': 'Français',
+        'es': 'Español',
+        'de': 'Deutsch',
+        'tr': 'Türkçe',
+        'ur': 'اردو',
+        'id': 'Indonesia'
+      };
+      return langMap[langCode] || 'العربية';
+    }
 
     // إدارة اختيار اللغة
     function initLanguageSelector() {
@@ -546,8 +651,12 @@
           const lang = option.getAttribute('data-lang');
           const langName = option.querySelector('span').textContent;
           
+          // تحديث اللغة الحالية
+          currentLang = lang;
+          
           // تحديث الزر الرئيسي
           currentLanguage.textContent = langName;
+          currentLanguageText.textContent = langName;
           
           // تحديث الحالة النشطة في القائمة
           languageOptions.forEach(opt => opt.classList.remove('active'));
@@ -557,11 +666,11 @@
           languageBtn.classList.remove('active');
           languageDropdown.classList.remove('active');
           
-          // حفظ التفضيل (يمكن تطوير هذه الوظيفة لتحميل المحتوى باللغة المختارة)
+          // حفظ التفضيل
           localStorage.setItem('preferredLanguage', lang);
           
-          // هنا يمكنك إضافة منطق لتحميل المحتوى باللغة المختارة
-          alert(`تم اختيار اللغة: ${langName}\n\nهذه ميزة عرضية. في التطبيق الحقيقي، ستقوم هذه الوظيفة بتحميل المحتوى باللغة المختارة.`);
+          // إعادة عرض الكتب حسب اللغة المختارة
+          render();
         });
       });
 
@@ -571,16 +680,16 @@
         languageDropdown.classList.remove('active');
       });
 
-      // تحميل التفضيل المحفوظ
-      const savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang) {
-        const savedOption = document.querySelector(`.language-option[data-lang="${savedLang}"]`);
-        if (savedOption) {
-          const langName = savedOption.querySelector('span').textContent;
-          currentLanguage.textContent = langName;
-          languageOptions.forEach(opt => opt.classList.remove('active'));
-          savedOption.classList.add('active');
-        }
+      // تحميل التفضيل المحفوظ (العربية افتراضياً)
+      const savedLang = localStorage.getItem('preferredLanguage') || 'ar';
+      const savedOption = document.querySelector(`.language-option[data-lang="${savedLang}"]`);
+      if (savedOption) {
+        const langName = savedOption.querySelector('span').textContent;
+        currentLanguage.textContent = langName;
+        currentLanguageText.textContent = langName;
+        languageOptions.forEach(opt => opt.classList.remove('active'));
+        savedOption.classList.add('active');
+        currentLang = savedLang;
       }
     }
 
@@ -674,24 +783,16 @@
       return article;
     }
 
-    function filterBooks(searchTerm) {
-      const term = searchTerm.toLowerCase().trim();
-      if (!term) return books;
-
-      return books.filter(book => 
-        book.title.toLowerCase().includes(term) ||
-        (book.description && book.description.toLowerCase().includes(term)) ||
-        (book.language && book.language.toLowerCase().includes(term))
-      );
-    }
-
-    function render(filteredBooks = books) {
+    function render() {
+      const filteredBooks = getFilteredBooks();
       grid.innerHTML = '';
       
       if (filteredBooks.length === 0) {
         const noResults = document.createElement('div');
         noResults.className = 'no-results';
-        noResults.textContent = 'لم يتم العثور على كتب تطابق بحثك.';
+        noResults.textContent = searchTerm ? 
+          'لم يتم العثور على كتب تطابق بحثك.' : 
+          `لا توجد كتب متاحة باللغة ${getLanguageName(currentLang)} حالياً.`;
         grid.appendChild(noResults);
       } else {
         filteredBooks.forEach((book) => grid.appendChild(createCard(book)));
@@ -699,13 +800,13 @@
       
       // تحديث العداد
       visibleCount.textContent = filteredBooks.length;
-      totalCount.textContent = books.length;
+      totalCount.textContent = books.filter(book => book.language === getLanguageName(currentLang)).length;
     }
 
     function initSearch() {
       searchBox.addEventListener('input', (e) => {
-        const filtered = filterBooks(e.target.value);
-        render(filtered);
+        searchTerm = e.target.value.toLowerCase().trim();
+        render();
       });
     }
 
