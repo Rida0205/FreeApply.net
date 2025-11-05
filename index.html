@@ -26,39 +26,51 @@
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--page-bg); color:#072227; -webkit-font-smoothing:antialiased}
-
-    .wrap{
-      max-width:1200px;
-      margin:44px auto;
-      padding:28px;
-      display:flex;
-      flex-direction:column;
-      gap:26px;
+    html,body{
+      height:100%;
+      margin:0;
+      font-family:'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--page-bg);
+      color:#072227;
+      -webkit-font-smoothing:antialiased;
     }
 
+    /* خفض المسافة العلوية لوضع العنوان أقرب لأعلى الصفحة */
+    .wrap{
+      max-width:1200px;
+      margin:12px auto 28px; /* تم تقليل الهامش العلوي */
+      padding:20px;          /* تقليل الحشوة العامة */
+      display:flex;
+      flex-direction:column;
+      gap:22px;
+    }
+
+    /* العنوان الآن أقرب لأعلى */
     .title-wrap{
       display:flex;
       justify-content:center;
       align-items:center;
-      padding:4px 12px;
+      padding:2px 8px; /* تقليل الحشوة حول العنوان */
     }
-    /* العنوان الآن بخط بولد (أثخن) */
+    /* العنوان بخط بولد */
     h1.site-title{
-       font-size: 48px;
-      font-weight: 900;
-      background: linear-gradient(90deg, #1d3557, #457b9d);
+      margin:0;
+      font-family:'Merriweather', serif;
+      font-size:2.6rem;
+      letter-spacing:0.4px;
+      line-height:1;
+      font-weight:800;
+      background: linear-gradient(90deg, var(--title-dark), var(--title-light));
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 2px;
-      user-select: none;
-      margin-bottom: 10px;
+      background-clip: text;
+      color: transparent;
+      text-align:center;
     }
 
     .grid{
       display:grid;
       grid-template-columns: repeat(4, 1fr);
-      gap:22px;
+      gap:20px;
       align-items:start;
     }
 
@@ -94,7 +106,7 @@
     .card:hover .cover img{ transform: scale(1.04); filter:brightness(1.02); }
 
     .info{
-      padding:14px;
+      padding:12px;
       display:flex;
       flex-direction:column;
       gap:10px;
