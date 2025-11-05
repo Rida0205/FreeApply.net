@@ -23,6 +23,7 @@
       --shadow-sm: 0 6px 18px rgba(24,24,24,0.06);
       --shadow-lg: 0 20px 45px rgba(24,24,24,0.08);
       --focus: rgba(94,160,255,0.18);
+      --success: #10b981;
     }
 
     *{box-sizing:border-box}
@@ -74,6 +75,36 @@
       color:var(--muted);
       text-align:center;
       font-style:normal;
+    }
+
+    /* شريط البحث */
+    .search-container {
+      max-width: 500px;
+      margin: 0 auto 20px;
+      width: 100%;
+    }
+    .search-box {
+      width: 100%;
+      padding: 14px 20px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 1rem;
+      background: white;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+    .search-box:focus {
+      outline: none;
+      border-color: var(--title-light);
+      box-shadow: 0 0 0 3px var(--focus);
+    }
+
+    /* عدّاد الكتب */
+    .books-counter {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 10px;
     }
 
     .grid{
@@ -128,6 +159,12 @@
       color:#072227;
       font-family:'Merriweather', serif;
     }
+    .book-description{
+      font-size:0.85rem;
+      color:var(--muted);
+      line-height:1.5;
+      margin:0;
+    }
 
     .actions{
       margin-top:auto;
@@ -148,13 +185,23 @@
       align-items:center;
       text-decoration:none;
       font-size:0.95rem;
+      transition: all 0.2s ease;
     }
     .btn-download{
       background: linear-gradient(90deg, var(--title-dark), var(--title-light));
       color:white;
       box-shadow: 0 8px 20px rgba(94,160,255,0.12);
     }
-    .btn[aria-disabled="true"]{ opacity:0.45; pointer-events:none; cursor:default }
+    .btn-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(94,160,255,0.2);
+    }
+    .btn[aria-disabled="true"]{ 
+      opacity:0.45; 
+      pointer-events:none; 
+      cursor:default;
+      background: #9ca3af;
+    }
 
     .badge{
       font-size:12px;
@@ -163,6 +210,26 @@
       padding:6px 8px;
       border-radius:8px;
       margin-left:auto;
+    }
+
+    .language-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(11, 61, 145, 0.9);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* رسالة عندما لا توجد نتائج */
+    .no-results {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      grid-column: 1 / -1;
     }
 
     @media (max-width:1100px){
@@ -176,6 +243,9 @@
       .grid{ grid-template-columns: 1fr; }
       .cover{ padding-bottom:124%; }
       h1.site-title{ font-size:1.8rem; }
+      .search-container {
+        margin: 0 auto 15px;
+      }
     }
 
     :focus{ outline: 3px solid var(--focus); outline-offset:4px; border-radius:8px }
@@ -191,6 +261,22 @@
     </header>
 
     <main>
+      <!-- شريط البحث -->
+      <div class="search-container">
+        <input 
+          type="text" 
+          class="search-box" 
+          id="searchBox"
+          placeholder="ابحث عن كتاب أو لغة..." 
+          aria-label="بحث في الكتب"
+        >
+      </div>
+
+      <!-- عدّاد الكتب -->
+      <div class="books-counter" id="booksCounter">
+        عرض <span id="visibleCount">0</span> من <span id="totalCount">0</span> كتاب
+      </div>
+
       <section class="grid" id="grid" role="list" aria-label="شبكة كتب DEEN WAY">
         <!-- سيملأ بواسطة JavaScript -->
       </section>
@@ -206,75 +292,128 @@
      *     title: 'عنوان الكتاب',
      *     description: 'نبذة قصيرة (اختياري)',
      *     coverPath: 'assets/cover1.jpg' أو 'https://.../cover.jpg',
-     *     pdfPath: 'books/book1.pdf' أو 'https://.../book.pdf'
+     *     pdfPath: 'books/book1.pdf' أو 'https://.../book.pdf',
+     *     language: 'اللغة'
      *   }
-     *
-     * ملاحظة: الصفحة تعرض فقط أول 4 عناصر من المصفوفة — رتّب العناصر بحيث تكون الكتب الأربع المراد عرضها في البداية.
      ************************************************************/
     const books = [
       {
         title: 'الطريق الأول',
         description: 'مقدمة قصيرة تلخص محتوى الكتاب.',
         coverPath: '',
-        pdfPath: ''
+        pdfPath: '',
+        language: 'العربية'
       },
       {
         title: 'نور المعرفة',
         description: 'مجموعة أفكار وتوجيهات يومية.',
         coverPath: '',
-        pdfPath: ''
+        pdfPath: '',
+        language: 'العربية'
       },
       {
         title: 'سبل الدعوة',
         description: 'دليل مختصر للخطاب المؤثر.',
         coverPath: '',
-        pdfPath: ''
+        pdfPath: '',
+        language: 'العربية'
       },
       {
         title: 'حكمة وإيمان',
         description: 'خواطر تربوية وروحية.',
         coverPath: '',
-        pdfPath: ''
+        pdfPath: '',
+        language: 'العربية'
       },
-      // أي عناصر إضافية هنا لن تظهر لأن العرض مقيد إلى أول 4 عناصر فقط
+      {
+        title: 'The First Path',
+        description: 'Introduction to the main concepts.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'English'
+      },
+      {
+        title: 'Light of Knowledge',
+        description: 'Daily thoughts and guidance.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'English'
+      },
+      {
+        title: 'Ways of Dawah',
+        description: 'Brief guide to effective communication.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'English'
+      },
+      {
+        title: 'Wisdom and Faith',
+        description: 'Educational and spiritual reflections.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'English'
+      }
     ];
 
-    const VISIBLE = 4; // عرض 4 كتب فقط
-
     const grid = document.getElementById('grid');
+    const searchBox = document.getElementById('searchBox');
+    const booksCounter = document.getElementById('booksCounter');
+    const visibleCount = document.getElementById('visibleCount');
+    const totalCount = document.getElementById('totalCount');
 
-    function defaultCover(title = 'غلاف الكتاب') {
+    function defaultCover(title = 'غلاف الكتاب', language = '') {
       const safe = escapeXml(title || '');
+      const lang = escapeXml(language || '');
       const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'>
         <rect width='100%' height='100%' fill='#ffffff'/>
         <rect x='24' y='24' width='552' height='752' rx='10' fill='#ffffff' stroke='#f0f0f0'/>
-        <text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' fill='#0b3d91' font-size='28' font-family='Merriweather, serif'>${safe}</text>
+        <text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' fill='#0b3d91' font-size='24' font-family='Merriweather, serif'>${safe}</text>
+        ${lang ? `<text x='50%' y='65%' dominant-baseline='middle' text-anchor='middle' fill='#5ea0ff' font-size='16' font-family='Poppins, sans-serif'>${lang}</text>` : ''}
       </svg>`;
       return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
     }
-    function escapeXml(s=''){ return String(s).replace(/[<>&'"]/g, c => ({'<':'&lt;','>':'&gt;','&amp;':'&amp;',"'":'&apos;','"':'&quot;'}[c])); }
+
+    function escapeXml(s=''){ 
+      return String(s).replace(/[<>&'"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c])); 
+    }
 
     function createCard(book) {
       const article = document.createElement('article');
       article.className = 'card';
       article.setAttribute('role','listitem');
       article.setAttribute('tabindex','0');
-      article.setAttribute('aria-label', book.title || 'كتاب');
+      article.setAttribute('aria-label', `${book.title} - ${book.language}`);
 
       const cover = document.createElement('div');
       cover.className = 'cover';
       const img = document.createElement('img');
       img.loading = 'lazy';
-      img.alt = book.title || 'غلاف الكتاب';
-      img.src = (book.coverPath && book.coverPath.trim()) ? book.coverPath : defaultCover(book.title || 'غلاف الكتاب');
+      img.alt = `${book.title} - غلاف الكتاب`;
+      img.src = (book.coverPath && book.coverPath.trim()) ? book.coverPath : defaultCover(book.title, book.language);
       cover.appendChild(img);
+
+      // إضافة شارة اللغة
+      if (book.language) {
+        const langTag = document.createElement('div');
+        langTag.className = 'language-tag';
+        langTag.textContent = book.language;
+        cover.appendChild(langTag);
+      }
 
       const info = document.createElement('div');
       info.className = 'info';
+      
       const t = document.createElement('h3');
       t.className = 'book-title';
       t.textContent = book.title || '';
       info.appendChild(t);
+
+      if (book.description) {
+        const desc = document.createElement('p');
+        desc.className = 'book-description';
+        desc.textContent = book.description;
+        info.appendChild(desc);
+      }
 
       const actions = document.createElement('div');
       actions.className = 'actions';
@@ -290,7 +429,10 @@
       } else {
         download.href = '#';
         download.setAttribute('aria-disabled','true');
-        download.addEventListener('click', (e) => { e.preventDefault(); alert('لم يتم إضافة رابط التحميل لهذا الكتاب. ضع pdfPath داخل الكود.'); });
+        download.addEventListener('click', (e) => { 
+          e.preventDefault(); 
+          alert('لم يتم إضافة رابط التحميل لهذا الكتاب. ضع pdfPath داخل الكود.'); 
+        });
       }
 
       actions.appendChild(download);
@@ -303,20 +445,51 @@
       }
 
       info.appendChild(actions);
-
       article.appendChild(cover);
       article.appendChild(info);
 
       return article;
     }
 
-    function render() {
-      grid.innerHTML = '';
-      const slice = books.slice(0, VISIBLE);
-      slice.forEach((b) => grid.appendChild(createCard(b)));
+    function filterBooks(searchTerm) {
+      const term = searchTerm.toLowerCase().trim();
+      if (!term) return books;
+
+      return books.filter(book => 
+        book.title.toLowerCase().includes(term) ||
+        (book.description && book.description.toLowerCase().includes(term)) ||
+        (book.language && book.language.toLowerCase().includes(term))
+      );
     }
 
-    document.addEventListener('DOMContentLoaded', render);
+    function render(filteredBooks = books) {
+      grid.innerHTML = '';
+      
+      if (filteredBooks.length === 0) {
+        const noResults = document.createElement('div');
+        noResults.className = 'no-results';
+        noResults.textContent = 'لم يتم العثور على كتب تطابق بحثك.';
+        grid.appendChild(noResults);
+      } else {
+        filteredBooks.forEach((book) => grid.appendChild(createCard(book)));
+      }
+      
+      // تحديث العداد
+      visibleCount.textContent = filteredBooks.length;
+      totalCount.textContent = books.length;
+    }
+
+    function initSearch() {
+      searchBox.addEventListener('input', (e) => {
+        const filtered = filterBooks(e.target.value);
+        render(filtered);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      render();
+      initSearch();
+    });
   </script>
 </body>
 </html>
