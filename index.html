@@ -5,22 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DEEN WAY Ebook</title>
 
-  <!-- خطوط: تغيير خط العنوان إلى Merriweather لظهور أنيق -->
+  <!-- خطوط -->
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      /* خلفية الصفحة الآن بيضاء كاملة */
       --page-bg: #ffffff;
-
-      /* ألوان العنوان والتدرج الأزرق */
       --title-dark: #0b3d91;
       --title-light: #5ea0ff;
-
-      /* ألوان مساعدة (نفس النبرة الحية المطلوبة) */
-      --accent-1: #ff7a59; /* coral - for small accents if needed */
-      --accent-2: #3fc2a6; /* teal - secondary accent */
-
       --card-bg: #ffffff;
       --muted: #6b7280;
       --radius: 12px;
@@ -32,7 +24,6 @@
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--page-bg); color:#072227; -webkit-font-smoothing:antialiased}
 
-    /* الصفحة */
     .wrap{
       max-width:1200px;
       margin:44px auto;
@@ -42,7 +33,6 @@
       gap:26px;
     }
 
-    /* عنوان مركزي بسيط وجميل مع خط مختلف */
     .title-wrap{
       display:flex;
       justify-content:center;
@@ -55,7 +45,6 @@
       font-size:2.8rem;
       letter-spacing:0.4px;
       line-height:1;
-      /* تدرج أزرق داكن -> فاتح */
       background: linear-gradient(90deg, var(--title-dark), var(--title-light));
       -webkit-background-clip: text;
       background-clip: text;
@@ -63,7 +52,6 @@
       text-align:center;
     }
 
-    /* شبكة الكتب: 4 أعمدة ثابتة على الشاشات الكبيرة */
     .grid{
       display:grid;
       grid-template-columns: repeat(4, 1fr);
@@ -71,7 +59,6 @@
       align-items:start;
     }
 
-    /* بطاقة الكتاب - تصميم حديث وبسيط مع تحسّن تجربة المستخدم */
     .card{
       background:var(--card-bg);
       border-radius:14px;
@@ -89,7 +76,6 @@
       outline: none;
     }
 
-    /* غلاف الكتاب بنسبة مناسبة */
     .cover{
       height:0;
       padding-bottom:140%;
@@ -108,7 +94,7 @@
       padding:14px;
       display:flex;
       flex-direction:column;
-      gap:8px;
+      gap:10px;
       text-align:right;
     }
     .book-title{
@@ -118,17 +104,12 @@
       color:#072227;
       font-family:'Merriweather', serif;
     }
-    .book-author{
-      margin:0;
-      color:var(--muted);
-      font-size:0.95rem;
-    }
 
     .actions{
       margin-top:auto;
       display:flex;
       gap:10px;
-      justify-content:flex-start; /* يعرض الأزرار على اليسار بصرياً */
+      justify-content:flex-start;
       align-items:center;
     }
 
@@ -149,12 +130,6 @@
       color:white;
       box-shadow: 0 8px 20px rgba(94,160,255,0.12);
     }
-    .btn-view{
-      background:transparent;
-      border:1px solid rgba(6,22,20,0.06);
-      color:var(--muted);
-      padding:9px 12px;
-    }
     .btn[aria-disabled="true"]{ opacity:0.45; pointer-events:none; cursor:default }
 
     .badge{
@@ -166,30 +141,6 @@
       margin-left:auto;
     }
 
-    /* Modal preview */
-    .modal{
-      position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
-      background: rgba(7,20,20,0.32); z-index:60; visibility:hidden; opacity:0; transition:opacity .14s ease;
-    }
-    .modal.open{ visibility:visible; opacity:1; }
-    .modal-card{
-      width: min(1100px, 94%);
-      height: min(820px, 88%);
-      background: white;
-      border-radius:12px;
-      overflow:hidden;
-      box-shadow: 0 30px 80px rgba(2,8,12,0.12);
-      display:flex; flex-direction:column;
-    }
-    .modal-header{
-      display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid #f0f0f0;
-    }
-    .modal-title{ font-weight:700; color:#072227; font-family:'Merriweather', serif; }
-    .modal-close{ background:transparent; border:0; font-size:18px; cursor:pointer; padding:8px; }
-    .modal-body{ flex:1; background:#fff; display:flex; align-items:stretch; justify-content:center; }
-    .modal-body iframe{ width:100%; height:100%; border:0; }
-
-    /* Responsive */
     @media (max-width:1100px){
       .grid{ grid-template-columns: repeat(3, 1fr); }
     }
@@ -203,7 +154,6 @@
       h1.site-title{ font-size:1.8rem; }
     }
 
-    /* accessibility focus outline */
     :focus{ outline: 3px solid var(--focus); outline-offset:4px; border-radius:8px }
   </style>
 </head>
@@ -220,95 +170,70 @@
     </main>
   </div>
 
-  <!-- Modal preview -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-card" role="document">
-      <div class="modal-header">
-        <div class="modal-title" id="modalTitle">معاينة الكتاب</div>
-        <button id="modalClose" class="modal-close" aria-label="إغلاق">✕</button>
-      </div>
-      <div class="modal-body" id="modalBody">
-        <!-- iframe سيُضاف عند فتح المعاينة -->
-      </div>
-    </div>
-  </div>
-
   <script>
     /************************************************************
-     * لإضافة كتاب جديد: قم بتحرير المصفوفة `books` أدناه.
-     * كل عنصر شكل:
-     * {
-     *   title: 'عنوان الكتاب',
-     *   author: 'اسم المؤلف',
-     *   description: 'نبذة قصيرة (اختياري)',
-     *   coverPath: 'assets/cover1.jpg' أو 'https://.../cover.jpg',
-     *   pdfPath: 'books/book1.pdf' أو 'https://.../book.pdf'
-     * }
+     * لإضافة كتاب جديد:
+     * - افتح المصفوفة `books` أدناه.
+     * - أضف كائنًا بالشكل:
+     *   {
+     *     title: 'عنوان الكتاب',
+     *     description: 'نبذة قصيرة (اختياري)',
+     *     coverPath: 'assets/cover1.jpg' أو 'https://.../cover.jpg',
+     *     pdfPath: 'books/book1.pdf' أو 'https://.../book.pdf'
+     *   }
      *
-     * ملاحظة: الصفحة تعرض فقط أول 4 عناصر من المصفوفة — رتب العناصر بحيث تكون الكتب الأربع المراد عرضها في البداية.
+     * ملاحظة: الصفحة تعرض فقط أول 4 عناصر من المصفوفة — رتّب العناصر بحيث تكون الكتب الأربع المراد عرضها في البداية.
      ************************************************************/
     const books = [
       {
         title: 'الطريق الأول',
-        author: 'د. أحمد',
         description: 'مقدمة قصيرة تلخص محتوى الكتاب.',
-        coverPath: 'https://marketplace.canva.com/EAGbUxLOL-I/1/0/1003w/canva-%D8%BA%D9%84%D8%A7%D9%81-%D9%83%D8%AA%D8%A7%D8%A8-%D8%AA%D8%A7%D9%85%D9%84%D8%A7%D8%AA-%D9%8A%D9%88%D9%85%D9%8A%D8%A9-%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%AA%D8%B9%D8%AF%D8%AF-%D8%A7%D9%84%D8%A7%D9%84%D9%88%D8%A7%D9%86-%D8%B9%D8%B5%D8%B1%D9%8A-%D8%A8%D8%B3%D9%8A%D8%B7-pvN0u2LFSqU.jpg', // ضع مسار الصورة هنا إن وُجد (مثال: 'assets/cover1.jpg' أو رابط كامل)
-        pdfPath: ''    // ضع رابط الـ PDF هنا إن وُجد
+        coverPath: '',
+        pdfPath: ''
       },
       {
         title: 'نور المعرفة',
-        author: 'سلمى',
         description: 'مجموعة أفكار وتوجيهات يومية.',
-        coverPath: 'https://marketplace.canva.com/EAGbUxLOL-I/1/0/1003w/canva-%D8%BA%D9%84%D8%A7%D9%81-%D9%83%D8%AA%D8%A7%D8%A8-%D8%AA%D8%A7%D9%85%D9%84%D8%A7%D8%AA-%D9%8A%D9%88%D9%85%D9%8A%D8%A9-%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%AA%D8%B9%D8%AF%D8%AF-%D8%A7%D9%84%D8%A7%D9%84%D9%88%D8%A7%D9%86-%D8%B9%D8%B5%D8%B1%D9%8A-%D8%A8%D8%B3%D9%8A%D8%B7-pvN0u2LFSqU.jpg',
+        coverPath: '',
         pdfPath: ''
       },
       {
         title: 'سبل الدعوة',
-        author: 'د. خالد',
         description: 'دليل مختصر للخطاب المؤثر.',
-        coverPath: 'https://marketplace.canva.com/EAGbUxLOL-I/1/0/1003w/canva-%D8%BA%D9%84%D8%A7%D9%81-%D9%83%D8%AA%D8%A7%D8%A8-%D8%AA%D8%A7%D9%85%D9%84%D8%A7%D8%AA-%D9%8A%D9%88%D9%85%D9%8A%D8%A9-%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%AA%D8%B9%D8%AF%D8%AF-%D8%A7%D9%84%D8%A7%D9%84%D9%88%D8%A7%D9%86-%D8%B9%D8%B5%D8%B1%D9%8A-%D8%A8%D8%B3%D9%8A%D8%B7-pvN0u2LFSqU.jpg',
+        coverPath: '',
         pdfPath: ''
       },
       {
         title: 'حكمة وإيمان',
-        author: 'فهد',
         description: 'خواطر تربوية وروحية.',
-        coverPath: 'https://marketplace.canva.com/EAGbUxLOL-I/1/0/1003w/canva-%D8%BA%D9%84%D8%A7%D9%81-%D9%83%D8%AA%D8%A7%D8%A8-%D8%AA%D8%A7%D9%85%D9%84%D8%A7%D8%AA-%D9%8A%D9%88%D9%85%D9%8A%D8%A9-%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%AA%D8%B9%D8%AF%D8%AF-%D8%A7%D9%84%D8%A7%D9%84%D9%88%D8%A7%D9%86-%D8%B9%D8%B5%D8%B1%D9%8A-%D8%A8%D8%B3%D9%8A%D8%B7-pvN0u2LFSqU.jpg',
+        coverPath: '',
         pdfPath: ''
       },
-      // يمكنك إضافة كتب إضافية هنا، لكن ستظهر فقط إذا كانت ضمن أول 4 عناصر.
+      // أي عناصر إضافية هنا لن تظهر لأن العرض مقيد إلى أول 4 عناصر فقط
     ];
 
     const VISIBLE = 4; // عرض 4 كتب فقط
 
-    // عناصر DOM
     const grid = document.getElementById('grid');
-    const modal = document.getElementById('modal');
-    const modalBody = document.getElementById('modalBody');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalClose = document.getElementById('modalClose');
 
-    // توليد غلاف افتراضي (Data URI SVG) إن لم تُحدد coverPath
     function defaultCover(title = 'غلاف الكتاب') {
       const safe = escapeXml(title || '');
       const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'>
         <rect width='100%' height='100%' fill='#ffffff'/>
         <rect x='24' y='24' width='552' height='752' rx='10' fill='#ffffff' stroke='#f0f0f0'/>
-        <text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' fill='${encodeURIComponent('#0b3d91')}' font-size='28' font-family='Merriweather, serif'>${safe}</text>
+        <text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' fill='#0b3d91' font-size='28' font-family='Merriweather, serif'>${safe}</text>
       </svg>`;
       return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
     }
     function escapeXml(s=''){ return String(s).replace(/[<>&'"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c])); }
 
-    // إنشاء بطاقة كتاب
-    function createCard(book, index) {
+    function createCard(book) {
       const article = document.createElement('article');
       article.className = 'card';
       article.setAttribute('role','listitem');
       article.setAttribute('tabindex','0');
       article.setAttribute('aria-label', book.title || 'كتاب');
 
-      // Cover
       const cover = document.createElement('div');
       cover.className = 'cover';
       const img = document.createElement('img');
@@ -317,19 +242,13 @@
       img.src = (book.coverPath && book.coverPath.trim()) ? book.coverPath : defaultCover(book.title || 'غلاف الكتاب');
       cover.appendChild(img);
 
-      // Info
       const info = document.createElement('div');
       info.className = 'info';
       const t = document.createElement('h3');
       t.className = 'book-title';
       t.textContent = book.title || '';
-      const a = document.createElement('div');
-      a.className = 'book-author';
-      a.textContent = book.author || '';
       info.appendChild(t);
-      info.appendChild(a);
 
-      // Actions
       const actions = document.createElement('div');
       actions.className = 'actions';
 
@@ -347,22 +266,8 @@
         download.addEventListener('click', (e) => { e.preventDefault(); alert('لم يتم إضافة رابط التحميل لهذا الكتاب. ضع pdfPath داخل الكود.'); });
       }
 
-      const view = document.createElement('button');
-      view.className = 'btn btn-view';
-      view.type = 'button';
-      view.textContent = 'معاينة';
-      if (book.pdfPath && book.pdfPath.trim()) {
-        view.setAttribute('aria-disabled','false');
-        view.addEventListener('click', () => openPreview(book));
-      } else {
-        view.setAttribute('aria-disabled','true');
-        view.addEventListener('click', (e) => { e.preventDefault(); alert('لم يتم إضافة رابط المعاينة لهذا الكتاب.'); });
-      }
-
       actions.appendChild(download);
-      actions.appendChild(view);
 
-      // Badge when missing pdf
       if (!(book.pdfPath && book.pdfPath.trim())) {
         const badge = document.createElement('div');
         badge.className = 'badge';
@@ -375,70 +280,15 @@
       article.appendChild(cover);
       article.appendChild(info);
 
-      // Keyboard support: Enter / Space open preview (if available)
-      article.addEventListener('keydown', (e) => {
-        if ((e.key === 'Enter' || e.key === ' ') && book.pdfPath && book.pdfPath.trim()) {
-          e.preventDefault();
-          openPreview(book);
-        }
-      });
-
       return article;
     }
 
-    // عرض أول 4 كتب
     function render() {
       grid.innerHTML = '';
       const slice = books.slice(0, VISIBLE);
-      slice.forEach((b, i) => {
-        grid.appendChild(createCard(b, i));
-      });
+      slice.forEach((b) => grid.appendChild(createCard(b)));
     }
 
-    // فتح نافذة المعاينة بإطار iframe
-    function openPreview(book) {
-      modalTitle.textContent = book.title || 'معاينة الكتاب';
-      modalBody.innerHTML = '';
-      if (book.pdfPath && book.pdfPath.trim()) {
-        // تعيين iframe بمعاينة PDF
-        const iframe = document.createElement('iframe');
-        iframe.src = book.pdfPath;
-        iframe.title = `معاينة ${book.title || 'الكتاب'}`;
-        modalBody.appendChild(iframe);
-      } else {
-        const msg = document.createElement('div');
-        msg.style.padding = '24px';
-        msg.textContent = 'لا يوجد ملف للمعاينة.';
-        modalBody.appendChild(msg);
-      }
-      openModal();
-    }
-
-    // عناصر التحكم بالنوافذ المنبثقة
-    function openModal() {
-      modal.classList.add('open');
-      modal.setAttribute('aria-hidden','false');
-      modalClose.focus();
-      document.body.style.overflow = 'hidden';
-    }
-    function closeModal() {
-      modal.classList.remove('open');
-      modal.setAttribute('aria-hidden','true');
-      modalBody.innerHTML = '';
-      document.body.style.overflow = '';
-      const first = grid.querySelector('.card');
-      if (first) first.focus();
-    }
-
-    modalClose.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
-    });
-
-    // تهيئة العرض
     document.addEventListener('DOMContentLoaded', render);
   </script>
 </body>
