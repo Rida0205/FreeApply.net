@@ -5,95 +5,104 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DEEN WAY Ebook</title>
 
-  <!-- خطوط -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <!-- خطوط: تغيير خط العنوان إلى Merriweather لظهور أنيق -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      /* خلفية رمادي فاتح */
-      --bg-1: #f5f6f7; /* أسفل */
-      --bg-2: #eef0f2; /* أعلى */
-      /* تدرج العنوان من أزرق غامق إلى أزرق فاتح */
+      /* خلفية الصفحة الآن بيضاء كاملة */
+      --page-bg: #ffffff;
+
+      /* ألوان العنوان والتدرج الأزرق */
       --title-dark: #0b3d91;
       --title-light: #5ea0ff;
 
-      --card:#ffffff;
-      --muted:#6b7280;
-      --radius:12px;
-      --shadow-1: 0 6px 18px rgba(24,24,24,0.06);
-      --shadow-2: 0 18px 40px rgba(24,24,24,0.09);
+      /* ألوان مساعدة (نفس النبرة الحية المطلوبة) */
+      --accent-1: #ff7a59; /* coral - for small accents if needed */
+      --accent-2: #3fc2a6; /* teal - secondary accent */
+
+      --card-bg: #ffffff;
+      --muted: #6b7280;
+      --radius: 12px;
+      --shadow-sm: 0 6px 18px rgba(24,24,24,0.06);
+      --shadow-lg: 0 20px 45px rgba(24,24,24,0.08);
+      --focus: rgba(94,160,255,0.18);
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: linear-gradient(180deg,var(--bg-1), var(--bg-2)); color:#072227; -webkit-font-smoothing:antialiased}
+    html,body{height:100%;margin:0;font-family:'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--page-bg); color:#072227; -webkit-font-smoothing:antialiased}
 
-    /* Container */
+    /* الصفحة */
     .wrap{
       max-width:1200px;
-      margin:48px auto;
-      padding:20px;
+      margin:44px auto;
+      padding:28px;
       display:flex;
       flex-direction:column;
-      gap:24px;
+      gap:26px;
     }
 
-    /* Title centered only */
+    /* عنوان مركزي بسيط وجميل مع خط مختلف */
     .title-wrap{
       display:flex;
       justify-content:center;
       align-items:center;
-      padding:8px 16px;
+      padding:4px 12px;
     }
     h1.site-title{
       margin:0;
-      font-family:'Playfair Display', serif;
-      font-size:2.6rem;
-      letter-spacing:0.6px;
-      /* عنوان بتدرج أزرق غامق -> أزرق فاتح */
+      font-family:'Merriweather', serif;
+      font-size:2.8rem;
+      letter-spacing:0.4px;
+      line-height:1;
+      /* تدرج أزرق داكن -> فاتح */
       background: linear-gradient(90deg, var(--title-dark), var(--title-light));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      text-align:center;
     }
 
-    /* Grid with exactly 4 visible cards */
+    /* شبكة الكتب: 4 أعمدة ثابتة على الشاشات الكبيرة */
     .grid{
       display:grid;
       grid-template-columns: repeat(4, 1fr);
-      gap:20px;
+      gap:22px;
       align-items:start;
     }
 
-    /* Card */
+    /* بطاقة الكتاب - تصميم حديث وبسيط مع تحسّن تجربة المستخدم */
     .card{
-      background:var(--card);
-      border-radius:12px;
+      background:var(--card-bg);
+      border-radius:14px;
       overflow:hidden;
-      box-shadow:var(--shadow-1);
-      transition:transform .28s ease, box-shadow .28s ease;
+      box-shadow:var(--shadow-sm);
+      transition:transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s ease;
       display:flex;
       flex-direction:column;
       height:100%;
-      border: 1px solid rgba(6,22,20,0.03);
+      border:1px solid rgba(6,22,20,0.04);
     }
-    .card:focus-within, .card:hover{
+    .card:hover, .card:focus-within{
       transform: translateY(-8px);
-      box-shadow:var(--shadow-2);
+      box-shadow:var(--shadow-lg);
       outline: none;
     }
 
+    /* غلاف الكتاب بنسبة مناسبة */
     .cover{
       height:0;
-      padding-bottom:140%; /* aspect like book cover */
+      padding-bottom:140%;
       position:relative;
-      background:linear-gradient(180deg,#fff,#f7f7f7);
+      background:linear-gradient(180deg,#ffffff,#fbfbfb);
     }
     .cover img{
       position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
-      transition:transform .45s ease;
+      transition:transform .45s ease, filter .35s ease;
       border-bottom: 1px solid rgba(6,22,20,0.03);
+      will-change:transform;
     }
-    .card:hover .cover img{ transform: scale(1.03); }
+    .card:hover .cover img{ transform: scale(1.04); filter:brightness(1.02); }
 
     .info{
       padding:14px;
@@ -104,10 +113,10 @@
     }
     .book-title{
       font-weight:700;
-      font-size:1rem;
+      font-size:1.02rem;
       margin:0;
       color:#072227;
-      font-family:'Playfair Display', serif;
+      font-family:'Merriweather', serif;
     }
     .book-author{
       margin:0;
@@ -119,19 +128,21 @@
       margin-top:auto;
       display:flex;
       gap:10px;
-      justify-content:flex-start; /* show buttons left to match RTL visual flow */
+      justify-content:flex-start; /* يعرض الأزرار على اليسار بصرياً */
       align-items:center;
     }
+
     .btn{
       border:0;
-      padding:9px 12px;
+      padding:10px 14px;
       border-radius:10px;
-      font-weight:600;
+      font-weight:700;
       cursor:pointer;
       display:inline-flex;
       gap:8px;
       align-items:center;
       text-decoration:none;
+      font-size:0.95rem;
     }
     .btn-download{
       background: linear-gradient(90deg, var(--title-dark), var(--title-light));
@@ -140,26 +151,25 @@
     }
     .btn-view{
       background:transparent;
-      border:1px solid rgba(7,34,39,0.06);
+      border:1px solid rgba(6,22,20,0.06);
       color:var(--muted);
-      padding:8px 10px;
+      padding:9px 12px;
     }
     .btn[aria-disabled="true"]{ opacity:0.45; pointer-events:none; cursor:default }
 
-    /* Small subtle badge for lacking links */
     .badge{
       font-size:12px;
       color:var(--muted);
       background:rgba(7,34,39,0.03);
       padding:6px 8px;
       border-radius:8px;
-      margin-left: auto;
+      margin-left:auto;
     }
 
     /* Modal preview */
     .modal{
       position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
-      background: rgba(7,20,20,0.35); z-index:40; visibility:hidden; opacity:0; transition:opacity .18s ease;
+      background: rgba(7,20,20,0.32); z-index:60; visibility:hidden; opacity:0; transition:opacity .14s ease;
     }
     .modal.open{ visibility:visible; opacity:1; }
     .modal-card{
@@ -168,13 +178,13 @@
       background: white;
       border-radius:12px;
       overflow:hidden;
-      box-shadow: 0 30px 80px rgba(2,8,12,0.15);
+      box-shadow: 0 30px 80px rgba(2,8,12,0.12);
       display:flex; flex-direction:column;
     }
     .modal-header{
       display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid #f0f0f0;
     }
-    .modal-title{ font-weight:700; color:#072227 }
+    .modal-title{ font-weight:700; color:#072227; font-family:'Merriweather', serif; }
     .modal-close{ background:transparent; border:0; font-size:18px; cursor:pointer; padding:8px; }
     .modal-body{ flex:1; background:#fff; display:flex; align-items:stretch; justify-content:center; }
     .modal-body iframe{ width:100%; height:100%; border:0; }
@@ -194,7 +204,7 @@
     }
 
     /* accessibility focus outline */
-    :focus{ outline: 3px solid rgba(94,160,255,0.18); outline-offset:4px; border-radius:8px }
+    :focus{ outline: 3px solid var(--focus); outline-offset:4px; border-radius:8px }
   </style>
 </head>
 <body>
@@ -204,7 +214,7 @@
     </div>
 
     <main>
-      <section class="grid" id="grid" role="list" aria-label="كتب DEEN WAY">
+      <section class="grid" id="grid" role="list" aria-label="شبكة كتب DEEN WAY">
         <!-- سيملأ بواسطة JavaScript -->
       </section>
     </main>
@@ -218,14 +228,15 @@
         <button id="modalClose" class="modal-close" aria-label="إغلاق">✕</button>
       </div>
       <div class="modal-body" id="modalBody">
-        <!-- iframe يوضع هنا عند الطلب -->
+        <!-- iframe سيُضاف عند فتح المعاينة -->
       </div>
     </div>
   </div>
 
   <script>
     /************************************************************
-     * لإضافة كتاب جديد: أضف عنصرًا داخل المصفوفة `books` بالشكل التالي:
+     * لإضافة كتاب جديد: قم بتحرير المصفوفة `books` أدناه.
+     * كل عنصر شكل:
      * {
      *   title: 'عنوان الكتاب',
      *   author: 'اسم المؤلف',
@@ -234,16 +245,15 @@
      *   pdfPath: 'books/book1.pdf' أو 'https://.../book.pdf'
      * }
      *
-     * ملاحظة: الصفحة تعرض فقط أول 4 عناصر من المصفوفة — رتّب الكتب هنا
-     * بحيث تكون الأربع المراد عرضها في البداية.
+     * ملاحظة: الصفحة تعرض فقط أول 4 عناصر من المصفوفة — رتب العناصر بحيث تكون الكتب الأربع المراد عرضها في البداية.
      ************************************************************/
     const books = [
       {
         title: 'الطريق الأول',
         author: 'د. أحمد',
         description: 'مقدمة قصيرة تلخص محتوى الكتاب.',
-        coverPath: '', // ضع مسار الصورة هنا إن وُجد
-        pdfPath: ''    // ضع رابط PDF هنا إن وُجد
+        coverPath: '', // ضع مسار الصورة هنا إن وُجد (مثال: 'assets/cover1.jpg' أو رابط كامل)
+        pdfPath: ''    // ضع رابط الـ PDF هنا إن وُجد
       },
       {
         title: 'نور المعرفة',
@@ -266,10 +276,10 @@
         coverPath: '',
         pdfPath: ''
       },
-      // عناصر إضافية هنا لن تظهر لأن العرض مقيد إلى أول 4 عناصر فقط
+      // يمكنك إضافة كتب إضافية هنا، لكن ستظهر فقط إذا كانت ضمن أول 4 عناصر.
     ];
 
-    const VISIBLE = 4; // ثابت: عرض 4 كتب فقط
+    const VISIBLE = 4; // عرض 4 كتب فقط
 
     // عناصر DOM
     const grid = document.getElementById('grid');
@@ -278,13 +288,13 @@
     const modalTitle = document.getElementById('modalTitle');
     const modalClose = document.getElementById('modalClose');
 
-    // إنشاء غلاف افتراضي (Data URI SVG) إذا لم يُعطَ coverPath
+    // توليد غلاف افتراضي (Data URI SVG) إن لم تُحدد coverPath
     function defaultCover(title = 'غلاف الكتاب') {
-      const t = escapeXml(title || '');
+      const safe = escapeXml(title || '');
       const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'>
-        <rect width='100%' height='100%' fill='#f5f6f7'/>
-        <rect x='28' y='28' width='544' height='744' rx='10' fill='#ffffff' stroke='#eef0f2'/>
-        <text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' fill='${encodeURIComponent('#0b3d91')}' font-size='28' font-family='Playfair Display, serif'>${t}</text>
+        <rect width='100%' height='100%' fill='#ffffff'/>
+        <rect x='24' y='24' width='552' height='752' rx='10' fill='#ffffff' stroke='#f0f0f0'/>
+        <text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' fill='${encodeURIComponent('#0b3d91')}' font-size='28' font-family='Merriweather, serif'>${safe}</text>
       </svg>`;
       return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
     }
@@ -352,7 +362,7 @@
       actions.appendChild(download);
       actions.appendChild(view);
 
-      // If no pdfPath show small badge
+      // Badge when missing pdf
       if (!(book.pdfPath && book.pdfPath.trim())) {
         const badge = document.createElement('div');
         badge.className = 'badge';
@@ -365,7 +375,7 @@
       article.appendChild(cover);
       article.appendChild(info);
 
-      // Keyboard: Enter or Space opens preview (if available)
+      // Keyboard support: Enter / Space open preview (if available)
       article.addEventListener('keydown', (e) => {
         if ((e.key === 'Enter' || e.key === ' ') && book.pdfPath && book.pdfPath.trim()) {
           e.preventDefault();
@@ -376,7 +386,7 @@
       return article;
     }
 
-    // Render first 4 books
+    // عرض أول 4 كتب
     function render() {
       grid.innerHTML = '';
       const slice = books.slice(0, VISIBLE);
@@ -385,11 +395,12 @@
       });
     }
 
-    // Modal open with PDF embed (iframe)
+    // فتح نافذة المعاينة بإطار iframe
     function openPreview(book) {
       modalTitle.textContent = book.title || 'معاينة الكتاب';
       modalBody.innerHTML = '';
       if (book.pdfPath && book.pdfPath.trim()) {
+        // تعيين iframe بمعاينة PDF
         const iframe = document.createElement('iframe');
         iframe.src = book.pdfPath;
         iframe.title = `معاينة ${book.title || 'الكتاب'}`;
@@ -403,7 +414,7 @@
       openModal();
     }
 
-    // Modal controls
+    // عناصر التحكم بالنوافذ المنبثقة
     function openModal() {
       modal.classList.add('open');
       modal.setAttribute('aria-hidden','false');
@@ -427,7 +438,7 @@
       if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
     });
 
-    // Initialize
+    // تهيئة العرض
     document.addEventListener('DOMContentLoaded', render);
   </script>
 </body>
