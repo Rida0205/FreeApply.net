@@ -571,6 +571,123 @@
       transform: translateY(-2px);
     }
 
+    /* نافذة المعاينة */
+    .preview-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+
+    .preview-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .preview-content {
+      background: white;
+      border-radius: var(--radius-xl);
+      width: 90%;
+      max-width: 900px;
+      max-height: 90vh;
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+      transform: scale(0.9);
+      transition: var(--transition);
+    }
+
+    .preview-modal.active .preview-content {
+      transform: scale(1);
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      background: var(--primary);
+      color: white;
+    }
+
+    .preview-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .preview-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+
+    .preview-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .preview-body {
+      padding: 30px;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .preview-pages {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .preview-page {
+      background: var(--gray-50);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      border: 1px solid var(--gray-200);
+    }
+
+    .preview-page h3 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+
+    .preview-page p {
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+
+    .preview-page ul {
+      padding-right: 20px;
+      margin-bottom: 15px;
+    }
+
+    .preview-page li {
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+
+    .preview-actions {
+      padding: 20px 30px;
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+    }
+
     /* التجاوب */
     @media (max-width: 1200px) {
       .grid {
@@ -616,6 +733,23 @@
       .footer-links {
         gap: 30px;
       }
+      
+      .preview-content {
+        width: 95%;
+      }
+      
+      .preview-header {
+        padding: 15px 20px;
+      }
+      
+      .preview-body {
+        padding: 20px;
+      }
+      
+      .preview-actions {
+        padding: 15px 20px;
+        flex-direction: column;
+      }
     }
 
     @media (max-width: 480px) {
@@ -638,6 +772,10 @@
       .footer-links {
         flex-direction: column;
         gap: 20px;
+      }
+      
+      .preview-title {
+        font-size: 1.2rem;
       }
     }
 
@@ -719,6 +857,11 @@
 
     [dir="ltr"] .footer-links {
       direction: ltr;
+    }
+
+    [dir="ltr"] .preview-page ul {
+      padding-right: 0;
+      padding-left: 20px;
     }
   </style>
 </head>
@@ -843,6 +986,31 @@
     </div>
   </footer>
 
+  <!-- نافذة المعاينة -->
+  <div class="preview-modal" id="previewModal">
+    <div class="preview-content">
+      <div class="preview-header">
+        <h3 class="preview-title" id="previewTitle">معاينة الكتاب</h3>
+        <button class="preview-close" id="previewClose">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="preview-body" id="previewBody">
+        <!-- محتوى المعاينة سيتم إضافته ديناميكياً -->
+      </div>
+      <div class="preview-actions">
+        <button class="btn btn-download" id="previewDownload">
+          <i class="fas fa-download"></i>
+          تحميل الكتاب الكامل
+        </button>
+        <button class="btn btn-preview" id="previewCloseBtn">
+          <i class="fas fa-times"></i>
+          إغلاق
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // بيانات الكتب المحسنة
     const books = [
@@ -853,7 +1021,32 @@
         pdfPath: '',
         language: 'العربية',
         pages: 240,
-        category: 'العقيدة'
+        category: 'العقيدة',
+        previewContent: [
+          {
+            title: 'مقدمة الكتاب',
+            content: `
+              <p>بسم الله الرحمن الرحيم، والحمد لله رب العالمين، والصلاة والسلام على سيدنا محمد وعلى آله وصحبه أجمعين.</p>
+              <p>يسرني أن أقدم لكم هذا الكتاب الذي يتناول موضوعاً غاية في الأهمية، وهو الطريق إلى الله تعالى. هذا الكتاب يهدف إلى مساعدة القارئ على فهم كيفية التقرب إلى الله من خلال معرفة أسمائه الحسنى وصفاته العليا.</p>
+              <p>سنجد في هذا الكتاب:</p>
+              <ul>
+                <li>فهم معاني أسماء الله الحسنى</li>
+                <li>كيفية التعبد لله بأسمائه وصفاته</li>
+                <li>تأثير معرفة الله على حياة المسلم</li>
+                <li>وسائل التقرب إلى الله تعالى</li>
+              </ul>
+            `
+          },
+          {
+            title: 'الفصل الأول: أهمية معرفة الله',
+            content: `
+              <p>معرفة الله تعالى هي أساس الدين وأصل كل عبادة. فبمعرفة الله تحيا القلوب وتنشرح الصدور، وتستقيم الجوارح على طاعته.</p>
+              <p>قال تعالى: "وَمَا خَلَقْتُ الْجِنَّ وَالْإِنْسَ إِلَّا لِيَعْبُدُونِ" (الذاريات: 56).</p>
+              <p>ولما سئل النبي صلى الله عليه وسلم عن الإحسان قال: "أن تعبد الله كأنك تراه، فإن لم تكن تراه فإنه يراك".</p>
+              <p>فمعرفة الله تورث في القلب الخشية والمحبة والرجاء، وهي التي تحول العبادة من مجرد حركات وسكنات إلى معانٍ روحية عميقة.</p>
+            `
+          }
+        ]
       },
       {
         title: 'نور اليقين',
@@ -862,25 +1055,23 @@
         pdfPath: '',
         language: 'العربية', 
         pages: 180,
-        category: 'التزكية'
-      },
-      {
-        title: 'فن الدعوة',
-        description: 'دليل عملي للدعوة إلى الله بالحكمة والموعظة الحسنة، مع نماذج تطبيقية من سيرة النبي صلى الله عليه وسلم.',
-        coverPath: '',
-        pdfPath: '',
-        language: 'العربية',
-        pages: 320,
-        category: 'الدعوة'
-      },
-      {
-        title: 'رياض الصالحين',
-        description: 'شرح معاصر لأحاديث النبي صلى الله عليه وسلم مع تطبيقات عملية لحياة المسلم المعاصر.',
-        coverPath: '',
-        pdfPath: '',
-        language: 'العربية',
-        pages: 450,
-        category: 'الأخلاق'
+        category: 'التزكية',
+        previewContent: [
+          {
+            title: 'مقدمة: نور القلوب',
+            content: `
+              <p>الحمد لله الذي أنار القلوب بنور اليقين، وجعل الإيمان نوراً يهتدي به العباد في ظلمات الحياة.</p>
+              <p>هذا الكتاب مجموعة من الخواطر والتأملات التي تهدف إلى إضاءة الطريق أمام المسلم، وتذكيره بجمال الإيمان وحلاوة الطاعة.</p>
+              <p>في صفحات هذا الكتاب ستجد:</p>
+              <ul>
+                <li>تأملات في آيات القرآن الكريم</li>
+                <li>خواطر من السنة النبوية</li>
+                <li>مواعظ وتذكيرات إيمانية</li>
+                <li>نصائح عملية لتزكية النفس</li>
+              </ul>
+            `
+          }
+        ]
       },
       {
         title: 'The Path to God',
@@ -889,52 +1080,23 @@
         pdfPath: '',
         language: 'English',
         pages: 220,
-        category: 'Aqeedah'
-      },
-      {
-        title: 'Light of Certainty', 
-        description: 'A collection of spiritual reflections and insights to illuminate the heart and strengthen connection with Allah in daily life.',
-        coverPath: '',
-        pdfPath: '',
-        language: 'English',
-        pages: 190,
-        category: 'Tazkiyah'
-      },
-      {
-        title: 'Art of Dawah',
-        description: 'Practical guide to inviting people to Islam with wisdom and beautiful preaching, with practical models from the Prophets biography.',
-        coverPath: '',
-        pdfPath: '',
-        language: 'English',
-        pages: 300,
-        category: 'Dawah'
-      },
-      {
-        title: 'Gardens of the Righteous',
-        description: 'Contemporary explanation of Prophet Muhammads teachings with practical applications for modern Muslim life.',
-        coverPath: '',
-        pdfPath: '',
-        language: 'English',
-        pages: 420,
-        category: 'Ethics'
-      },
-      {
-        title: 'Le Chemin Vers Dieu',
-        description: 'Guide complet pour comprendre le monothéisme islamique et développer une relation plus étroite avec Allah.',
-        coverPath: '',
-        pdfPath: '',
-        language: 'Français',
-        pages: 230,
-        category: 'Aqeedah'
-      },
-      {
-        title: 'Lumière de la Certitude',
-        description: 'Collection de réflexions spirituelles pour illuminer le cœur et renforcer la connexion avec Allah.',
-        coverPath: '',
-        pdfPath: '',
-        language: 'Français',
-        pages: 185,
-        category: 'Tazkiyah'
+        category: 'Aqeedah',
+        previewContent: [
+          {
+            title: 'Introduction',
+            content: `
+              <p>In the name of Allah, the Most Gracious, the Most Merciful. All praise is due to Allah, the Lord of all worlds, and may peace and blessings be upon Prophet Muhammad and his family and companions.</p>
+              <p>This book aims to guide the reader on the path to developing a closer relationship with Allah through understanding His beautiful names and attributes.</p>
+              <p>In this book, you will discover:</p>
+              <ul>
+                <li>The meanings of Allah's beautiful names</li>
+                <li>How to worship Allah through His names and attributes</li>
+                <li>The impact of knowing Allah on a Muslim's life</li>
+                <li>Practical ways to draw closer to Allah</li>
+              </ul>
+            `
+          }
+        ]
       }
     ];
 
@@ -951,10 +1113,17 @@
     const footerFaq = document.getElementById('footerFaq');
     const footerContact = document.getElementById('footerContact');
     const footerWebsite = document.getElementById('footerWebsite');
+    const previewModal = document.getElementById('previewModal');
+    const previewTitle = document.getElementById('previewTitle');
+    const previewBody = document.getElementById('previewBody');
+    const previewClose = document.getElementById('previewClose');
+    const previewCloseBtn = document.getElementById('previewCloseBtn');
+    const previewDownload = document.getElementById('previewDownload');
 
     // اللغة الحالية
     let currentLang = localStorage.getItem('preferredLanguage') || 'ar';
     let searchTerm = '';
+    let currentPreviewBook = null;
 
     // نصوص الواجهة لكل لغة
     const uiTexts = {
@@ -970,7 +1139,10 @@
         footerAbout: 'من نحن',
         footerFaq: 'الأسئلة الشائعة',
         footerContact: 'اتصل بنا',
-        footerWebsite: 'الموقع الرسمي'
+        footerWebsite: 'الموقع الرسمي',
+        previewTitle: 'معاينة الكتاب',
+        previewDownload: 'تحميل الكتاب الكامل',
+        previewClose: 'إغلاق'
       },
       'en': {
         searchPlaceholder: 'Search for a book...',
@@ -984,7 +1156,10 @@
         footerAbout: 'About Us',
         footerFaq: 'FAQ',
         footerContact: 'Contact Us',
-        footerWebsite: 'Official Website'
+        footerWebsite: 'Official Website',
+        previewTitle: 'Book Preview',
+        previewDownload: 'Download Full Book',
+        previewClose: 'Close'
       },
       'fr': {
         searchPlaceholder: 'Rechercher un livre...',
@@ -998,7 +1173,10 @@
         footerAbout: 'À propos',
         footerFaq: 'FAQ',
         footerContact: 'Contactez-nous',
-        footerWebsite: 'Site Officiel'
+        footerWebsite: 'Site Officiel',
+        previewTitle: 'Aperçu du Livre',
+        previewDownload: 'Télécharger le Livre Complet',
+        previewClose: 'Fermer'
       },
       'es': {
         searchPlaceholder: 'Buscar un libro...',
@@ -1012,7 +1190,10 @@
         footerAbout: 'Acerca de',
         footerFaq: 'Preguntas Frecuentes',
         footerContact: 'Contáctenos',
-        footerWebsite: 'Sitio Oficial'
+        footerWebsite: 'Sitio Oficial',
+        previewTitle: 'Vista Previa del Libro',
+        previewDownload: 'Descargar Libro Completo',
+        previewClose: 'Cerrar'
       },
       'de': {
         searchPlaceholder: 'Buch suchen...',
@@ -1026,7 +1207,10 @@
         footerAbout: 'Über uns',
         footerFaq: 'FAQ',
         footerContact: 'Kontakt',
-        footerWebsite: 'Offizielle Website'
+        footerWebsite: 'Offizielle Website',
+        previewTitle: 'Buchvorschau',
+        previewDownload: 'Vollständiges Buch Herunterladen',
+        previewClose: 'Schließen'
       },
       'tr': {
         searchPlaceholder: 'Kitap ara...',
@@ -1040,7 +1224,10 @@
         footerAbout: 'Hakkımızda',
         footerFaq: 'SSS',
         footerContact: 'İletişim',
-        footerWebsite: 'Resmi Web Sitesi'
+        footerWebsite: 'Resmi Web Sitesi',
+        previewTitle: 'Kitap Önizleme',
+        previewDownload: 'Tam Kitabı İndir',
+        previewClose: 'Kapat'
       },
       'ur': {
         searchPlaceholder: 'کتاب تلاش کریں...',
@@ -1054,7 +1241,10 @@
         footerAbout: 'ہمارے بارے میں',
         footerFaq: 'عمومی سوالات',
         footerContact: 'ہم سے رابطہ کریں',
-        footerWebsite: 'سرکاری ویب سائٹ'
+        footerWebsite: 'سرکاری ویب سائٹ',
+        previewTitle: 'کتاب کا پیش نظارہ',
+        previewDownload: 'مکمل کتاب ڈاؤن لوڈ کریں',
+        previewClose: 'بند کریں'
       },
       'id': {
         searchPlaceholder: 'Cari buku...',
@@ -1068,7 +1258,10 @@
         footerAbout: 'Tentang Kami',
         footerFaq: 'FAQ',
         footerContact: 'Hubungi Kami',
-        footerWebsite: 'Situs Resmi'
+        footerWebsite: 'Situs Resmi',
+        previewTitle: 'Pratinjau Buku',
+        previewDownload: 'Unduh Buku Lengkap',
+        previewClose: 'Tutup'
       }
     };
 
@@ -1106,6 +1299,11 @@
       footerFaq.querySelector('.footer-link-text').textContent = uiTexts[currentLang].footerFaq;
       footerContact.querySelector('.footer-link-text').textContent = uiTexts[currentLang].footerContact;
       footerWebsite.querySelector('.footer-link-text').textContent = uiTexts[currentLang].footerWebsite;
+      
+      // تحديث نص نافذة المعاينة
+      previewTitle.textContent = uiTexts[currentLang].previewTitle;
+      previewDownload.innerHTML = `<i class="fas fa-download"></i> ${uiTexts[currentLang].previewDownload}`;
+      previewCloseBtn.innerHTML = `<i class="fas fa-times"></i> ${uiTexts[currentLang].previewClose}`;
       
       // تحديث الحالة النشطة في القائمة
       languageOptions.forEach(opt => {
@@ -1168,9 +1366,64 @@
       return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
     }
 
-    function escapeXml(s) { 
-      return String(s).replace(/[<>&'"]/g, c => 
-        ({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c])); 
+    // فتح نافذة المعاينة
+    function openPreview(book) {
+      currentPreviewBook = book;
+      previewTitle.textContent = `${uiTexts[currentLang].previewTitle}: ${book.title}`;
+      
+      // تحديث زر التحميل
+      if (book.pdfPath && book.pdfPath.trim()) {
+        previewDownload.href = book.pdfPath;
+        previewDownload.target = '_blank';
+        previewDownload.setAttribute('download', '');
+        previewDownload.setAttribute('aria-disabled', 'false');
+        previewDownload.style.display = 'flex';
+      } else {
+        previewDownload.setAttribute('aria-disabled', 'true');
+        previewDownload.style.display = 'none';
+      }
+      
+      // إضافة محتوى المعاينة
+      previewBody.innerHTML = '';
+      const pagesContainer = document.createElement('div');
+      pagesContainer.className = 'preview-pages';
+      
+      if (book.previewContent && book.previewContent.length > 0) {
+        book.previewContent.forEach(page => {
+          const pageElement = document.createElement('div');
+          pageElement.className = 'preview-page';
+          pageElement.innerHTML = `
+            <h3>${page.title}</h3>
+            <div>${page.content}</div>
+          `;
+          pagesContainer.appendChild(pageElement);
+        });
+      } else {
+        // محتوى افتراضي إذا لم يكن هناك محتوى معاينة
+        const defaultPage = document.createElement('div');
+        defaultPage.className = 'preview-page';
+        defaultPage.innerHTML = `
+          <h3>مقدمة الكتاب</h3>
+          <p>هذا عرض مبسط لمحتوى الكتاب "${book.title}". يمكنك معاينة الأجزاء الأولى من الكتاب هنا قبل اتخاذ قرار التحميل.</p>
+          <p>الكتاب يحتوي على ${book.pages} صفحة ويغطي موضوع ${book.category}.</p>
+          <p>${book.description}</p>
+          <p>لقراءة الكتاب كاملاً، يرجى تحميله باستخدام زر التحميل الموجود أدناه.</p>
+        `;
+        pagesContainer.appendChild(defaultPage);
+      }
+      
+      previewBody.appendChild(pagesContainer);
+      previewModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // إغلاق نافذة المعاينة
+    function closePreview() {
+      previewModal.classList.remove('active');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        previewBody.innerHTML = '';
+      }, 300);
     }
 
     // إنشاء بطاقة كتاب
@@ -1260,7 +1513,7 @@
       preview.className = 'btn btn-preview';
       preview.innerHTML = `<i class="fas fa-eye"></i> ${uiTexts[currentLang].preview}`;
       preview.addEventListener('click', () => {
-        alert('ميزة المعاينة قيد التطوير. ستكون متاحة قريباً بإذن الله!');
+        openPreview(book);
       });
       actions.appendChild(preview);
       
@@ -1330,12 +1583,33 @@
       });
     }
 
+    // تهيئة نافذة المعاينة
+    function initPreviewModal() {
+      previewClose.addEventListener('click', closePreview);
+      previewCloseBtn.addEventListener('click', closePreview);
+      
+      // إغلاق النافذة عند النقر خارج المحتوى
+      previewModal.addEventListener('click', (e) => {
+        if (e.target === previewModal) {
+          closePreview();
+        }
+      });
+      
+      // إغلاق النافذة بمفتاح ESC
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && previewModal.classList.contains('active')) {
+          closePreview();
+        }
+      });
+    }
+
     // تهيئة التطبيق
     function initApp() {
       updateLanguageInterface();
       render();
       initSearch();
       initLanguageSelector();
+      initPreviewModal();
     }
 
     document.addEventListener('DOMContentLoaded', initApp);
