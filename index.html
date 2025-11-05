@@ -12,6 +12,9 @@
   <!-- خطوط -->
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
+  <!-- أيقونات -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
     :root{
       --page-bg: #ffffff;
@@ -36,6 +39,97 @@
       -webkit-font-smoothing:antialiased;
     }
 
+    /* زر اختيار اللغة */
+    .language-selector {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
+
+    .language-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 10px 16px;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+      font-weight: 600;
+      color: var(--title-dark);
+    }
+
+    .language-btn:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .language-btn i {
+      font-size: 1.1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .language-btn.active i {
+      transform: rotate(180deg);
+    }
+
+    .language-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 8px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: var(--shadow-lg);
+      width: 180px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      border: 1px solid #f3f4f6;
+      overflow: hidden;
+    }
+
+    .language-dropdown.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .language-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .language-option:last-child {
+      border-bottom: none;
+    }
+
+    .language-option:hover {
+      background: #f8fafc;
+    }
+
+    .language-option.active {
+      background: linear-gradient(90deg, rgba(11,61,145,0.1), rgba(94,160,255,0.1));
+      color: var(--title-dark);
+      font-weight: 600;
+    }
+
+    .flag {
+      width: 24px;
+      height: 16px;
+      border-radius: 2px;
+      object-fit: cover;
+    }
+
     /* تقليل المساحة العلوية لاقتراب العنوان من أعلى الصفحة */
     .wrap{
       max-width:1200px;
@@ -53,6 +147,7 @@
       align-items:center;
       gap:6px;
       padding:2px 8px;
+      margin-top: 20px;
     }
     /* العنوان المرئي (اللوجو النصي) */
     h1.site-title{
@@ -238,6 +333,14 @@
     @media (max-width:820px){
       .grid{ grid-template-columns: repeat(2, 1fr); }
       h1.site-title{ font-size:2.2rem; }
+      .language-selector {
+        top: 15px;
+        left: 15px;
+      }
+      .language-btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
     }
     @media (max-width:480px){
       .grid{ grid-template-columns: 1fr; }
@@ -246,12 +349,61 @@
       .search-container {
         margin: 0 auto 15px;
       }
+      .language-selector {
+        top: 10px;
+        left: 10px;
+      }
+      .language-dropdown {
+        width: 160px;
+      }
     }
 
     :focus{ outline: 3px solid var(--focus); outline-offset:4px; border-radius:8px }
   </style>
 </head>
 <body>
+  <!-- زر اختيار اللغة -->
+  <div class="language-selector">
+    <div class="language-btn" id="languageBtn">
+      <i class="fas fa-globe"></i>
+      <span id="currentLanguage">العربية</span>
+    </div>
+    <div class="language-dropdown" id="languageDropdown">
+      <div class="language-option active" data-lang="ar">
+        <img src="https://flagcdn.com/w40/sa.png" class="flag" alt="العربية">
+        <span>العربية</span>
+      </div>
+      <div class="language-option" data-lang="en">
+        <img src="https://flagcdn.com/w40/gb.png" class="flag" alt="English">
+        <span>English</span>
+      </div>
+      <div class="language-option" data-lang="fr">
+        <img src="https://flagcdn.com/w40/fr.png" class="flag" alt="Français">
+        <span>Français</span>
+      </div>
+      <div class="language-option" data-lang="es">
+        <img src="https://flagcdn.com/w40/es.png" class="flag" alt="Español">
+        <span>Español</span>
+      </div>
+      <div class="language-option" data-lang="de">
+        <img src="https://flagcdn.com/w40/de.png" class="flag" alt="Deutsch">
+        <span>Deutsch</span>
+      </div>
+      <div class="language-option" data-lang="tr">
+        <img src="https://flagcdn.com/w40/tr.png" class="flag" alt="Türkçe">
+        <span>Türkçe</span>
+      </div>
+      <div class="language-option" data-lang="ur">
+        <img src="https://flagcdn.com/w40/pk.png" class="flag" alt="اردو">
+        <span>اردو</span>
+      </div>
+      <div class="language-option" data-lang="id">
+        <img src="https://flagcdn.com/w40/id.png" class="flag" alt="Bahasa Indonesia">
+        <span>Indonesia</span>
+      </div>
+    </div>
+  </div>
+
   <div class="wrap" id="app">
     <header class="title-wrap" role="banner">
       <!-- الشعار المرئي على الصفحة -->
@@ -352,6 +504,20 @@
         coverPath: '',
         pdfPath: '',
         language: 'English'
+      },
+      {
+        title: 'Le Premier Chemin',
+        description: 'Introduction aux concepts principaux.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Français'
+      },
+      {
+        title: 'Lumière de la Connaissance',
+        description: 'Pensées et conseils quotidiens.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Français'
       }
     ];
 
@@ -360,6 +526,63 @@
     const booksCounter = document.getElementById('booksCounter');
     const visibleCount = document.getElementById('visibleCount');
     const totalCount = document.getElementById('totalCount');
+    const languageBtn = document.getElementById('languageBtn');
+    const languageDropdown = document.getElementById('languageDropdown');
+    const currentLanguage = document.getElementById('currentLanguage');
+    const languageOptions = document.querySelectorAll('.language-option');
+
+    // إدارة اختيار اللغة
+    function initLanguageSelector() {
+      // فتح/إغلاق القائمة المنسدلة
+      languageBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        languageBtn.classList.toggle('active');
+        languageDropdown.classList.toggle('active');
+      });
+
+      // اختيار لغة جديدة
+      languageOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          const lang = option.getAttribute('data-lang');
+          const langName = option.querySelector('span').textContent;
+          
+          // تحديث الزر الرئيسي
+          currentLanguage.textContent = langName;
+          
+          // تحديث الحالة النشطة في القائمة
+          languageOptions.forEach(opt => opt.classList.remove('active'));
+          option.classList.add('active');
+          
+          // إغلاق القائمة
+          languageBtn.classList.remove('active');
+          languageDropdown.classList.remove('active');
+          
+          // حفظ التفضيل (يمكن تطوير هذه الوظيفة لتحميل المحتوى باللغة المختارة)
+          localStorage.setItem('preferredLanguage', lang);
+          
+          // هنا يمكنك إضافة منطق لتحميل المحتوى باللغة المختارة
+          alert(`تم اختيار اللغة: ${langName}\n\nهذه ميزة عرضية. في التطبيق الحقيقي، ستقوم هذه الوظيفة بتحميل المحتوى باللغة المختارة.`);
+        });
+      });
+
+      // إغلاق القائمة عند النقر خارجها
+      document.addEventListener('click', () => {
+        languageBtn.classList.remove('active');
+        languageDropdown.classList.remove('active');
+      });
+
+      // تحميل التفضيل المحفوظ
+      const savedLang = localStorage.getItem('preferredLanguage');
+      if (savedLang) {
+        const savedOption = document.querySelector(`.language-option[data-lang="${savedLang}"]`);
+        if (savedOption) {
+          const langName = savedOption.querySelector('span').textContent;
+          currentLanguage.textContent = langName;
+          languageOptions.forEach(opt => opt.classList.remove('active'));
+          savedOption.classList.add('active');
+        }
+      }
+    }
 
     function defaultCover(title = 'غلاف الكتاب', language = '') {
       const safe = escapeXml(title || '');
@@ -489,6 +712,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       render();
       initSearch();
+      initLanguageSelector();
     });
   </script>
 </body>
