@@ -1,22 +1,850 @@
-// اختيار لغة جديدة
-languageOptions.forEach(option => {
-  option.addEventListener('click', () => {
-    const lang = option.getAttribute('data-lang');
-    
-    // تحديث اللغة الحالية
-    currentLang = lang;
-    
-    // تحديث الواجهة
-    updateLanguageInterface();
-    
-    // إغلاق القائمة
-    languageBtn.classList.remove('active');
-    languageDropdown.classList.remove('active');
-    
-    // حفظ التفضيل
-    localStorage.setItem('preferredLanguage', lang);
-    
-    // إعادة عرض الكتب حسب اللغة المختارة
-    render();
-  });
-});
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DW Ebook</title>
+
+  <!-- favicon -->
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1705/1705004.png">
+  <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/1705/1705004.png">
+
+  <!-- خطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- أيقونات -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root{
+      --page-bg: #ffffff;
+      --title-dark: #0b3d91;
+      --title-light: #5ea0ff;
+      --card-bg: #ffffff;
+      --muted: #6b7280;
+      --radius: 12px;
+      --shadow-sm: 0 6px 18px rgba(24,24,24,0.06);
+      --shadow-lg: 0 20px 45px rgba(24,24,24,0.08);
+      --focus: rgba(94,160,255,0.18);
+      --success: #10b981;
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      height:100%;
+      margin:0;
+      font-family:'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--page-bg);
+      color:#072227;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* زر اختيار اللغة */
+    .language-selector {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
+
+    .language-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 10px 16px;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+      font-weight: 600;
+      color: var(--title-dark);
+    }
+
+    .language-btn:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .language-btn i {
+      font-size: 1.1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .language-btn.active i {
+      transform: rotate(180deg);
+    }
+
+    .language-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 8px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: var(--shadow-lg);
+      width: 180px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      border: 1px solid #f3f4f6;
+      overflow: hidden;
+    }
+
+    .language-dropdown.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .language-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .language-option:last-child {
+      border-bottom: none;
+    }
+
+    .language-option:hover {
+      background: #f8fafc;
+    }
+
+    .language-option.active {
+      background: linear-gradient(90deg, rgba(11,61,145,0.1), rgba(94,160,255,0.1));
+      color: var(--title-dark);
+      font-weight: 600;
+    }
+
+    .flag {
+      width: 24px;
+      height: 16px;
+      border-radius: 2px;
+      object-fit: cover;
+    }
+
+    /* تقليل المساحة العلوية لاقتراب العنوان من أعلى الصفحة */
+    .wrap{
+      max-width:1200px;
+      margin:12px auto 28px;
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      gap:22px;
+    }
+
+    /* رأس الصفحة: شعار نصي + وصف تحتي */
+    .title-wrap{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+      padding:2px 8px;
+      margin-top: 20px;
+    }
+    /* العنوان المرئي (اللوجو النصي) */
+    h1.site-title{
+      margin:0;
+      font-family:Momo Trust Display;
+      font-size:2.6rem;
+      letter-spacing:0.4px;
+      line-height:1;
+      font-weight:800;
+      background: linear-gradient(90deg, var(--title-dark), var(--title-light));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-align:center;
+    }
+    /* الوصف أسفل العنوان */
+    .site-desc{
+      margin:0;
+      font-size:0.95rem;
+      color:var(--muted);
+      text-align:center;
+      font-style:normal;
+    }
+
+    /* شريط البحث */
+    .search-container {
+      max-width: 500px;
+      margin: 0 auto 20px;
+      width: 100%;
+    }
+    .search-box {
+      width: 100%;
+      padding: 14px 20px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 1rem;
+      background: white;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+    .search-box:focus {
+      outline: none;
+      border-color: var(--title-light);
+      box-shadow: 0 0 0 3px var(--focus);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:20px;
+      align-items:start;
+    }
+
+    .card{
+      background:var(--card-bg);
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow:var(--shadow-sm);
+      transition:transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s ease;
+      display:flex;
+      flex-direction:column;
+      height:100%;
+      border:1px solid rgba(6,22,20,0.04);
+    }
+    .card:hover, .card:focus-within{
+      transform: translateY(-8px);
+      box-shadow:var(--shadow-lg);
+      outline: none;
+    }
+
+    .cover{
+      height:0;
+      padding-bottom:140%;
+      position:relative;
+      background:linear-gradient(180deg,#ffffff,#fbfbfb);
+    }
+    .cover img{
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
+      transition:transform .45s ease, filter .35s ease;
+      border-bottom: 1px solid rgba(6,22,20,0.03);
+      will-change:transform;
+    }
+    .card:hover .cover img{ transform: scale(1.04); filter:brightness(1.02); }
+
+    .info{
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      text-align:right;
+    }
+    .book-title{
+      font-weight:700;
+      font-size:1.02rem;
+      margin:0;
+      color:#072227;
+      font-family:'Merriweather', serif;
+    }
+    .book-description{
+      font-size:0.85rem;
+      color:var(--muted);
+      line-height:1.5;
+      margin:0;
+    }
+
+    .actions{
+      margin-top:auto;
+      display:flex;
+      gap:10px;
+      justify-content:flex-start;
+      align-items:center;
+    }
+
+    .btn{
+      border:0;
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      text-decoration:none;
+      font-size:0.95rem;
+      transition: all 0.2s ease;
+    }
+    .btn-download{
+      background: linear-gradient(90deg, var(--title-dark), var(--title-light));
+      color:white;
+      box-shadow: 0 8px 20px rgba(94,160,255,0.12);
+    }
+    .btn-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(94,160,255,0.2);
+    }
+    .btn[aria-disabled="true"]{ 
+      opacity:0.45; 
+      pointer-events:none; 
+      cursor:default;
+      background: #9ca3af;
+    }
+
+    .badge{
+      font-size:12px;
+      color:var(--muted);
+      background:rgba(7,34,39,0.03);
+      padding:6px 8px;
+      border-radius:8px;
+      margin-left:auto;
+    }
+
+    .language-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(11, 61, 145, 0.9);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* رسالة عندما لا توجد نتائج */
+    .no-results {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      grid-column: 1 / -1;
+    }
+
+    @media (max-width:1100px){
+      .grid{ grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width:820px){
+      .grid{ grid-template-columns: repeat(2, 1fr); }
+      h1.site-title{ font-size:2.2rem; }
+      .language-selector {
+        top: 15px;
+        left: 15px;
+      }
+      .language-btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+    }
+    @media (max-width:480px){
+      .grid{ grid-template-columns: 1fr; }
+      .cover{ padding-bottom:124%; }
+      h1.site-title{ font-size:1.8rem; }
+      .search-container {
+        margin: 0 auto 15px;
+      }
+      .language-selector {
+        top: 10px;
+        left: 10px;
+      }
+      .language-dropdown {
+        width: 160px;
+      }
+    }
+
+    :focus{ outline: 3px solid var(--focus); outline-offset:4px; border-radius:8px }
+  </style>
+</head>
+<body>
+  <!-- زر اختيار اللغة -->
+  <div class="language-selector">
+    <div class="language-btn" id="languageBtn">
+      <i class="fas fa-globe"></i>
+      <span id="currentLanguage">العربية</span>
+    </div>
+    <div class="language-dropdown" id="languageDropdown">
+      <div class="language-option active" data-lang="ar">
+        <img src="https://flagcdn.com/w40/sa.png" class="flag" alt="العربية">
+        <span>العربية</span>
+      </div>
+      <div class="language-option" data-lang="en">
+        <img src="https://flagcdn.com/w40/gb.png" class="flag" alt="English">
+        <span>English</span>
+      </div>
+      <div class="language-option" data-lang="fr">
+        <img src="https://flagcdn.com/w40/fr.png" class="flag" alt="Français">
+        <span>Français</span>
+      </div>
+      <div class="language-option" data-lang="es">
+        <img src="https://flagcdn.com/w40/es.png" class="flag" alt="Español">
+        <span>Español</span>
+      </div>
+      <div class="language-option" data-lang="de">
+        <img src="https://flagcdn.com/w40/de.png" class="flag" alt="Deutsch">
+        <span>Deutsch</span>
+      </div>
+      <div class="language-option" data-lang="tr">
+        <img src="https://flagcdn.com/w40/tr.png" class="flag" alt="Türkçe">
+        <span>Türkçe</span>
+      </div>
+      <div class="language-option" data-lang="ur">
+        <img src="https://flagcdn.com/w40/pk.png" class="flag" alt="اردو">
+        <span>اردو</span>
+      </div>
+      <div class="language-option" data-lang="id">
+        <img src="https://flagcdn.com/w40/id.png" class="flag" alt="Bahasa Indonesia">
+        <span>Indonesia</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap" id="app">
+    <header class="title-wrap" role="banner">
+      <!-- الشعار المرئي على الصفحة -->
+      <h1 class="site-title">DEENWAY Ebook</h1>
+      <!-- الوصف المطلوب تحت الشعار -->
+      <p class="site-desc">One truth — eight languages</p>
+    </header>
+
+    <main>
+      <!-- شريط البحث -->
+      <div class="search-container">
+        <input 
+          type="text" 
+          class="search-box" 
+          id="searchBox"
+          placeholder="ابحث عن كتاب..." 
+          aria-label="بحث في الكتب"
+        >
+      </div>
+
+      <section class="grid" id="grid" role="list" aria-label="شبكة كتب DEEN WAY">
+        <!-- سيملأ بواسطة JavaScript -->
+      </section>
+    </main>
+  </div>
+
+  <script>
+    /************************************************************
+     * بيانات الكتب - يمكن إضافة المزيد من الكتب لكل لغة
+     ************************************************************/
+    const books = [
+      // الكتب العربية
+      {
+        title: 'الطريق الأول',
+        description: 'مقدمة قصيرة تلخص محتوى الكتاب.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'العربية'
+      },
+      {
+        title: 'نور المعرفة',
+        description: 'مجموعة أفكار وتوجيهات يومية.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'العربية'
+      },
+      {
+        title: 'سبل الدعوة',
+        description: 'دليل مختصر للخطاب المؤثر.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'العربية'
+      },
+      {
+        title: 'حكمة وإيمان',
+        description: 'خواطر تربوية وروحية.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'العربية'
+      },
+      // الكتب الإنجليزية
+      {
+        title: 'The First Path',
+        description: 'Introduction to the main concepts.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'English'
+      },
+      {
+        title: 'Light of Knowledge',
+        description: 'Daily thoughts and guidance.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'English'
+      },
+      {
+        title: 'Ways of Dawah',
+        description: 'Brief guide to effective communication.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'English'
+      },
+      {
+        title: 'Wisdom and Faith',
+        description: 'Educational and spiritual reflections.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'English'
+      },
+      // الكتب الفرنسية
+      {
+        title: 'Le Premier Chemin',
+        description: 'Introduction aux concepts principaux.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Français'
+      },
+      {
+        title: 'Lumière de la Connaissance',
+        description: 'Pensées et conseils quotidiens.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Français'
+      },
+      // الكتب الإسبانية
+      {
+        title: 'El Primer Camino',
+        description: 'Introducción a los conceptos principales.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Español'
+      },
+      {
+        title: 'Luz del Conocimiento',
+        description: 'Pensamientos y orientación diaria.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Español'
+      },
+      // الكتب الألمانية
+      {
+        title: 'Der Erste Weg',
+        description: 'Einführung in die Hauptkonzepte.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Deutsch'
+      },
+      {
+        title: 'Licht des Wissens',
+        description: 'Tägliche Gedanken und Anleitung.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Deutsch'
+      },
+      // الكتب التركية
+      {
+        title: 'İlk Yol',
+        description: 'Ana kavramlara giriş.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Türkçe'
+      },
+      {
+        title: 'Bilgi Işığı',
+        description: 'Günlük düşünceler ve rehberlik.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Türkçe'
+      },
+      // الكتب الأردية
+      {
+        title: 'پہلا راستہ',
+        description: 'مرکزی تصورات کا تعارف۔',
+        coverPath: '',
+        pdfPath: '',
+        language: 'اردو'
+      },
+      {
+        title: 'علم کی روشنی',
+        description: 'روزانہ کے خیالات اور رہنمائی۔',
+        coverPath: '',
+        pdfPath: '',
+        language: 'اردو'
+      },
+      // الكتب الإندونيسية
+      {
+        title: 'Jalan Pertama',
+        description: 'Pengenalan konsep utama.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Indonesia'
+      },
+      {
+        title: 'Cahaya Pengetahuan',
+        description: 'Pemikiran dan bimbingan harian.',
+        coverPath: '',
+        pdfPath: '',
+        language: 'Indonesia'
+      }
+    ];
+
+    const grid = document.getElementById('grid');
+    const searchBox = document.getElementById('searchBox');
+    const languageBtn = document.getElementById('languageBtn');
+    const languageDropdown = document.getElementById('languageDropdown');
+    const currentLanguage = document.getElementById('currentLanguage');
+    const languageOptions = document.querySelectorAll('.language-option');
+
+    // اللغة الحالية (يتم تحميلها من localStorage أو العربية افتراضياً)
+    let currentLang = localStorage.getItem('preferredLanguage') || 'ar';
+    let searchTerm = '';
+
+    // نصوص البحث لكل لغة
+    const searchPlaceholders = {
+      'ar': 'ابحث عن كتاب...',
+      'en': 'Search for a book...',
+      'fr': 'Rechercher un livre...',
+      'es': 'Buscar un libro...',
+      'de': 'Buch suchen...',
+      'tr': 'Kitap ara...',
+      'ur': 'کتاب تلاش کریں...',
+      'id': 'Cari buku...'
+    };
+
+    // نصوص رسالة عدم العثور على نتائج
+    const noResultsMessages = {
+      'ar': 'لم يتم العثور على كتب تطابق بحثك.',
+      'en': 'No books found matching your search.',
+      'fr': 'Aucun livre trouvé correspondant à votre recherche.',
+      'es': 'No se encontraron libros que coincidan con su búsqueda.',
+      'de': 'Keine Bücher gefunden, die Ihrer Suche entsprechen.',
+      'tr': 'Aramanızla eşleşen kitap bulunamadı.',
+      'ur': 'آپ کی تلاش سے مماثل کوئی کتاب نہیں ملی۔',
+      'id': 'Tidak ada buku yang ditemukan sesuai pencarian Anda.'
+    };
+
+    // نصوص رسالة عدم وجود كتب باللغة
+    const noBooksMessages = {
+      'ar': 'لا توجد كتب متاحة باللغة العربية حالياً.',
+      'en': 'No books available in English at the moment.',
+      'fr': 'Aucun livre disponible en français pour le moment.',
+      'es': 'No hay libros disponibles en español en este momento.',
+      'de': 'Derzeit sind keine Bücher auf Deutsch verfügbar.',
+      'tr': 'Şu anda Türkçe kitap mevcut değil.',
+      'ur': 'فی الحال اردو میں کوئی کتاب دستیاب نہیں ہے۔',
+      'id': 'Tidak ada buku yang tersedia dalam bahasa Indonesia saat ini.'
+    };
+
+    // تصفية الكتب حسب اللغة والبحث
+    function getFilteredBooks() {
+      return books.filter(book => {
+        // التصفية حسب اللغة
+        const langMatch = book.language === getLanguageName(currentLang);
+        
+        // التصفية حسب البحث (إن وجد)
+        const searchMatch = !searchTerm || 
+          book.title.toLowerCase().includes(searchTerm) ||
+          (book.description && book.description.toLowerCase().includes(searchTerm));
+        
+        return langMatch && searchMatch;
+      });
+    }
+
+    // الحصول على اسم اللغة من الكود
+    function getLanguageName(langCode) {
+      const langMap = {
+        'ar': 'العربية',
+        'en': 'English',
+        'fr': 'Français',
+        'es': 'Español',
+        'de': 'Deutsch',
+        'tr': 'Türkçe',
+        'ur': 'اردو',
+        'id': 'Indonesia'
+      };
+      return langMap[langCode] || 'العربية';
+    }
+
+    // تحديث نص البحث حسب اللغة
+    function updateSearchPlaceholder() {
+      searchBox.placeholder = searchPlaceholders[currentLang] || 'ابحث عن كتاب...';
+    }
+
+    // تحديث واجهة اللغة
+    function updateLanguageInterface() {
+      const langName = getLanguageName(currentLang);
+      currentLanguage.textContent = langName;
+      
+      // تحديث الحالة النشطة في القائمة
+      languageOptions.forEach(opt => {
+        if (opt.getAttribute('data-lang') === currentLang) {
+          opt.classList.add('active');
+        } else {
+          opt.classList.remove('active');
+        }
+      });
+      
+      // تحديث نص البحث
+      updateSearchPlaceholder();
+    }
+
+    // إدارة اختيار اللغة
+    function initLanguageSelector() {
+      // فتح/إغلاق القائمة المنسدلة
+      languageBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        languageBtn.classList.toggle('active');
+        languageDropdown.classList.toggle('active');
+      });
+
+      // اختيار لغة جديدة
+      languageOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          const lang = option.getAttribute('data-lang');
+          
+          // تحديث اللغة الحالية
+          currentLang = lang;
+          
+          // تحديث الواجهة
+          updateLanguageInterface();
+          
+          // إغلاق القائمة
+          languageBtn.classList.remove('active');
+          languageDropdown.classList.remove('active');
+          
+          // حفظ التفضيل
+          localStorage.setItem('preferredLanguage', lang);
+          
+          // إعادة عرض الكتب حسب اللغة المختارة
+          render();
+        });
+      });
+
+      // إغلاق القائمة عند النقر خارجها
+      document.addEventListener('click', () => {
+        languageBtn.classList.remove('active');
+        languageDropdown.classList.remove('active');
+      });
+    }
+
+    function defaultCover(title = 'غلاف الكتاب', language = '') {
+      const safe = escapeXml(title || '');
+      const lang = escapeXml(language || '');
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'>
+        <rect width='100%' height='100%' fill='#ffffff'/>
+        <rect x='24' y='24' width='552' height='752' rx='10' fill='#ffffff' stroke='#f0f0f0'/>
+        <text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' fill='#0b3d91' font-size='24' font-family='Merriweather, serif'>${safe}</text>
+        ${lang ? `<text x='50%' y='65%' dominant-baseline='middle' text-anchor='middle' fill='#5ea0ff' font-size='16' font-family='Poppins, sans-serif'>${lang}</text>` : ''}
+      </svg>`;
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+
+    function escapeXml(s=''){ 
+      return String(s).replace(/[<>&'"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c])); 
+    }
+
+    function createCard(book) {
+      const article = document.createElement('article');
+      article.className = 'card';
+      article.setAttribute('role','listitem');
+      article.setAttribute('tabindex','0');
+      article.setAttribute('aria-label', `${book.title} - ${book.language}`);
+
+      const cover = document.createElement('div');
+      cover.className = 'cover';
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.alt = `${book.title} - غلاف الكتاب`;
+      img.src = (book.coverPath && book.coverPath.trim()) ? book.coverPath : defaultCover(book.title, book.language);
+      cover.appendChild(img);
+
+      // إضافة شارة اللغة
+      if (book.language) {
+        const langTag = document.createElement('div');
+        langTag.className = 'language-tag';
+        langTag.textContent = book.language;
+        cover.appendChild(langTag);
+      }
+
+      const info = document.createElement('div');
+      info.className = 'info';
+      
+      const t = document.createElement('h3');
+      t.className = 'book-title';
+      t.textContent = book.title || '';
+      info.appendChild(t);
+
+      if (book.description) {
+        const desc = document.createElement('p');
+        desc.className = 'book-description';
+        desc.textContent = book.description;
+        info.appendChild(desc);
+      }
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+
+      const download = document.createElement('a');
+      download.className = 'btn btn-download';
+      download.textContent = '⤓ تحميل';
+      if (book.pdfPath && book.pdfPath.trim()) {
+        download.href = book.pdfPath;
+        download.target = '_blank';
+        download.setAttribute('download','');
+        download.setAttribute('aria-disabled','false');
+      } else {
+        download.href = '#';
+        download.setAttribute('aria-disabled','true');
+        download.addEventListener('click', (e) => { 
+          e.preventDefault(); 
+          alert('لم يتم إضافة رابط التحميل لهذا الكتاب. ضع pdfPath داخل الكود.'); 
+        });
+      }
+
+      actions.appendChild(download);
+
+      if (!(book.pdfPath && book.pdfPath.trim())) {
+        const badge = document.createElement('div');
+        badge.className = 'badge';
+        badge.textContent = 'رابط غير مضاف';
+        actions.appendChild(badge);
+      }
+
+      info.appendChild(actions);
+      article.appendChild(cover);
+      article.appendChild(info);
+
+      return article;
+    }
+
+    function render() {
+      const filteredBooks = getFilteredBooks();
+      grid.innerHTML = '';
+      
+      if (filteredBooks.length === 0) {
+        const noResults = document.createElement('div');
+        noResults.className = 'no-results';
+        noResults.textContent = searchTerm ? 
+          (noResultsMessages[currentLang] || 'لم يتم العثور على كتب تطابق بحثك.') : 
+          (noBooksMessages[currentLang] || 'لا توجد كتب متاحة حالياً.');
+        grid.appendChild(noResults);
+      } else {
+        filteredBooks.forEach((book) => grid.appendChild(createCard(book)));
+      }
+    }
+
+    function initSearch() {
+      searchBox.addEventListener('input', (e) => {
+        searchTerm = e.target.value.toLowerCase().trim();
+        render();
+      });
+    }
+
+    // تهيئة التطبيق
+    function initApp() {
+      // تحديث الواجهة حسب اللغة المحفوظة
+      updateLanguageInterface();
+      
+      // عرض الكتب
+      render();
+      
+      // تهيئة البحث
+      initSearch();
+      
+      // تهيئة اختيار اللغة
+      initLanguageSelector();
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
