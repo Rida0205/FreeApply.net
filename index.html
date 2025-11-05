@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DEEN WAY Ebook</title>
+  <title>DW Ebook</title>
 
-  <!-- favicon المقدم -->
+  <!-- favicon -->
   <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1705/1705004.png">
   <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/1705/1705004.png">
 
@@ -35,26 +35,27 @@
       -webkit-font-smoothing:antialiased;
     }
 
-    /* خفض المسافة العلوية لوضع العنوان أقرب لأعلى الصفحة */
+    /* تقليل المساحة العلوية لاقتراب العنوان من أعلى الصفحة */
     .wrap{
       max-width:1200px;
-      margin:12px auto 28px; /* تم تقليل الهامش العلوي */
-      padding:20px;          /* تقليل الحشوة العامة */
+      margin:12px auto 28px;
+      padding:20px;
       display:flex;
       flex-direction:column;
       gap:22px;
     }
 
-    /* العنوان الآن أقرب لأعلى */
+    /* رأس الصفحة: شعار نصي + وصف تحتي */
     .title-wrap{
       display:flex;
-      justify-content:center;
+      flex-direction:column;
       align-items:center;
-      padding:2px 8px; /* تقليل الحشوة حول العنوان */
+      gap:6px;
+      padding:2px 8px;
     }
-    /* العنوان بخط بولد */
+    /* العنوان المرئي (اللوجو النصي) */
     h1.site-title{
-margin:0;
+      margin:0;
       font-family:'Merriweather', serif;
       font-size:2.6rem;
       letter-spacing:0.4px;
@@ -65,6 +66,14 @@ margin:0;
       background-clip: text;
       color: transparent;
       text-align:center;
+    }
+    /* الوصف أسفل العنوان */
+    .site-desc{
+      margin:0;
+      font-size:0.95rem;
+      color:var(--muted);
+      text-align:center;
+      font-style:normal;
     }
 
     .grid{
@@ -174,9 +183,12 @@ margin:0;
 </head>
 <body>
   <div class="wrap" id="app">
-    <div class="title-wrap" role="banner">
-      <h1 class="site-title">DEEN WAY Ebook</h1>
-    </div>
+    <header class="title-wrap" role="banner">
+      <!-- الشعار المرئي على الصفحة -->
+      <h1 class="site-title">DEENWAY Ebook</h1>
+      <!-- الوصف المطلوب تحت الشعار -->
+      <p class="site-desc">One truth -- eight languages *</p>
+    </header>
 
     <main>
       <section class="grid" id="grid" role="list" aria-label="شبكة كتب DEEN WAY">
