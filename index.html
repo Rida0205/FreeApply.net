@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DEEN WAY Ebook</title>
 
-  <!-- favicon -->
+  <!-- favicon المقدم -->
   <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1705/1705004.png">
   <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/1705/1705004.png">
 
@@ -14,31 +14,20 @@
 
   <style>
     :root{
-      /* خلفية كاملة تدرج خطي كما طلبت */
-      --page-gradient: linear-gradient(90deg, #1d3557, #457b9d);
-
+      --page-bg: #ffffff;
       --title-dark: #0b3d91;
       --title-light: #5ea0ff;
-
       --card-bg: #ffffff;
-      --muted: #c7d6e6;
+      --muted: #6b7280;
       --radius: 12px;
-      --shadow-sm: 0 6px 18px rgba(2,8,23,0.18);
-      --shadow-lg: 0 20px 45px rgba(2,8,23,0.24);
+      --shadow-sm: 0 6px 18px rgba(24,24,24,0.06);
+      --shadow-lg: 0 20px 45px rgba(24,24,24,0.08);
       --focus: rgba(94,160,255,0.18);
     }
 
     *{box-sizing:border-box}
-    html,body{
-      height:100%;
-      margin:0;
-      font-family:'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: var(--page-gradient);
-      color:#f7fbff;
-      -webkit-font-smoothing:antialiased;
-    }
+    html,body{height:100%;margin:0;font-family:'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--page-bg); color:#072227; -webkit-font-smoothing:antialiased}
 
-    /* Container */
     .wrap{
       max-width:1200px;
       margin:44px auto;
@@ -54,23 +43,21 @@
       align-items:center;
       padding:4px 12px;
     }
-    /* العنوان بخط بولد وتدرج أزرق فاتح لكي يبرز على الخلفية */
+    /* العنوان الآن بخط بولد (أثخن) */
     h1.site-title{
       margin:0;
       font-family:'Merriweather', serif;
       font-size:2.8rem;
       letter-spacing:0.4px;
       line-height:1;
-      font-weight:800;
-      background: linear-gradient(90deg, #e9f2ff, #bfe6ff);
+      font-weight:800; /* بولد */
+      background: linear-gradient(90deg, var(--title-dark), var(--title-light));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       text-align:center;
-      text-shadow: 0 2px 8px rgba(8,18,40,0.18);
     }
 
-    /* شبكة الكتب: 4 أعمدة */
     .grid{
       display:grid;
       grid-template-columns: repeat(4, 1fr);
@@ -78,9 +65,8 @@
       align-items:start;
     }
 
-    /* بطاقة الكتاب */
     .card{
-      background: rgba(255,255,255,0.95);
+      background:var(--card-bg);
       border-radius:14px;
       overflow:hidden;
       box-shadow:var(--shadow-sm);
@@ -89,7 +75,6 @@
       flex-direction:column;
       height:100%;
       border:1px solid rgba(6,22,20,0.04);
-      color:#072227;
     }
     .card:hover, .card:focus-within{
       transform: translateY(-8px);
@@ -246,7 +231,7 @@
       </svg>`;
       return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
     }
-    function escapeXml(s=''){ return String(s).replace(/[<>&'"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c])); }
+    function escapeXml(s=''){ return String(s).replace(/[<>&'"]/g, c => ({'<':'&lt;','>':'&gt;','&amp;':'&amp;',"'":'&apos;','"':'&quot;'}[c])); }
 
     function createCard(book) {
       const article = document.createElement('article');
