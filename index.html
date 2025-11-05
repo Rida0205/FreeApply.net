@@ -454,7 +454,7 @@
 
     .btn {
       border: none;
-      padding: 12px 20px;
+      padding: 12px 16px;
       border-radius: var(--radius-md);
       font-weight: 600;
       cursor: pointer;
@@ -462,16 +462,19 @@
       gap: 8px;
       align-items: center;
       text-decoration: none;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       transition: var(--transition);
       justify-content: center;
+      min-height: 44px;
+      flex: 1;
+      white-space: nowrap;
+      min-width: 0;
     }
 
     .btn-download {
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
       color: white;
       box-shadow: var(--shadow-md);
-      flex: 1;
     }
 
     .btn-download:hover {
@@ -603,6 +606,8 @@
       box-shadow: var(--shadow-xl);
       transform: scale(0.9);
       transition: var(--transition);
+      display: flex;
+      flex-direction: column;
     }
 
     .preview-modal.active .preview-content {
@@ -616,12 +621,14 @@
       padding: 20px 30px;
       background: var(--primary);
       color: white;
+      flex-shrink: 0;
     }
 
     .preview-title {
       font-size: 1.5rem;
       font-weight: 700;
       margin: 0;
+      flex: 1;
     }
 
     .preview-close {
@@ -630,9 +637,14 @@
       color: white;
       font-size: 1.5rem;
       cursor: pointer;
-      padding: 5px;
+      padding: 8px;
       border-radius: var(--radius-sm);
       transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
     }
 
     .preview-close:hover {
@@ -641,8 +653,9 @@
 
     .preview-body {
       padding: 30px;
-      max-height: 70vh;
+      max-height: 60vh;
       overflow-y: auto;
+      flex: 1;
     }
 
     .preview-pages {
@@ -686,6 +699,7 @@
       display: flex;
       justify-content: flex-end;
       gap: 15px;
+      flex-shrink: 0;
     }
 
     /* التجاوب */
@@ -744,11 +758,17 @@
       
       .preview-body {
         padding: 20px;
+        max-height: 50vh;
       }
       
       .preview-actions {
         padding: 15px 20px;
         flex-direction: column;
+      }
+      
+      .btn {
+        padding: 12px 14px;
+        font-size: 0.85rem;
       }
     }
 
@@ -776,6 +796,15 @@
       
       .preview-title {
         font-size: 1.2rem;
+      }
+      
+      .preview-page {
+        padding: 20px;
+      }
+      
+      .btn {
+        padding: 10px 12px;
+        font-size: 0.8rem;
       }
     }
 
@@ -852,7 +881,7 @@
     }
 
     [dir="ltr"] .book-meta {
-      flex-direction: row-reverse;
+      flex-direction: row;
     }
 
     [dir="ltr"] .footer-links {
@@ -862,6 +891,43 @@
     [dir="ltr"] .preview-page ul {
       padding-right: 0;
       padding-left: 20px;
+    }
+
+    [dir="ltr"] .preview-header {
+      flex-direction: row;
+    }
+
+    [dir="ltr"] .preview-actions {
+      justify-content: flex-end;
+    }
+
+    /* إصلاح تخطيط الأزرار في جميع اللغات */
+    .book-actions {
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    [dir="ltr"] .book-actions {
+      flex-direction: row;
+    }
+
+    [dir="rtl"] .book-actions {
+      flex-direction: row;
+    }
+
+    /* تحسين ظهور الأزرار في جميع اللغات */
+    .btn {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .btn i {
+      flex-shrink: 0;
+    }
+
+    .btn span {
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   </style>
 </head>
@@ -1319,6 +1385,9 @@
       
       // تحديث اتجاه النص
       updateTextDirection();
+      
+      // إعادة عرض الكتب لتحديث الأزرار
+      render();
     }
 
     // تصفية الكتب حسب اللغة والبحث
@@ -1490,7 +1559,7 @@
       
       const download = document.createElement('a');
       download.className = 'btn btn-download';
-      download.innerHTML = `<i class="fas fa-download"></i> ${uiTexts[currentLang].download}`;
+      download.innerHTML = `<i class="fas fa-download"></i> <span>${uiTexts[currentLang].download}</span>`;
       
       if (book.pdfPath && book.pdfPath.trim()) {
         download.href = book.pdfPath;
@@ -1511,7 +1580,7 @@
       // زر المعاينة
       const preview = document.createElement('button');
       preview.className = 'btn btn-preview';
-      preview.innerHTML = `<i class="fas fa-eye"></i> ${uiTexts[currentLang].preview}`;
+      preview.innerHTML = `<i class="fas fa-eye"></i> <span>${uiTexts[currentLang].preview}</span>`;
       preview.addEventListener('click', () => {
         openPreview(book);
       });
@@ -1573,7 +1642,6 @@
           languageDropdown.classList.remove('active');
           
           localStorage.setItem('preferredLanguage', lang);
-          render();
         });
       });
 
