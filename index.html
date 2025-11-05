@@ -194,14 +194,6 @@
       box-shadow: 0 0 0 3px var(--focus);
     }
 
-    /* عدّاد الكتب */
-    .books-counter {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 10px;
-    }
-
     .grid{
       display:grid;
       grid-template-columns: repeat(4, 1fr);
@@ -419,14 +411,9 @@
           type="text" 
           class="search-box" 
           id="searchBox"
-          placeholder="ابحث عن كتاب أو لغة..." 
+          placeholder="ابحث عن كتاب..." 
           aria-label="بحث في الكتب"
         >
-      </div>
-
-      <!-- عدّاد الكتب -->
-      <div class="books-counter" id="booksCounter">
-        عرض <span id="visibleCount">0</span> من <span id="totalCount">0</span> كتاب باللغة <span id="currentLanguageText">العربية</span>
       </div>
 
       <section class="grid" id="grid" role="list" aria-label="شبكة كتب DEEN WAY">
@@ -592,10 +579,6 @@
 
     const grid = document.getElementById('grid');
     const searchBox = document.getElementById('searchBox');
-    const booksCounter = document.getElementById('booksCounter');
-    const visibleCount = document.getElementById('visibleCount');
-    const totalCount = document.getElementById('totalCount');
-    const currentLanguageText = document.getElementById('currentLanguageText');
     const languageBtn = document.getElementById('languageBtn');
     const languageDropdown = document.getElementById('languageDropdown');
     const currentLanguage = document.getElementById('currentLanguage');
@@ -604,6 +587,42 @@
     // اللغة الحالية (العربية افتراضياً)
     let currentLang = 'ar';
     let searchTerm = '';
+
+    // نصوص البحث لكل لغة
+    const searchPlaceholders = {
+      'ar': 'ابحث عن كتاب...',
+      'en': 'Search for a book...',
+      'fr': 'Rechercher un livre...',
+      'es': 'Buscar un libro...',
+      'de': 'Buch suchen...',
+      'tr': 'Kitap ara...',
+      'ur': 'کتاب تلاش کریں...',
+      'id': 'Cari buku...'
+    };
+
+    // نصوص رسالة عدم العثور على نتائج
+    const noResultsMessages = {
+      'ar': 'لم يتم العثور على كتب تطابق بحثك.',
+      'en': 'No books found matching your search.',
+      'fr': 'Aucun livre trouvé correspondant à votre recherche.',
+      'es': 'No se encontraron libros que coincidan con su búsqueda.',
+      'de': 'Keine Bücher gefunden, die Ihrer Suche entsprechen.',
+      'tr': 'Aramanızla eşleşen kitap bulunamadı.',
+      'ur': 'آپ کی تلاش سے مماثل کوئی کتاب نہیں ملی۔',
+      'id': 'Tidak ada buku yang ditemukan sesuai pencarian Anda.'
+    };
+
+    // نصوص رسالة عدم وجود كتب باللغة
+    const noBooksMessages = {
+      'ar': 'لا توجد كتب متاحة باللغة العربية حالياً.',
+      'en': 'No books available in English at the moment.',
+      'fr': 'Aucun livre disponible en français pour le moment.',
+      'es': 'No hay libros disponibles en español en este momento.',
+      'de': 'Derzeit sind keine Bücher auf Deutsch verfügbar.',
+      'tr': 'Şu anda Türkçe kitap mevcut değil.',
+      'ur': 'فی الحال اردو میں کوئی کتاب دستیاب نہیں ہے۔',
+      'id': 'Tidak ada buku yang tersedia dalam bahasa Indonesia saat ini.'
+    };
 
     // تصفية الكتب حسب اللغة والبحث
     function getFilteredBooks() {
@@ -614,8 +633,7 @@
         // التصفية حسب البحث (إن وجد)
         const searchMatch = !searchTerm || 
           book.title.toLowerCase().includes(searchTerm) ||
-          (book.description && book.description.toLowerCase().includes(searchTerm)) ||
-          (book.language && book.language.toLowerCase().includes(searchTerm));
+          (book.description && book.description.toLowerCase().includes(searchTerm));
         
         return langMatch && searchMatch;
       });
@@ -634,6 +652,11 @@
         'id': 'Indonesia'
       };
       return langMap[langCode] || 'العربية';
+    }
+
+    // تحديث نص البحث حسب اللغة
+    function updateSearchPlaceholder() {
+      searchBox.placeholder = searchPlaceholders[currentLang] || 'ابحث عن كتاب...';
     }
 
     // إدارة اختيار اللغة
@@ -656,11 +679,13 @@
           
           // تحديث الزر الرئيسي
           currentLanguage.textContent = langName;
-          currentLanguageText.textContent = langName;
           
           // تحديث الحالة النشطة في القائمة
           languageOptions.forEach(opt => opt.classList.remove('active'));
           option.classList.add('active');
+          
+          // تحديث نص البحث
+          updateSearchPlaceholder();
           
           // إغلاق القائمة
           languageBtn.classList.remove('active');
@@ -686,10 +711,10 @@
       if (savedOption) {
         const langName = savedOption.querySelector('span').textContent;
         currentLanguage.textContent = langName;
-        currentLanguageText.textContent = langName;
         languageOptions.forEach(opt => opt.classList.remove('active'));
         savedOption.classList.add('active');
         currentLang = savedLang;
+        updateSearchPlaceholder();
       }
     }
 
@@ -791,16 +816,12 @@
         const noResults = document.createElement('div');
         noResults.className = 'no-results';
         noResults.textContent = searchTerm ? 
-          'لم يتم العثور على كتب تطابق بحثك.' : 
-          `لا توجد كتب متاحة باللغة ${getLanguageName(currentLang)} حالياً.`;
+          (noResultsMessages[currentLang] || 'لم يتم العثور على كتب تطابق بحثك.') : 
+          (noBooksMessages[currentLang] || 'لا توجد كتب متاحة حالياً.');
         grid.appendChild(noResults);
       } else {
         filteredBooks.forEach((book) => grid.appendChild(createCard(book)));
       }
-      
-      // تحديث العداد
-      visibleCount.textContent = filteredBooks.length;
-      totalCount.textContent = books.filter(book => book.language === getLanguageName(currentLang)).length;
     }
 
     function initSearch() {
