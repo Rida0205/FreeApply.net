@@ -1,201 +1,309 @@
-<!DOCTYPE html>
-<html lang="ar">
+<!doctype html>
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FreeApply.net - والله في عون العبد ما دام العبد في عون أخيه</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>صفحة هبوط - كتاب (ملف واحد)</title>
+
+  <!--
+    كل شيء مضمّن في هذا الملف: HTML + CSS + JS
+    كيف تستخدم:
+    - استبدل cover.jpg و my-book.pdf بالمسارات الخاصة بك داخل السطرين الافتراضيين في dataStart() أو مباشرة عدّل القيم في المتغيرات أسفل.
+    - أو استخدم أزرار "اختيار" لتحميل صورة الغلاف وملف الـ PDF من جهازك (المعاينة ستظهر، ورابط التنزيل سيستخدم Blob مؤقت).
+  -->
   <style>
-    body {
-      min-height: 100vh;
-      margin: 0;
-      padding: 0;
-      font-family: 'Cairo', Arial, sans-serif;
-      background: linear-gradient(120deg, #f6fbff 0%, #e3f2fd 100%);
-      color: #222;
-      box-sizing: border-box;
+    :root{
+      --bg:#f7f5f2;
+      --accent:#b14a4a;
+      --text:#222;
+      --card:#fff;
+      --shadow: 0 8px 24px rgba(0,0,0,0.12);
+      --spine-width:22px;
     }
-    .container {
-      max-width: 600px;
-      width: 95vw;
-      margin: 0 auto;
-      padding: 40px 0 30px 0;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 26px;
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:var(--text)}
+    .page{min-height:100%;display:flex;flex-direction:column;align-items:center;gap:20px;padding:28px}
+
+    .hero{ text-align:center; max-width:980px }
+    .hero h1{margin:0;font-size:2rem;color:var(--accent)}
+    .hero p{margin:6px 0 0;color:#555}
+
+    .controls{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; justify-content:center; margin-top:6px }
+    .controls label{ font-size:0.92rem; color:#444 }
+    .controls input[type="file"]{ display:inline-block }
+
+    /* رف الكتب */
+    .shelf{ display:flex; gap:28px; align-items:center; justify-content:center; width:100%; flex-wrap:wrap; margin-top:8px }
+
+    /* الكتاب */
+    .book{
+      width:260px;
+      height:360px;
+      perspective:1200px;
     }
-    h1 {
-      font-size: 2.1em;
-      font-weight: bold;
-      color: #1976d2;
-      margin: 0 0 8px 0;
-      letter-spacing: 0.5px;
-      text-align: center;
+    .book-inner{
+      width:100%;
+      height:100%;
+      position:relative;
+      transform-style:preserve-3d;
+      transition:transform 0.9s cubic-bezier(.2,.9,.3,1);
+      cursor:pointer;
+      outline:none;
     }
-    .subtitle {
-      font-size: 1.1em;
-      color: #009688;
-      margin-bottom: 10px;
-      font-weight: 600;
-      text-align: center;
-      letter-spacing: 0.1px;
+    .book:focus .book-inner,
+    .book-inner:hover{ transform: rotateY(180deg) translateX(-6px); }
+
+    /* واجهتا الكتاب (أمامية/خلفية) */
+    .book-face{
+      position:absolute;
+      inset:0;
+      backface-visibility:hidden;
+      border-radius:6px;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      background:var(--card);
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
     }
-    .card {
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 6px 22px rgba(33,150,211,0.10);
-      padding: 24px 16px 22px 16px;
-      width: 100%;
-      box-sizing: border-box;
-      margin-bottom: 0;
-      text-align: right;
-      direction: rtl;
-      font-size: 1.27em;
-      line-height: 2;
-      font-weight: 400;
-      animation: fadein 1.1s;
-      margin-top: 4px;
+
+    /* الغلاف */
+    .book-front{
+      transform: rotateY(0deg);
+      border: 6px solid #e6e2df;
     }
-    @keyframes fadein {
-      from { opacity: 0; transform: translateY(30px);}
-      to { opacity: 1; transform: translateY(0);}
+    .cover{ flex:1; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#faf8f7,#f0ebe9); }
+    .cover img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    /* ميتا تحت الغلاف */
+    .meta{ padding:12px; background:linear-gradient(180deg, rgba(0,0,0,0.02), transparent); text-align:center }
+    .title{ margin:6px 0 2px; font-size:1.05rem; color:var(--text) }
+    .author{ margin:0; color:#777; font-size:0.9rem }
+
+    /* الظهر */
+    .book-back{
+      transform: rotateY(180deg);
+      padding:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
-    .bold {
-      font-weight: bold;
-      color: #1976d2;
-      background: linear-gradient(90deg,#e3f2fd 30%,#fff 100%);
-      border-radius: 4px;
-      padding: 0 4px;
-      display: inline;
+    .back-content{ text-align:center; max-width:86% }
+    .back-content h3{ margin:0 0 8px; color:var(--accent) }
+    .back-content p{ color:#444; font-size:0.95rem; margin:0 0 16px; line-height:1.4; text-align:right }
+
+    /* زر التحميل */
+    .download-btn{
+      display:inline-block;
+      padding:10px 18px;
+      background:linear-gradient(180deg,var(--accent), #7f2f2f);
+      color:#fff;
+      text-decoration:none;
+      border-radius:6px;
+      box-shadow:0 6px 18px rgba(177,74,74,0.28);
+      transition:transform .18s, box-shadow .18s;
     }
-    .features-list {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 0;
-      margin-top: 0;
-      padding: 0;
-      align-items: stretch;
+    .download-btn:active{ transform:translateY(2px) }
+    .download-btn[disabled]{ opacity:.6; pointer-events:none }
+
+    /* العمود الفقري */
+    .book-front::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:6px;
+      bottom:6px;
+      width:var(--spine-width);
+      background:linear-gradient(90deg, #d8cfcf, #c9b6b6);
+      transform-origin:left;
+      border-top-left-radius:4px;
+      border-bottom-left-radius:4px;
+      box-shadow: inset -2px 0 6px rgba(0,0,0,0.06);
+      z-index:2;
     }
-    .feature-card {
-      background: #f7fafc;
-      border-radius: 13px;
-      box-shadow: 0 2px 10px rgba(0,137,123,0.07);
-      padding: 13px 13px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1em;
-      color: #222;
-      border: 1px solid #e0f2f1;
-      text-align: right;
-      direction: rtl;
-      width: 100%;
-      box-sizing: border-box;
-      font-weight: 500;
-      justify-content: right;
-    }
-    .feature-icon {
-      font-size: 1.22em;
-      color: #009688;
-      margin-left: 5px;
-      margin-right: 0;
-    }
-    .btn-whatsapp {
-      background: linear-gradient(90deg, #1976d2 0%, #25D366 100%);
-      color: #fff;
-      padding: 13px 30px 13px 22px;
-      border-radius: 40px;
-      text-decoration: none;
-      font-size: 1.06em;
-      font-weight: bold;
-      border: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 11px;
-      margin-top: 18px;
-      cursor: pointer;
-      box-shadow: 0 4px 18px rgba(33,150,211,0.15);
-      transition: background 0.2s, box-shadow 0.2s;
-      align-self: flex-start;
-    }
-    .btn-whatsapp:hover {
-      background: linear-gradient(90deg, #25D366 0%, #1976d2 100%);
-      box-shadow: 0 8px 28px rgba(33,150,211,0.23);
-    }
-    .whatsapp-icon {
-      font-size: 1.25em;
-      color: #fff;
-      display: inline-block;
-      margin-right: 0px;
-      margin-left: 0px;
-    }
-    @media (max-width: 700px) {
-      .container {
-        max-width: 98vw;
-        width: 98vw;
-        padding: 18px 0 16px 0;
-      }
-      h1 {
-        font-size: 1.2em;
-      }
-      .card {
-        font-size: 1.02em;
-        padding: 12px 5px 14px 5px;
-      }
-      .feature-card {
-        font-size: 0.96em;
-        padding: 9px 4px;
-      }
-      .btn-whatsapp {
-        font-size: 0.97em;
-        padding: 10px 14px 10px 10px;
-        gap: 8px;
-      }
+
+    /* ملاحظات/Footer */
+    .foot{ color:#666; font-size:0.85rem; text-align:center; margin-top:6px }
+
+    /* استجابة */
+    @media (max-width:520px){
+      .book{ width:200px; height:280px }
+      .hero h1{ font-size:1.4rem }
+      .back-content{ max-width:92% }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- العنوان والحديث خارج البطاقة -->
-    <h1>FreeApply.net</h1>
-    <div class="subtitle">« والله في عون العبد ما دام العبد في عون أخيه »</div>
-    <!-- الوصف الكبير داخل بطاقة -->
-    <div class="card">
-      FreeApply.net منصة مغربية تتيح لك <span class="bold">التسجيل</span> في المباريات الوطنية، <span class="bold">تتبع</span> طلباتك، وإنشاء <span class="bold">سيرة ذاتية</span> باحترافية وسهولة.<br>
-      هدفنا <span class="bold">تمكين الشباب المغربي</span> وتيسير الطريق نحو تحقيق الطموحات، في بيئة رقمية <span class="bold">عصرية</span> و<span class="bold">آمنة</span>، وكل ذلك <span class="bold">مجاناً</span> وبدون أي تعقيدات.
-    </div>
-    <!-- الميزات -->
-    <div class="features-list">
-      <div class="feature-card">
-        <span class="feature-icon">📝</span>
-        <span>التسجيل السريع في المباريات المغربية</span>
+  <main class="page">
+    <header class="hero">
+      <h1>تحميل الكتاب</h1>
+      <p>واجهة كتاب قابلة للقلب مع زر تحميل — كلّ شيء داخل هذا الملف.</p>
+
+      <div class="controls" aria-hidden="false">
+        <label>اختيار غلاف:
+          <input id="coverFile" type="file" accept="image/*">
+        </label>
+
+        <label>اختيار ملف PDF:
+          <input id="pdfFile" type="file" accept="application/pdf">
+        </label>
+
+        <button id="resetBtn" type="button" title="إعادة إلى القيم الافتراضية">إعادة الافتراضي</button>
       </div>
-      <div class="feature-card">
-        <span class="feature-icon">📊</span>
-        <span>تتبع فوري لطلباتك ونتائجك</span>
+    </header>
+
+    <section class="shelf">
+      <div class="book" aria-label="كتاب للتحميل">
+        <div class="book-inner" tabindex="0">
+          <div class="book-face book-front" aria-hidden="false">
+            <div class="cover">
+              <img id="coverImg" src="" alt="غلاف الكتاب">
+            </div>
+            <div class="meta">
+              <h2 class="title" id="bookTitle">عنوان الكتاب</h2>
+              <p class="author" id="bookAuthor">اسم المؤلف</p>
+            </div>
+          </div>
+
+          <div class="book-face book-back" aria-hidden="true">
+            <div class="back-content">
+              <h3>نبذة عن الكتاب</h3>
+              <p id="bookDesc">
+                ضع هنا وصفًا قصيرًا عن محتوى الكتاب، نقاط القوة أو مَن هو الجمهور المستهدف.
+              </p>
+              <a id="downloadBtn" class="download-btn" href="#" download>⤓ تحميل الكتاب</a>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="feature-card">
-        <span class="feature-icon">💼</span>
-        <span>إنشاء سيرة ذاتية احترافية بسهولة</span>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🤝</span>
-        <span>دعم وإرشاد مجاني في كل خطوة</span>
-      </div>
-    </div>
-    <a href="https://wa.me/" class="btn-whatsapp" target="_blank">
-      <span class="whatsapp-icon">
-        <!-- أيقونة واتساب SVG -->
-        <svg width="24" height="24" viewBox="0 0 32 32" fill="none" style="vertical-align:middle">
-          <circle cx="16" cy="16" r="16" fill="#25D366"/>
-          <path d="M22.4 17.9c-.4-.2-2.2-1.1-2.5-1.2-.3-.1-.5-.2-.7.1-.2.3-.7.8-.8.9-.1.2-.3.2-.6.1-.3-.1-1.1-.4-2-1.2-.7-.6-1.2-1.3-1.3-1.6-.1-.3 0-.5.1-.6.1-.1.2-.3.4-.5.1-.2.1-.4 0-.6-.1-.2-.7-1.7-.9-2.4-.2-.6-.5-.5-.7-.5-.2 0-.4 0-.7.4-.2.4-.8 1.2-.8 2.2 0 1 .8 2.1 1 2.3.2.3 1.4 2.2 3.5 3 2.1.7 2.1.5 2.5.5.4-.1 1.2-.5 1.4-1.1.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.7-.3z" fill="#fff"/>
-        </svg>
-      </span>
-      ابدأ الآن مجاناً
-    </a>
-  </div>
+    </section>
+
+    <footer class="foot">
+      <small>استبدل الغلاف وملف الـ PDF عبر الأزرار أعلاه أو عدّل القيم الافتراضية داخل صفحة المصدر.</small>
+    </footer>
+  </main>
+
+  <script>
+    // بيانات افتراضية — عدّلها إذا رغبت
+    const defaults = {
+      title: 'عنوان الكتاب',
+      author: 'اسم المؤلف',
+      description: 'هذا وصف تجريبي. استبدله بنبذة حقيقية عن الكتاب.',
+      coverPath: '', // يمكنك وضع رابط افتراضي هنا مثل 'assets/cover.jpg' أو Data URI
+      pdfPath: ''    // يمكنك وضع رابط ملف PDF هنا مثل 'books/my-book.pdf'
+    };
+
+    // عناصر DOM
+    const coverImg = document.getElementById('coverImg');
+    const bookTitle = document.getElementById('bookTitle');
+    const bookAuthor = document.getElementById('bookAuthor');
+    const bookDesc = document.getElementById('bookDesc');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    const coverFileInput = document.getElementById('coverFile');
+    const pdfFileInput = document.getElementById('pdfFile');
+    const resetBtn = document.getElementById('resetBtn');
+
+    // متغير للاحتفاظ بـ URL المؤقت للـ PDF (لتنظيفه لاحقًا)
+    let pdfObjectUrl = null;
+
+    // تهيئة البيانات عند التحميل
+    function dataStart() {
+      bookTitle.textContent = defaults.title;
+      bookAuthor.textContent = defaults.author;
+      bookDesc.textContent = defaults.description;
+
+      if (defaults.coverPath && defaults.coverPath.trim() !== '') {
+        coverImg.src = defaults.coverPath;
+      } else {
+        // صورة افتراضية بسيطة (خلفية بلون مع نص عبر SVG مضمّن)
+        const svg = encodeURIComponent(
+          '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800">' +
+          '<rect width="100%" height="100%" fill="#efe7e5"/>' +
+          '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#b14a4a" font-size="28" font-family="Arial, sans-serif">غلاف الكتاب</text>' +
+          '</svg>'
+        );
+        coverImg.src = 'data:image/svg+xml;charset=utf-8,' + svg;
+      }
+
+      // إذا وُضع رابط PDF افتراضي — ضعه كـ href، وإلا عطل الزر
+      if (defaults.pdfPath && defaults.pdfPath.trim() !== '') {
+        downloadBtn.href = defaults.pdfPath;
+        downloadBtn.removeAttribute('disabled');
+      } else {
+        downloadBtn.href = '#';
+        downloadBtn.setAttribute('disabled', 'true');
+      }
+    }
+
+    // التعامل مع اختيار صورة الغلاف من الجهاز
+    coverFileInput.addEventListener('change', function(e){
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) { alert('اختر ملف صورة.'); return; }
+
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        coverImg.src = ev.target.result; // data URL
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // التعامل مع اختيار ملف PDF من الجهاز
+    pdfFileInput.addEventListener('change', function(e){
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      if (file.type !== 'application/pdf') { alert('اختر ملف PDF.'); return; }
+
+      // تنظيف أي URL قديم
+      if (pdfObjectUrl) {
+        URL.revokeObjectURL(pdfObjectUrl);
+        pdfObjectUrl = null;
+      }
+
+      pdfObjectUrl = URL.createObjectURL(file);
+      downloadBtn.href = pdfObjectUrl;
+      // اسم الملف يظهر كاسم افتراضي عند التحميل
+      downloadBtn.setAttribute('download', file.name || 'book.pdf');
+      downloadBtn.removeAttribute('disabled');
+    });
+
+    // زر إعادة القيم الافتراضية
+    resetBtn.addEventListener('click', function(){
+      // تنظيف object URL إن وُجد
+      if (pdfObjectUrl) {
+        URL.revokeObjectURL(pdfObjectUrl);
+        pdfObjectUrl = null;
+      }
+      // مسح حقول الاختيار
+      coverFileInput.value = '';
+      pdfFileInput.value = '';
+      // إعادة البيانات الافتراضية
+      dataStart();
+    });
+
+    // تحقّق بسيط عند الضغط على زر التحميل إن لم يوجد رابط صحيح
+    downloadBtn.addEventListener('click', function(e){
+      const href = downloadBtn.getAttribute('href') || '';
+      if (href === '#' || href.trim() === '' ) {
+        e.preventDefault();
+        alert('لم يتم ضبط رابط التحميل بعد. استخدم زر "اختيار ملف PDF" أو حدّث defaults.pdfPath في الكود.');
+      } else {
+        // سلوك افتراضي: يسمح بالتنزيل. هنا يمكنك إضافة تتبع تحليلي إذا رغبت.
+      }
+    });
+
+    // شغّل التهيئة
+    dataStart();
+
+    // تنظيف عند مغادرة الصفحة (تفادي تسريب object URLs)
+    window.addEventListener('beforeunload', function(){
+      if (pdfObjectUrl) {
+        URL.revokeObjectURL(pdfObjectUrl);
+        pdfObjectUrl = null;
+      }
+    });
+  </script>
 </body>
 </html>
