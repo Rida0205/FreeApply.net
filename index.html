@@ -6,60 +6,100 @@
   <title>DEEN WAY Ebook</title>
   <style>
     :root{
-      --bg:#f7f5f2;
-      --accent:#1f7a5a;
-      --accent-dark:#165c45;
-      --text:#222;
-      --card:#fff;
-      --shadow: 0 8px 22px rgba(0,0,0,0.12);
-      --spine-width:18px;
+      --bg: #0f1724; /* deep background for contrast */
+      --card: #0b1320;
+      --muted: #9aa4b2;
+      --accent: #7ad29f;
+      --accent-2: #3aa87b;
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
+      --shadow: 0 10px 30px rgba(2,6,23,0.6);
+      --radius: 14px;
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:var(--text)}
-    .page{min-height:100%;display:flex;flex-direction:column;align-items:center;gap:18px;padding:28px}
+    html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui; background: linear-gradient(180deg,#071021 0%, #0b1724 60%); color:#e6eef3; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
+    a{color:inherit}
+
+    .page{
+      min-height:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:28px;
+      padding:40px 20px;
+    }
 
     /* Header */
     .header{
       width:100%;
       max-width:1200px;
       display:flex;
-      flex-direction:column;
       align-items:center;
-      gap:8px;
-      text-align:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 8px 26px rgba(58,168,123,0.18), inset 0 -8px 24px rgba(255,255,255,0.06);
+      font-weight:800;
+      color:#02221a;
+      font-size:18px;
+      letter-spacing:0.6px;
+    }
+    .titles{
+      display:flex;
+      flex-direction:column;
+      line-height:1;
+      text-align:right;
     }
     .site-title{
+      font-size:1.45rem;
       margin:0;
-      font-size:2.1rem;
-      color:var(--accent-dark);
-      letter-spacing:1px;
+      color:#f7fff9;
+      font-weight:700;
     }
     .site-sub{
-      margin:0;color:#555;font-size:0.98rem;
+      margin:0;
+      color:var(--muted);
+      font-size:0.9rem;
     }
 
-    /* Controls note */
-    .note{
-      font-size:0.9rem;color:#666;
-      max-width:1200px;text-align:center;
-    }
-
-    /* Grid of books */
-    .books-grid{
+    /* Grid */
+    .grid-wrap{
       width:100%;
       max-width:1200px;
-      display:grid;
-      grid-template-columns: repeat(4, 1fr); /* 4 in a row on wide screens */
-      gap:20px;
-      align-items:start;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:20px;
+      border-radius:16px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.03);
     }
 
-    /* Each book card */
+    .books-grid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:18px;
+    }
+
+    /* Single book */
     .book{
       width:100%;
-      aspect-ratio: 9 / 12; /* keeps book-like shape */
-      perspective:1100px;
+      aspect-ratio: 9 / 12;
+      perspective:1200px;
+      border-radius:var(--radius);
+      -webkit-tap-highlight-color: transparent;
     }
 
     .book-inner{
@@ -68,37 +108,38 @@
       position:relative;
       transform-style:preserve-3d;
       transition:transform 0.75s cubic-bezier(.2,.9,.3,1);
-      cursor:pointer;
     }
     .book:hover .book-inner,
     .book:focus-within .book-inner{
-      transform: rotateY(180deg);
+      transform: rotateY(180deg) translateZ(0);
     }
 
     .book-face{
       position:absolute;
       inset:0;
       backface-visibility:hidden;
-      border-radius:8px;
+      border-radius:12px;
       overflow:hidden;
-      box-shadow: var(--shadow);
-      background:var(--card);
       display:flex;
       flex-direction:column;
       align-items:stretch;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.03);
     }
 
     .book-front{
-      transform: rotateY(0deg);
-      border:6px solid #eee7e3;
+      transform: rotateY(0);
+      box-shadow: 0 10px 28px rgba(2,6,23,0.55);
+      display:flex;
+      flex-direction:column;
     }
 
     .cover{
       flex:1;
+      background:var(--glass-2);
       display:flex;
       align-items:center;
       justify-content:center;
-      background:linear-gradient(180deg,#fff,#faf9f8);
       position:relative;
     }
     .cover img{
@@ -106,260 +147,234 @@
       height:100%;
       object-fit:cover;
       display:block;
+      transition:transform .6s ease;
+    }
+    .book:hover .cover img,
+    .book:focus-within .cover img{
+      transform: scale(1.03);
     }
 
     .meta{
-      padding:10px;
-      text-align:center;
-      background:linear-gradient(180deg, rgba(0,0,0,0.02), transparent);
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      background:linear-gradient(180deg, rgba(2,6,23,0.25), rgba(2,6,23,0.18));
     }
-    .meta .title{ font-size:0.98rem; margin:4px 0; color:var(--text); font-weight:600 }
-    .meta .author{ font-size:0.85rem; margin:0;color:#777 }
+    .meta .title{ font-size:1rem; font-weight:700; color:#f8fff9; text-align:right }
+    .meta .author{ font-size:0.86rem; color:var(--muted); text-align:right }
 
-    /* Book back */
+    /* Back */
     .book-back{
       transform: rotateY(180deg);
       padding:14px;
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:center;
     }
-    .back-content{
-      text-align:right;
+    .back-card{
       width:100%;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:flex-end;
+      justify-content:flex-start;
     }
-    .back-content h4{ margin:0 0 8px; color:var(--accent-dark); font-size:1rem }
-    .back-content p{ margin:0 0 12px; color:#444; font-size:0.9rem; line-height:1.35; max-height:5.4em; overflow:hidden }
-    .actions{ display:flex; gap:8px; justify-content:flex-start; align-items:center; margin-top:8px }
+    .back-card h4{ margin:0;color:#f8fff9;text-align:right;font-size:1rem }
+    .back-card p{ margin:0;color:var(--muted); font-size:0.92rem; text-align:right; line-height:1.35; overflow:hidden; max-height:5.2em }
+
+    .actions{
+      margin-top:auto;
+      width:100%;
+      display:flex;
+      gap:8px;
+      justify-content:flex-start; /* left side shows buttons */
+    }
 
     .btn{
-      display:inline-block;
-      padding:8px 12px;
-      border-radius:6px;
+      padding:9px 12px;
+      border-radius:10px;
+      font-weight:700;
+      font-size:0.9rem;
       text-decoration:none;
-      color:#fff;
-      font-weight:600;
-      font-size:0.92rem;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
     }
     .btn-download{
-      background:linear-gradient(180deg,var(--accent),var(--accent-dark));
-      box-shadow:0 6px 14px rgba(31,122,90,0.18);
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#061b15;
+      box-shadow:0 8px 20px rgba(42,185,136,0.12);
+      transform:translateY(0);
+      transition:transform .14s ease;
     }
+    .btn-download:active{ transform:translateY(2px) }
     .btn-view{
-      background:#ddd;color:#333;padding:7px 10px;font-weight:600;border-radius:6px;text-decoration:none;
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      color:var(--muted);
+      padding:8px 10px;
     }
+    .btn[aria-disabled="true"]{ opacity:0.45; pointer-events:none }
 
-    /* Responsive breakpoints */
-    @media (max-width:1024px){
+    /* Responsive */
+    @media (max-width:1100px){
       .books-grid{ grid-template-columns: repeat(3, 1fr); }
     }
-    @media (max-width:768px){
+    @media (max-width:820px){
       .books-grid{ grid-template-columns: repeat(2, 1fr); }
-      .site-title{ font-size:1.6rem }
+      .header{ flex-direction:column; align-items:center; gap:8px }
     }
-    @media (max-width:420px){
-      .books-grid{ grid-template-columns: 1fr; gap:14px; }
-      .site-title{ font-size:1.3rem }
+    @media (max-width:480px){
+      .books-grid{ grid-template-columns: 1fr; }
+      .logo{ width:48px;height:48px;font-size:16px;border-radius:10px }
+      .site-title{ font-size:1.15rem }
     }
 
-    /* small helper for empty state */
-    .empty{ text-align:center;color:#777;padding:18px;border:1px dashed #e2dede;border-radius:8px;background:#fff }
+    /* subtle entrance */
+    .books-grid .book{ opacity:0; transform: translateY(10px); animation:fadeUp .6s ease forwards; }
+    .books-grid .book:nth-child(1){ animation-delay: .06s }
+    .books-grid .book:nth-child(2){ animation-delay: .12s }
+    .books-grid .book:nth-child(3){ animation-delay: .18s }
+    .books-grid .book:nth-child(4){ animation-delay: .24s }
+    @keyframes fadeUp {
+      to { opacity:1; transform:none }
+    }
   </style>
 </head>
 <body>
   <main class="page">
     <header class="header">
-      <h1 class="site-title">DEEN WAY Ebook</h1>
-      <p class="site-sub">مجموعة كتب — أضف الغلاف والرابط مباشرة في الكود داخل مصفوفة الكتب بالأسفل</p>
+      <div class="brand" aria-hidden="false">
+        <div class="logo">DW</div>
+        <div class="titles">
+          <h1 class="site-title">DEEN WAY Ebook</h1>
+          <p class="site-sub">مكتبة إلكترونية أنيقة</p>
+        </div>
+      </div>
     </header>
 
-    <p class="note">أضف عناصر في المصفوفة "books" داخل السكربت: لكل كتاب عيّن coverPath و pdfPath و title و author و description. الزر "تحميل" يستخدم pdfPath.</p>
-
-    <section class="books-grid" id="booksGrid" aria-live="polite">
-      <!-- سيتم ملؤه عن طريق JavaScript -->
-    </section>
-
-    <footer class="note" style="max-width:1200px;">
-      <small>قابل للتعديل بالكامل — المسارات يمكن أن تكون محلية (assets/cover.jpg) أو روابط كاملة (https://...)</small>
-    </footer>
+    <div class="grid-wrap">
+      <section class="books-grid" id="booksGrid" aria-live="polite">
+        <!-- العناصر تُنشأ برمجياً -->
+      </section>
+    </div>
   </main>
 
   <script>
-    // مصفوفة الكتب: عدّل أو أضف كتب هنا مباشرة
+    // أضف أو عدّل الكتب هنا داخل هذه المصفوفة:
     const books = [
-      // مثال: عدّل المسارات والنصوص هنا
-      {
-        title: 'الكتاب الأول',
-        author: 'المؤلف أ',
-        description: 'نبذة قصيرة عن الكتاب الأول. ضع هنا وصفًا يشرح محتواه وفائدته.',
-        coverPath: '', // استبدل بمسار الصورة أو رابطها، مثال: 'assets/cover1.jpg' أو 'https://.../cover1.jpg'
-        pdfPath: ''    // استبدل بمسار PDF أو رابط مباشر، مثال: 'books/book1.pdf' أو 'https://.../book1.pdf'
-      },
-      {
-        title: 'الكتاب الثاني',
-        author: 'المؤلف ب',
-        description: 'نبذة قصيرة عن الكتاب الثاني.',
-        coverPath: '',
-        pdfPath: ''
-      },
-      {
-        title: 'الكتاب الثالث',
-        author: 'المؤلف ج',
-        description: 'وصف تجريبي للكتاب الثالث.',
-        coverPath: '',
-        pdfPath: ''
-      },
-      {
-        title: 'الكتاب الرابع',
-        author: 'المؤلف د',
-        description: 'وصف تجريبي للكتاب الرابع.',
-        coverPath: '',
-        pdfPath: ''
-      },
-      // أضف المزيد من العناصر هنا حسب الحاجة
+      { title: 'الكتاب الأول', author: 'المؤلف أ', description: 'ملخص موجز للكتاب الأول.', coverPath: '', pdfPath: '' },
+      { title: 'الكتاب الثاني', author: 'المؤلف ب', description: 'ملخص موجز للكتاب الثاني.', coverPath: '', pdfPath: '' },
+      { title: 'الكتاب الثالث', author: 'المؤلف ج', description: 'ملخص موجز للكتاب الثالث.', coverPath: '', pdfPath: '' },
+      { title: 'الكتاب الرابع', author: 'المؤلف د', description: 'ملخص موجز للالكتاب الرابع.', coverPath: '', pdfPath: '' },
+      { title: 'الكتاب الخامس', author: 'المؤلف هـ', description: 'ملخص موجز للكتاب الخامس.', coverPath: '', pdfPath: '' },
+      { title: 'الكتاب السادس', author: 'المؤلف و', description: 'ملخص موجز للكتاب السادس.', coverPath: '', pdfPath: '' }
     ];
 
-    const booksGrid = document.getElementById('booksGrid');
+    const container = document.getElementById('booksGrid');
 
-    // دالة للحصول على صورة افتراضية (Data URI SVG) إذا لم تُحدد coverPath
-    function defaultCoverDataURI(title = 'غلاف الكتاب'){
+    function defaultCover(title) {
       const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'>
-        <rect width='100%' height='100%' fill='#f3ece9'/>
-        <text x='50%' y='48%' dominant-baseline='middle' text-anchor='middle' fill='#1f7a5a' font-size='30' font-family='Arial, sans-serif'>${escapeXml(title)}</text>
+        <rect width='100%' height='100%' fill='#0f1724'/>
+        <rect x='18' y='18' width='564' height='764' rx='8' fill='#071827' />
+        <text x='50%' y='48%' dominant-baseline='middle' text-anchor='middle' fill='#7ad29f' font-size='34' font-family='Arial, Helvetica, sans-serif'>${escapeXml(title)}</text>
       </svg>`;
       return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
     }
 
-    function escapeXml(unsafe) {
-      return unsafe.replace(/[<>&'"]/g, function (c) {
-        switch (c) {
-          case '<': return '&lt;';
-          case '>': return '&gt;';
-          case '&': return '&amp;';
-          case "'": return '&apos;';
-          case '"': return '&quot;';
-        }
-      });
+    function escapeXml(s = '') {
+      return String(s).replace(/[<>&'"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c]));
     }
 
-    // بناء عنصر HTML لكل كتاب
-    function createBookCard(book){
-      const wrap = document.createElement('article');
-      wrap.className = 'book';
-      wrap.setAttribute('tabindex','0');
-      wrap.setAttribute('aria-label', `كتاب: ${book.title}`);
+    function createCard(book, idx) {
+      const article = document.createElement('article');
+      article.className = 'book';
+      article.tabIndex = 0;
+      article.setAttribute('aria-label', book.title || 'كتاب');
 
       const inner = document.createElement('div');
       inner.className = 'book-inner';
 
-      // الواجهة الأمامية
+      // front
       const front = document.createElement('div');
       front.className = 'book-face book-front';
 
       const cover = document.createElement('div');
       cover.className = 'cover';
       const img = document.createElement('img');
-      img.alt = book.title || 'غلاف الكتاب';
-      img.src = book.coverPath && book.coverPath.trim() !== '' ? book.coverPath : defaultCoverDataURI(book.title || 'غلاف الكتاب');
+      img.alt = book.title || 'غلاف';
+      img.src = (book.coverPath && book.coverPath.trim()) ? book.coverPath : defaultCover(book.title || 'غلاف الكتاب');
       cover.appendChild(img);
 
       const meta = document.createElement('div');
       meta.className = 'meta';
       const t = document.createElement('div');
-      t.className = 'title';
-      t.textContent = book.title || '-';
+      t.className = 'title'; t.textContent = book.title || '';
       const a = document.createElement('div');
-      a.className = 'author';
-      a.textContent = book.author || '';
-      meta.appendChild(t);
-      meta.appendChild(a);
+      a.className = 'author'; a.textContent = book.author || '';
+      meta.appendChild(t); meta.appendChild(a);
 
-      front.appendChild(cover);
-      front.appendChild(meta);
+      front.appendChild(cover); front.appendChild(meta);
 
-      // الواجهة الخلفية
+      // back
       const back = document.createElement('div');
       back.className = 'book-face book-back';
+      const backCard = document.createElement('div');
+      backCard.className = 'back-card';
+      const h4 = document.createElement('h4'); h4.textContent = book.title || '';
+      const p = document.createElement('p'); p.textContent = book.description || '';
 
-      const backContent = document.createElement('div');
-      backContent.className = 'back-content';
-      const h4 = document.createElement('h4');
-      h4.textContent = book.title || '';
-      const p = document.createElement('p');
-      p.textContent = book.description || '';
-      backContent.appendChild(h4);
-      backContent.appendChild(p);
-
-      const actions = document.createElement('div');
-      actions.className = 'actions';
+      const actions = document.createElement('div'); actions.className = 'actions';
 
       const download = document.createElement('a');
       download.className = 'btn btn-download';
       download.textContent = '⤓ تحميل';
-      if (book.pdfPath && book.pdfPath.trim() !== ''){
+      if (book.pdfPath && book.pdfPath.trim()) {
         download.href = book.pdfPath;
         download.setAttribute('download', '');
-        download.setAttribute('target','_blank');
+        download.target = '_blank';
+        download.setAttribute('aria-disabled', 'false');
       } else {
-        // إذا لم يوجد رابط؛ نستخدم زر معطّل يفتح تنبيه
         download.href = '#';
-        download.addEventListener('click', function(e){
-          e.preventDefault();
-          alert('لم يتم ضبط رابط الـ PDF لهذا الكتاب. عدّل الخاصية pdfPath في الكود.');
-        });
+        download.setAttribute('aria-disabled', 'true');
+        download.addEventListener('click', (e) => { e.preventDefault(); alert('رابط التحميل غير مضاف.'); });
       }
 
       const view = document.createElement('a');
       view.className = 'btn btn-view';
       view.textContent = 'معاينة';
-      if (book.pdfPath && book.pdfPath.trim() !== ''){
+      if (book.pdfPath && book.pdfPath.trim()) {
         view.href = book.pdfPath;
-        view.setAttribute('target','_blank');
+        view.target = '_blank';
+        view.setAttribute('aria-disabled', 'false');
       } else {
         view.href = '#';
-        view.addEventListener('click', function(e){
-          e.preventDefault();
-          alert('لم يتم ضبط رابط الـ PDF لهذا الكتاب.');
-        });
+        view.setAttribute('aria-disabled', 'true');
+        view.addEventListener('click', (e) => { e.preventDefault(); alert('رابط المعاينة غير مضاف.'); });
       }
 
-      actions.appendChild(download);
-      actions.appendChild(view);
-      backContent.appendChild(actions);
-      back.appendChild(backContent);
+      actions.appendChild(download); actions.appendChild(view);
 
-      inner.appendChild(front);
-      inner.appendChild(back);
-      wrap.appendChild(inner);
+      backCard.appendChild(h4); backCard.appendChild(p); backCard.appendChild(actions);
+      back.appendChild(backCard);
 
-      return wrap;
+      inner.appendChild(front); inner.appendChild(back);
+      article.appendChild(inner);
+
+      // staggered entrance
+      article.style.animationDelay = (idx * 60) + 'ms';
+      return article;
     }
 
-    // Render all books
-    function renderBooks(list){
-      booksGrid.innerHTML = '';
-      if (!Array.isArray(list) || list.length === 0){
-        const empty = document.createElement('div');
-        empty.className = 'empty';
-        empty.textContent = 'لا توجد كتب لعرضها. أضف عناصر في مصفوفة "books" داخل الكود.';
-        booksGrid.appendChild(empty);
-        return;
-      }
-      list.forEach(book => {
-        const card = createBookCard(book);
-        booksGrid.appendChild(card);
-      });
+    function render(list) {
+      container.innerHTML = '';
+      if (!Array.isArray(list) || list.length === 0) return;
+      list.forEach((b, i) => container.appendChild(createCard(b, i)));
     }
 
-    // شغل العرض عند التحميل
-    document.addEventListener('DOMContentLoaded', function(){
-      renderBooks(books);
-    });
-
-    // ملاحظة لمطوّر: لتعديل الكتب أضف عنصرًا جديدًا داخل "books" مع الحقول: title, author, description, coverPath, pdfPath.
-    // أمثلة سريعة:
-    // books.push({ title:'كتاب جديد', author:'اسم', description:'نبذة...', coverPath:'assets/new.jpg', pdfPath:'books/new.pdf' });
-    // ثم نفّذ renderBooks(books) أو أعد تحميل الصفحة.
+    document.addEventListener('DOMContentLoaded', () => render(books));
   </script>
 </body>
 </html>
