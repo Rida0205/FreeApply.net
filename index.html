@@ -3,63 +3,83 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>صفحة هبوط - كتاب (ملف واحد)</title>
-
-  <!--
-    كل شيء مضمّن في هذا الملف: HTML + CSS + JS
-    كيف تستخدم:
-    - استبدل cover.jpg و my-book.pdf بالمسارات الخاصة بك داخل السطرين الافتراضيين في dataStart() أو مباشرة عدّل القيم في المتغيرات أسفل.
-    - أو استخدم أزرار "اختيار" لتحميل صورة الغلاف وملف الـ PDF من جهازك (المعاينة ستظهر، ورابط التنزيل سيستخدم Blob مؤقت).
-  -->
+  <title>DEEN WAY Ebook</title>
   <style>
     :root{
       --bg:#f7f5f2;
-      --accent:#b14a4a;
+      --accent:#1f7a5a;
+      --accent-dark:#165c45;
       --text:#222;
       --card:#fff;
-      --shadow: 0 8px 24px rgba(0,0,0,0.12);
-      --spine-width:22px;
+      --shadow: 0 8px 22px rgba(0,0,0,0.12);
+      --spine-width:18px;
     }
 
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:var(--text)}
-    .page{min-height:100%;display:flex;flex-direction:column;align-items:center;gap:20px;padding:28px}
+    .page{min-height:100%;display:flex;flex-direction:column;align-items:center;gap:18px;padding:28px}
 
-    .hero{ text-align:center; max-width:980px }
-    .hero h1{margin:0;font-size:2rem;color:var(--accent)}
-    .hero p{margin:6px 0 0;color:#555}
-
-    .controls{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; justify-content:center; margin-top:6px }
-    .controls label{ font-size:0.92rem; color:#444 }
-    .controls input[type="file"]{ display:inline-block }
-
-    /* رف الكتب */
-    .shelf{ display:flex; gap:28px; align-items:center; justify-content:center; width:100%; flex-wrap:wrap; margin-top:8px }
-
-    /* الكتاب */
-    .book{
-      width:260px;
-      height:360px;
-      perspective:1200px;
+    /* Header */
+    .header{
+      width:100%;
+      max-width:1200px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+      text-align:center;
     }
+    .site-title{
+      margin:0;
+      font-size:2.1rem;
+      color:var(--accent-dark);
+      letter-spacing:1px;
+    }
+    .site-sub{
+      margin:0;color:#555;font-size:0.98rem;
+    }
+
+    /* Controls note */
+    .note{
+      font-size:0.9rem;color:#666;
+      max-width:1200px;text-align:center;
+    }
+
+    /* Grid of books */
+    .books-grid{
+      width:100%;
+      max-width:1200px;
+      display:grid;
+      grid-template-columns: repeat(4, 1fr); /* 4 in a row on wide screens */
+      gap:20px;
+      align-items:start;
+    }
+
+    /* Each book card */
+    .book{
+      width:100%;
+      aspect-ratio: 9 / 12; /* keeps book-like shape */
+      perspective:1100px;
+    }
+
     .book-inner{
       width:100%;
       height:100%;
       position:relative;
       transform-style:preserve-3d;
-      transition:transform 0.9s cubic-bezier(.2,.9,.3,1);
+      transition:transform 0.75s cubic-bezier(.2,.9,.3,1);
       cursor:pointer;
-      outline:none;
     }
-    .book:focus .book-inner,
-    .book-inner:hover{ transform: rotateY(180deg) translateX(-6px); }
+    .book:hover .book-inner,
+    .book:focus-within .book-inner{
+      transform: rotateY(180deg);
+    }
 
-    /* واجهتا الكتاب (أمامية/خلفية) */
     .book-face{
       position:absolute;
       inset:0;
       backface-visibility:hidden;
-      border-radius:6px;
+      border-radius:8px;
       overflow:hidden;
       box-shadow: var(--shadow);
       background:var(--card);
@@ -68,242 +88,278 @@
       align-items:stretch;
     }
 
-    /* الغلاف */
     .book-front{
       transform: rotateY(0deg);
-      border: 6px solid #e6e2df;
+      border:6px solid #eee7e3;
     }
-    .cover{ flex:1; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#faf8f7,#f0ebe9); }
-    .cover img{ width:100%; height:100%; object-fit:cover; display:block; }
 
-    /* ميتا تحت الغلاف */
-    .meta{ padding:12px; background:linear-gradient(180deg, rgba(0,0,0,0.02), transparent); text-align:center }
-    .title{ margin:6px 0 2px; font-size:1.05rem; color:var(--text) }
-    .author{ margin:0; color:#777; font-size:0.9rem }
+    .cover{
+      flex:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(180deg,#fff,#faf9f8);
+      position:relative;
+    }
+    .cover img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
 
-    /* الظهر */
+    .meta{
+      padding:10px;
+      text-align:center;
+      background:linear-gradient(180deg, rgba(0,0,0,0.02), transparent);
+    }
+    .meta .title{ font-size:0.98rem; margin:4px 0; color:var(--text); font-weight:600 }
+    .meta .author{ font-size:0.85rem; margin:0;color:#777 }
+
+    /* Book back */
     .book-back{
       transform: rotateY(180deg);
-      padding:18px;
+      padding:14px;
       display:flex;
       align-items:center;
       justify-content:center;
     }
-    .back-content{ text-align:center; max-width:86% }
-    .back-content h3{ margin:0 0 8px; color:var(--accent) }
-    .back-content p{ color:#444; font-size:0.95rem; margin:0 0 16px; line-height:1.4; text-align:right }
+    .back-content{
+      text-align:right;
+      width:100%;
+    }
+    .back-content h4{ margin:0 0 8px; color:var(--accent-dark); font-size:1rem }
+    .back-content p{ margin:0 0 12px; color:#444; font-size:0.9rem; line-height:1.35; max-height:5.4em; overflow:hidden }
+    .actions{ display:flex; gap:8px; justify-content:flex-start; align-items:center; margin-top:8px }
 
-    /* زر التحميل */
-    .download-btn{
+    .btn{
       display:inline-block;
-      padding:10px 18px;
-      background:linear-gradient(180deg,var(--accent), #7f2f2f);
-      color:#fff;
-      text-decoration:none;
+      padding:8px 12px;
       border-radius:6px;
-      box-shadow:0 6px 18px rgba(177,74,74,0.28);
-      transition:transform .18s, box-shadow .18s;
+      text-decoration:none;
+      color:#fff;
+      font-weight:600;
+      font-size:0.92rem;
     }
-    .download-btn:active{ transform:translateY(2px) }
-    .download-btn[disabled]{ opacity:.6; pointer-events:none }
-
-    /* العمود الفقري */
-    .book-front::before{
-      content:"";
-      position:absolute;
-      left:0;
-      top:6px;
-      bottom:6px;
-      width:var(--spine-width);
-      background:linear-gradient(90deg, #d8cfcf, #c9b6b6);
-      transform-origin:left;
-      border-top-left-radius:4px;
-      border-bottom-left-radius:4px;
-      box-shadow: inset -2px 0 6px rgba(0,0,0,0.06);
-      z-index:2;
+    .btn-download{
+      background:linear-gradient(180deg,var(--accent),var(--accent-dark));
+      box-shadow:0 6px 14px rgba(31,122,90,0.18);
+    }
+    .btn-view{
+      background:#ddd;color:#333;padding:7px 10px;font-weight:600;border-radius:6px;text-decoration:none;
     }
 
-    /* ملاحظات/Footer */
-    .foot{ color:#666; font-size:0.85rem; text-align:center; margin-top:6px }
-
-    /* استجابة */
-    @media (max-width:520px){
-      .book{ width:200px; height:280px }
-      .hero h1{ font-size:1.4rem }
-      .back-content{ max-width:92% }
+    /* Responsive breakpoints */
+    @media (max-width:1024px){
+      .books-grid{ grid-template-columns: repeat(3, 1fr); }
     }
+    @media (max-width:768px){
+      .books-grid{ grid-template-columns: repeat(2, 1fr); }
+      .site-title{ font-size:1.6rem }
+    }
+    @media (max-width:420px){
+      .books-grid{ grid-template-columns: 1fr; gap:14px; }
+      .site-title{ font-size:1.3rem }
+    }
+
+    /* small helper for empty state */
+    .empty{ text-align:center;color:#777;padding:18px;border:1px dashed #e2dede;border-radius:8px;background:#fff }
   </style>
 </head>
 <body>
   <main class="page">
-    <header class="hero">
-      <h1>تحميل الكتاب</h1>
-      <p>واجهة كتاب قابلة للقلب مع زر تحميل — كلّ شيء داخل هذا الملف.</p>
-
-      <div class="controls" aria-hidden="false">
-        <label>اختيار غلاف:
-          <input id="coverFile" type="file" accept="image/*">
-        </label>
-
-        <label>اختيار ملف PDF:
-          <input id="pdfFile" type="file" accept="application/pdf">
-        </label>
-
-        <button id="resetBtn" type="button" title="إعادة إلى القيم الافتراضية">إعادة الافتراضي</button>
-      </div>
+    <header class="header">
+      <h1 class="site-title">DEEN WAY Ebook</h1>
+      <p class="site-sub">مجموعة كتب — أضف الغلاف والرابط مباشرة في الكود داخل مصفوفة الكتب بالأسفل</p>
     </header>
 
-    <section class="shelf">
-      <div class="book" aria-label="كتاب للتحميل">
-        <div class="book-inner" tabindex="0">
-          <div class="book-face book-front" aria-hidden="false">
-            <div class="cover">
-              <img id="coverImg" src="" alt="غلاف الكتاب">
-            </div>
-            <div class="meta">
-              <h2 class="title" id="bookTitle">عنوان الكتاب</h2>
-              <p class="author" id="bookAuthor">اسم المؤلف</p>
-            </div>
-          </div>
+    <p class="note">أضف عناصر في المصفوفة "books" داخل السكربت: لكل كتاب عيّن coverPath و pdfPath و title و author و description. الزر "تحميل" يستخدم pdfPath.</p>
 
-          <div class="book-face book-back" aria-hidden="true">
-            <div class="back-content">
-              <h3>نبذة عن الكتاب</h3>
-              <p id="bookDesc">
-                ضع هنا وصفًا قصيرًا عن محتوى الكتاب، نقاط القوة أو مَن هو الجمهور المستهدف.
-              </p>
-              <a id="downloadBtn" class="download-btn" href="#" download>⤓ تحميل الكتاب</a>
-            </div>
-          </div>
-        </div>
-      </div>
+    <section class="books-grid" id="booksGrid" aria-live="polite">
+      <!-- سيتم ملؤه عن طريق JavaScript -->
     </section>
 
-    <footer class="foot">
-      <small>استبدل الغلاف وملف الـ PDF عبر الأزرار أعلاه أو عدّل القيم الافتراضية داخل صفحة المصدر.</small>
+    <footer class="note" style="max-width:1200px;">
+      <small>قابل للتعديل بالكامل — المسارات يمكن أن تكون محلية (assets/cover.jpg) أو روابط كاملة (https://...)</small>
     </footer>
   </main>
 
   <script>
-    // بيانات افتراضية — عدّلها إذا رغبت
-    const defaults = {
-      title: 'عنوان الكتاب',
-      author: 'اسم المؤلف',
-      description: 'هذا وصف تجريبي. استبدله بنبذة حقيقية عن الكتاب.',
-      coverPath: '', // يمكنك وضع رابط افتراضي هنا مثل 'assets/cover.jpg' أو Data URI
-      pdfPath: ''    // يمكنك وضع رابط ملف PDF هنا مثل 'books/my-book.pdf'
-    };
+    // مصفوفة الكتب: عدّل أو أضف كتب هنا مباشرة
+    const books = [
+      // مثال: عدّل المسارات والنصوص هنا
+      {
+        title: 'الكتاب الأول',
+        author: 'المؤلف أ',
+        description: 'نبذة قصيرة عن الكتاب الأول. ضع هنا وصفًا يشرح محتواه وفائدته.',
+        coverPath: '', // استبدل بمسار الصورة أو رابطها، مثال: 'assets/cover1.jpg' أو 'https://.../cover1.jpg'
+        pdfPath: ''    // استبدل بمسار PDF أو رابط مباشر، مثال: 'books/book1.pdf' أو 'https://.../book1.pdf'
+      },
+      {
+        title: 'الكتاب الثاني',
+        author: 'المؤلف ب',
+        description: 'نبذة قصيرة عن الكتاب الثاني.',
+        coverPath: '',
+        pdfPath: ''
+      },
+      {
+        title: 'الكتاب الثالث',
+        author: 'المؤلف ج',
+        description: 'وصف تجريبي للكتاب الثالث.',
+        coverPath: '',
+        pdfPath: ''
+      },
+      {
+        title: 'الكتاب الرابع',
+        author: 'المؤلف د',
+        description: 'وصف تجريبي للكتاب الرابع.',
+        coverPath: '',
+        pdfPath: ''
+      },
+      // أضف المزيد من العناصر هنا حسب الحاجة
+    ];
 
-    // عناصر DOM
-    const coverImg = document.getElementById('coverImg');
-    const bookTitle = document.getElementById('bookTitle');
-    const bookAuthor = document.getElementById('bookAuthor');
-    const bookDesc = document.getElementById('bookDesc');
-    const downloadBtn = document.getElementById('downloadBtn');
+    const booksGrid = document.getElementById('booksGrid');
 
-    const coverFileInput = document.getElementById('coverFile');
-    const pdfFileInput = document.getElementById('pdfFile');
-    const resetBtn = document.getElementById('resetBtn');
-
-    // متغير للاحتفاظ بـ URL المؤقت للـ PDF (لتنظيفه لاحقًا)
-    let pdfObjectUrl = null;
-
-    // تهيئة البيانات عند التحميل
-    function dataStart() {
-      bookTitle.textContent = defaults.title;
-      bookAuthor.textContent = defaults.author;
-      bookDesc.textContent = defaults.description;
-
-      if (defaults.coverPath && defaults.coverPath.trim() !== '') {
-        coverImg.src = defaults.coverPath;
-      } else {
-        // صورة افتراضية بسيطة (خلفية بلون مع نص عبر SVG مضمّن)
-        const svg = encodeURIComponent(
-          '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800">' +
-          '<rect width="100%" height="100%" fill="#efe7e5"/>' +
-          '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#b14a4a" font-size="28" font-family="Arial, sans-serif">غلاف الكتاب</text>' +
-          '</svg>'
-        );
-        coverImg.src = 'data:image/svg+xml;charset=utf-8,' + svg;
-      }
-
-      // إذا وُضع رابط PDF افتراضي — ضعه كـ href، وإلا عطل الزر
-      if (defaults.pdfPath && defaults.pdfPath.trim() !== '') {
-        downloadBtn.href = defaults.pdfPath;
-        downloadBtn.removeAttribute('disabled');
-      } else {
-        downloadBtn.href = '#';
-        downloadBtn.setAttribute('disabled', 'true');
-      }
+    // دالة للحصول على صورة افتراضية (Data URI SVG) إذا لم تُحدد coverPath
+    function defaultCoverDataURI(title = 'غلاف الكتاب'){
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'>
+        <rect width='100%' height='100%' fill='#f3ece9'/>
+        <text x='50%' y='48%' dominant-baseline='middle' text-anchor='middle' fill='#1f7a5a' font-size='30' font-family='Arial, sans-serif'>${escapeXml(title)}</text>
+      </svg>`;
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
     }
 
-    // التعامل مع اختيار صورة الغلاف من الجهاز
-    coverFileInput.addEventListener('change', function(e){
-      const file = e.target.files && e.target.files[0];
-      if (!file) return;
-      if (!file.type.startsWith('image/')) { alert('اختر ملف صورة.'); return; }
+    function escapeXml(unsafe) {
+      return unsafe.replace(/[<>&'"]/g, function (c) {
+        switch (c) {
+          case '<': return '&lt;';
+          case '>': return '&gt;';
+          case '&': return '&amp;';
+          case "'": return '&apos;';
+          case '"': return '&quot;';
+        }
+      });
+    }
 
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        coverImg.src = ev.target.result; // data URL
-      };
-      reader.readAsDataURL(file);
-    });
+    // بناء عنصر HTML لكل كتاب
+    function createBookCard(book){
+      const wrap = document.createElement('article');
+      wrap.className = 'book';
+      wrap.setAttribute('tabindex','0');
+      wrap.setAttribute('aria-label', `كتاب: ${book.title}`);
 
-    // التعامل مع اختيار ملف PDF من الجهاز
-    pdfFileInput.addEventListener('change', function(e){
-      const file = e.target.files && e.target.files[0];
-      if (!file) return;
-      if (file.type !== 'application/pdf') { alert('اختر ملف PDF.'); return; }
+      const inner = document.createElement('div');
+      inner.className = 'book-inner';
 
-      // تنظيف أي URL قديم
-      if (pdfObjectUrl) {
-        URL.revokeObjectURL(pdfObjectUrl);
-        pdfObjectUrl = null;
-      }
+      // الواجهة الأمامية
+      const front = document.createElement('div');
+      front.className = 'book-face book-front';
 
-      pdfObjectUrl = URL.createObjectURL(file);
-      downloadBtn.href = pdfObjectUrl;
-      // اسم الملف يظهر كاسم افتراضي عند التحميل
-      downloadBtn.setAttribute('download', file.name || 'book.pdf');
-      downloadBtn.removeAttribute('disabled');
-    });
+      const cover = document.createElement('div');
+      cover.className = 'cover';
+      const img = document.createElement('img');
+      img.alt = book.title || 'غلاف الكتاب';
+      img.src = book.coverPath && book.coverPath.trim() !== '' ? book.coverPath : defaultCoverDataURI(book.title || 'غلاف الكتاب');
+      cover.appendChild(img);
 
-    // زر إعادة القيم الافتراضية
-    resetBtn.addEventListener('click', function(){
-      // تنظيف object URL إن وُجد
-      if (pdfObjectUrl) {
-        URL.revokeObjectURL(pdfObjectUrl);
-        pdfObjectUrl = null;
-      }
-      // مسح حقول الاختيار
-      coverFileInput.value = '';
-      pdfFileInput.value = '';
-      // إعادة البيانات الافتراضية
-      dataStart();
-    });
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      const t = document.createElement('div');
+      t.className = 'title';
+      t.textContent = book.title || '-';
+      const a = document.createElement('div');
+      a.className = 'author';
+      a.textContent = book.author || '';
+      meta.appendChild(t);
+      meta.appendChild(a);
 
-    // تحقّق بسيط عند الضغط على زر التحميل إن لم يوجد رابط صحيح
-    downloadBtn.addEventListener('click', function(e){
-      const href = downloadBtn.getAttribute('href') || '';
-      if (href === '#' || href.trim() === '' ) {
-        e.preventDefault();
-        alert('لم يتم ضبط رابط التحميل بعد. استخدم زر "اختيار ملف PDF" أو حدّث defaults.pdfPath في الكود.');
+      front.appendChild(cover);
+      front.appendChild(meta);
+
+      // الواجهة الخلفية
+      const back = document.createElement('div');
+      back.className = 'book-face book-back';
+
+      const backContent = document.createElement('div');
+      backContent.className = 'back-content';
+      const h4 = document.createElement('h4');
+      h4.textContent = book.title || '';
+      const p = document.createElement('p');
+      p.textContent = book.description || '';
+      backContent.appendChild(h4);
+      backContent.appendChild(p);
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+
+      const download = document.createElement('a');
+      download.className = 'btn btn-download';
+      download.textContent = '⤓ تحميل';
+      if (book.pdfPath && book.pdfPath.trim() !== ''){
+        download.href = book.pdfPath;
+        download.setAttribute('download', '');
+        download.setAttribute('target','_blank');
       } else {
-        // سلوك افتراضي: يسمح بالتنزيل. هنا يمكنك إضافة تتبع تحليلي إذا رغبت.
+        // إذا لم يوجد رابط؛ نستخدم زر معطّل يفتح تنبيه
+        download.href = '#';
+        download.addEventListener('click', function(e){
+          e.preventDefault();
+          alert('لم يتم ضبط رابط الـ PDF لهذا الكتاب. عدّل الخاصية pdfPath في الكود.');
+        });
       }
+
+      const view = document.createElement('a');
+      view.className = 'btn btn-view';
+      view.textContent = 'معاينة';
+      if (book.pdfPath && book.pdfPath.trim() !== ''){
+        view.href = book.pdfPath;
+        view.setAttribute('target','_blank');
+      } else {
+        view.href = '#';
+        view.addEventListener('click', function(e){
+          e.preventDefault();
+          alert('لم يتم ضبط رابط الـ PDF لهذا الكتاب.');
+        });
+      }
+
+      actions.appendChild(download);
+      actions.appendChild(view);
+      backContent.appendChild(actions);
+      back.appendChild(backContent);
+
+      inner.appendChild(front);
+      inner.appendChild(back);
+      wrap.appendChild(inner);
+
+      return wrap;
+    }
+
+    // Render all books
+    function renderBooks(list){
+      booksGrid.innerHTML = '';
+      if (!Array.isArray(list) || list.length === 0){
+        const empty = document.createElement('div');
+        empty.className = 'empty';
+        empty.textContent = 'لا توجد كتب لعرضها. أضف عناصر في مصفوفة "books" داخل الكود.';
+        booksGrid.appendChild(empty);
+        return;
+      }
+      list.forEach(book => {
+        const card = createBookCard(book);
+        booksGrid.appendChild(card);
+      });
+    }
+
+    // شغل العرض عند التحميل
+    document.addEventListener('DOMContentLoaded', function(){
+      renderBooks(books);
     });
 
-    // شغّل التهيئة
-    dataStart();
-
-    // تنظيف عند مغادرة الصفحة (تفادي تسريب object URLs)
-    window.addEventListener('beforeunload', function(){
-      if (pdfObjectUrl) {
-        URL.revokeObjectURL(pdfObjectUrl);
-        pdfObjectUrl = null;
-      }
-    });
+    // ملاحظة لمطوّر: لتعديل الكتب أضف عنصرًا جديدًا داخل "books" مع الحقول: title, author, description, coverPath, pdfPath.
+    // أمثلة سريعة:
+    // books.push({ title:'كتاب جديد', author:'اسم', description:'نبذة...', coverPath:'assets/new.jpg', pdfPath:'books/new.pdf' });
+    // ثم نفّذ renderBooks(books) أو أعد تحميل الصفحة.
   </script>
 </body>
 </html>
