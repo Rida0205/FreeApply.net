@@ -5,8 +5,12 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DEEN WAY Ebook</title>
 
+  <!-- favicon المقدم -->
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1705/1705004.png">
+  <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/1705/1705004.png">
+
   <!-- خطوط -->
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -39,12 +43,14 @@
       align-items:center;
       padding:4px 12px;
     }
+    /* العنوان الآن بخط بولد (أثخن) */
     h1.site-title{
       margin:0;
       font-family:'Merriweather', serif;
       font-size:2.8rem;
       letter-spacing:0.4px;
       line-height:1;
+      font-weight:800; /* بولد */
       background: linear-gradient(90deg, var(--title-dark), var(--title-light));
       -webkit-background-clip: text;
       background-clip: text;
@@ -225,7 +231,7 @@
       </svg>`;
       return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
     }
-    function escapeXml(s=''){ return String(s).replace(/[<>&'"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c])); }
+    function escapeXml(s=''){ return String(s).replace(/[<>&'"]/g, c => ({'<':'&lt;','>':'&gt;','&amp;':'&amp;',"'":'&apos;','"':'&quot;'}[c])); }
 
     function createCard(book) {
       const article = document.createElement('article');
