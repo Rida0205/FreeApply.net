@@ -13,18 +13,22 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
             font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #0b3d91 0%, #5ea0ff 100%);
             color: white;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 40px 20px;
-            overflow-x: hidden;
+            padding: 20px;
             position: relative;
         }
 
@@ -41,22 +45,23 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            gap: 20px;
+            max-height: 95vh;
         }
 
         .logo-container {
-            margin-bottom: 40px;
-            padding: 20px;
-            width: 100%;
+            margin-bottom: 10px;
         }
 
         .logo {
-            font-size: 4.5rem;
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 800;
             background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.9) 100%);
             -webkit-background-clip: text;
@@ -65,50 +70,44 @@
             text-shadow: 0 4px 8px rgba(0,0,0,0.1);
             font-family: 'Merriweather', serif;
             line-height: 1.2;
-            display: block;
-            width: 100%;
-            word-wrap: break-word;
         }
 
         .message {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
             font-weight: 700;
             text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            min-height: 80px;
+            transition: opacity 0.5s ease;
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.5s ease;
-            width: 100%;
         }
 
         .sub-message {
-            font-size: 1.2rem;
-            margin-bottom: 40px;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
             max-width: 600px;
-            line-height: 1.6;
+            line-height: 1.5;
             opacity: 0.9;
-            min-height: 80px;
+            transition: opacity 0.5s ease;
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.5s ease;
-            width: 100%;
+            margin: 0 10px;
         }
 
         .progress-container {
             width: 80%;
-            max-width: 500px;
+            max-width: 400px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 20px;
-            margin: 30px auto;
+            margin: 10px 0;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .progress-bar {
-            height: 15px;
+            height: 12px;
             background: linear-gradient(90deg, #10b981, #34d399);
             border-radius: 20px;
             width: 65%;
@@ -125,22 +124,21 @@
         }
 
         .features {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 25px;
-            margin: 40px 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+            max-width: 500px;
             width: 100%;
         }
 
         .feature {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            width: 160px;
+            border-radius: 12px;
+            padding: 15px 10px;
             transition: all 0.3s ease;
-            min-height: 140px;
+            min-height: 90px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -148,18 +146,18 @@
         }
 
         .feature:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             background: rgba(255, 255, 255, 0.15);
         }
 
         .feature i {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
             color: #5ea0ff;
         }
 
         .feature p {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             transition: opacity 0.5s ease;
         }
 
@@ -180,26 +178,26 @@
         }
 
         .shape-1 {
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
             top: 10%;
-            left: 10%;
+            left: 5%;
             animation: float 20s infinite linear;
         }
 
         .shape-2 {
-            width: 150px;
-            height: 150px;
-            bottom: 20%;
-            right: 10%;
+            width: 100px;
+            height: 100px;
+            bottom: 15%;
+            right: 5%;
             animation: float 15s infinite linear reverse;
         }
 
         .shape-3 {
-            width: 100px;
-            height: 100px;
-            top: 50%;
-            left: 80%;
+            width: 80px;
+            height: 80px;
+            top: 70%;
+            left: 85%;
             animation: float 12s infinite linear;
         }
 
@@ -208,7 +206,7 @@
                 transform: translate(0, 0) rotate(0deg);
             }
             50% {
-                transform: translate(20px, 20px) rotate(180deg);
+                transform: translate(10px, 10px) rotate(180deg);
             }
             100% {
                 transform: translate(0, 0) rotate(360deg);
@@ -216,8 +214,8 @@
         }
 
         .contact {
-            margin-top: 30px;
-            font-size: 1rem;
+            margin-top: 10px;
+            font-size: 0.9rem;
             opacity: 0.8;
             transition: opacity 0.5s ease;
         }
@@ -234,93 +232,106 @@
         }
 
         .language-indicator {
-            margin-top: 25px;
-            font-size: 0.9rem;
+            margin-top: 15px;
+            font-size: 0.8rem;
             opacity: 0.7;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             transition: opacity 0.5s ease;
         }
 
         .language-flag {
-            width: 24px;
-            height: 18px;
-            border-radius: 3px;
+            width: 20px;
+            height: 15px;
+            border-radius: 2px;
             object-fit: cover;
         }
 
-        /* التجاوب */
+        /* التجاوب للشاشات الصغيرة */
         @media (max-width: 768px) {
-            .logo {
-                font-size: 3.5rem;
-            }
-            
-            .message {
-                font-size: 2rem;
-                min-height: 60px;
-            }
-            
-            .sub-message {
-                font-size: 1rem;
-                min-height: 60px;
+            .container {
+                gap: 15px;
+                max-height: 98vh;
             }
             
             .features {
-                gap: 15px;
+                grid-template-columns: 1fr;
+                max-width: 300px;
+                gap: 10px;
             }
             
             .feature {
-                width: 140px;
-                padding: 15px;
-                min-height: 120px;
+                min-height: 70px;
+                flex-direction: row;
+                justify-content: flex-start;
+                text-align: left;
+                padding: 12px 15px;
+            }
+            
+            .feature i {
+                margin-bottom: 0;
+                margin-right: 12px;
+                font-size: 1.5rem;
+            }
+            
+            .progress-container {
+                width: 90%;
             }
         }
 
         @media (max-width: 480px) {
             body {
-                padding: 30px 15px;
+                padding: 15px;
             }
             
-            .logo {
-                font-size: 2.8rem;
+            .container {
+                gap: 12px;
             }
             
-            .message {
-                font-size: 1.8rem;
+            .feature p {
+                font-size: 0.75rem;
             }
             
-            .features {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
+            .contact {
+                font-size: 0.8rem;
             }
             
-            .feature {
-                width: 100%;
-                max-width: 250px;
-                min-height: 100px;
-                flex-direction: row;
-                justify-content: flex-start;
-                text-align: left;
-                padding: 15px 20px;
-            }
-            
-            .feature i {
-                margin-bottom: 0;
-                margin-right: 15px;
-                font-size: 2rem;
+            .shape-1, .shape-2, .shape-3 {
+                display: none;
             }
         }
 
-        @media (max-width: 360px) {
-            .logo {
-                font-size: 2.3rem;
+        @media (max-height: 700px) {
+            .container {
+                transform: scale(0.9);
+            }
+        }
+
+        @media (max-height: 600px) {
+            .container {
+                transform: scale(0.8);
+                gap: 10px;
             }
             
-            .message {
-                font-size: 1.5rem;
+            .feature {
+                min-height: 60px;
+                padding: 10px;
+            }
+            
+            .feature i {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-height: 500px) {
+            .container {
+                transform: scale(0.7);
+            }
+            
+            .features {
+                display: none;
             }
         }
     </style>
@@ -390,80 +401,80 @@
             },
             'en': {
                 message: 'Website Under Construction',
-                subMessage: 'We are currently compiling books and preparing the e-library. We will be back soon with valuable and useful content for you.',
+                subMessage: 'We are currently compiling books and preparing the e-library. We will be back soon with valuable content.',
                 feature1: 'E-books',
                 feature2: 'Eight Languages',
                 feature3: 'Free Download',
-                feature4: 'Compatible with All Devices',
-                contact: 'For Contact',
+                feature4: 'All Devices',
+                contact: 'Contact',
                 flag: 'https://flagcdn.com/w40/gb.png',
                 language: 'English'
             },
             'fr': {
                 message: 'Site en Construction',
-                subMessage: 'Nous compilons actuellement des livres et préparons la bibliothèque électronique. Nous reviendrons bientôt avec un contenu précieux et utile pour vous.',
-                feature1: 'Livres électroniques',
+                subMessage: 'Nous préparons la bibliothèque électronique. Nous reviendrons bientôt.',
+                feature1: 'E-books',
                 feature2: 'Huit Langues',
-                feature3: 'Téléchargement Gratuit',
-                feature4: 'Compatible avec Tous les Appareils',
-                contact: 'Pour Contact',
+                feature3: 'Gratuit',
+                feature4: 'Tous Appareils',
+                contact: 'Contact',
                 flag: 'https://flagcdn.com/w40/fr.png',
                 language: 'Français'
             },
             'es': {
                 message: 'Sitio en Construcción',
-                subMessage: 'Actualmente estamos compilando libros y preparando la biblioteca electrónica. Volveremos pronto con contenido valioso y útil para usted.',
-                feature1: 'Libros electrónicos',
+                subMessage: 'Preparamos la biblioteca electrónica. Volveremos pronto.',
+                feature1: 'E-books',
                 feature2: 'Ocho Idiomas',
-                feature3: 'Descarga Gratuita',
-                feature4: 'Compatible con Todos los Dispositivos',
-                contact: 'Para Contacto',
+                feature3: 'Gratuito',
+                feature4: 'Todos Dispositivos',
+                contact: 'Contacto',
                 flag: 'https://flagcdn.com/w40/es.png',
                 language: 'Español'
             },
             'de': {
                 message: 'Website im Aufbau',
-                subMessage: 'Wir sammeln derzeit Bücher und bereiten die E-Bibliothek vor. Wir werden bald mit wertvollen und nützlichen Inhalten für Sie zurückkehren.',
+                subMessage: 'Wir bereiten die E-Bibliothek vor. Wir kehren bald zurück.',
                 feature1: 'E-Bücher',
                 feature2: 'Acht Sprachen',
-                feature3: 'Kostenloser Download',
-                feature4: 'Kompatibel mit Allen Geräten',
-                contact: 'Für Kontakt',
+                feature3: 'Kostenlos',
+                feature4: 'Alle Geräte',
+                contact: 'Kontakt',
                 flag: 'https://flagcdn.com/w40/de.png',
                 language: 'Deutsch'
             },
             'tr': {
-                message: 'Web Sitesi Yapım Aşamasında',
-                subMessage: 'Şu anda kitapları derliyor ve e-kütüphaneyi hazırlıyoruz. Yakında sizin için değerli ve faydalı içeriklerle geri döneceğiz.',
+                message: 'Site Yapım Aşamasında',
+                subMessage: 'E-kütüphaneyi hazırlıyoruz. Yakında döneceğiz.',
                 feature1: 'E-Kitaplar',
                 feature2: 'Sekiz Dil',
-                feature3: 'Ücretsiz İndirme',
-                feature4: 'Tüm Cihazlarla Uyumlu',
-                contact: 'İletişim İçin',
+                feature3: 'Ücretsiz',
+                feature4: 'Tüm Cihazlar',
+                contact: 'İletişim',
                 flag: 'https://flagcdn.com/w40/tr.png',
                 language: 'Türkçe'
             },
             'ur': {
                 message: 'ویب سائٹ زیر تعمیر',
-                subMessage: 'ہم فی الحال کتابیں جمع کر رہے ہیں اور ای لائبریری تیار کر رہے ہیں۔ ہم جلد ہی آپ کے لیے قیمتی اور مفید مواد کے ساتھ واپس آئیں گے۔',
+                subMessage: 'ہم ای لائبریری تیار کر رہے ہیں۔ جلد واپس آئیں گے۔',
                 feature1: 'ای بکس',
                 feature2: 'آٹھ زبانیں',
-                feature3: 'مفت ڈاؤن لوڈ',
-                feature4: 'تمام آلات کے ساتھ مطابقت',
-                contact: 'رابطے کے لیے',
+                feature3: 'مفت',
+                feature4: 'تمام آلات',
+                contact: 'رابطہ',
                 flag: 'https://flagcdn.com/w40/pk.png',
                 language: 'اردو'
             },
             'id': {
-                message: 'Situs Sedang Dibangun',
-                subMessage: 'Kami sedang mengumpulkan buku dan menyiapkan perpustakaan elektronik. Kami akan segera kembali dengan konten yang berharga dan bermanfaat untuk Anda.',
-                feature1: 'Buku Elektronik',
+                message: 'Situs Dibangun',
+                subMessage: 'Kami menyiapkan perpustakaan elektronik. Segera kembali.',
+                feature1: 'E-books',
                 feature2: 'Delapan Bahasa',
-                feature3: 'Unduhan Gratis',
-                feature4: 'Kompatibel dengan Semua Perangkat',
-                contact: 'Untuk Hubungi',
+                feature3: 'Gratis',
+                feature4: 'Semua Perangkat',
+                contact: 'Kontak',
                 flag: 'https://flagcdn.com/w40/id.png',
-                language: 'Bahasa Indonesia'
+                language: 'Indonesia'
             }
         };
 
@@ -496,7 +507,7 @@
                         el.textContent = element.text;
                     }
                     el.style.opacity = '1';
-                }, 500);
+                }, 300);
             });
             
             // تحديث العلم واللغة
@@ -534,6 +545,16 @@
                     this.style.background = 'rgba(255, 255, 255, 0.1)';
                 });
             });
+
+            // منع السكرول
+            document.body.style.overflow = 'hidden';
+            document.addEventListener('wheel', preventScroll, { passive: false });
+            document.addEventListener('touchmove', preventScroll, { passive: false });
+            
+            function preventScroll(e) {
+                e.preventDefault();
+                return false;
+            }
         });
     </script>
 </body>
