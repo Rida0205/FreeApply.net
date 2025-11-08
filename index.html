@@ -1,1686 +1,540 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DEENWAY Ebook</title>
-
-  <!-- favicon -->
-  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1705/1705004.png">
-  <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/1705/1705004.png">
-
-  <!-- خطوط -->
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- أيقونات -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <style>
-    :root {
-      --primary: #0b3d91;
-      --primary-light: #5ea0ff;
-      --secondary: #ff6b6b;
-      --accent: #10b981;
-      --dark: #072227;
-      --light: #ffffff;
-      --gray-50: #f8fafc;
-      --gray-100: #f1f5f9;
-      --gray-200: #e2e8f0;
-      --gray-300: #cbd5e1;
-      --gray-400: #94a3b8;
-      --gray-500: #64748b;
-      --gray-600: #475569;
-      --gray-700: #334155;
-      --gray-800: #1e293b;
-      --gray-900: #0f172a;
-      
-      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-      --radius-xl: 24px;
-      
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      height: 100%;
-      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
-      color: var(--gray-800);
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.6;
-    }
-
-    /* زر اختيار اللغة */
-    .language-selector {
-      position: fixed;
-      top: 24px;
-      left: 24px;
-      z-index: 1000;
-    }
-
-    .language-btn {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--light);
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-lg);
-      padding: 12px 18px;
-      cursor: pointer;
-      box-shadow: var(--shadow-md);
-      transition: var(--transition);
-      font-weight: 600;
-      color: var(--primary);
-      backdrop-filter: blur(10px);
-    }
-
-    .language-btn:hover {
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-2px);
-      border-color: var(--primary-light);
-    }
-
-    .language-btn i {
-      font-size: 1.2rem;
-      transition: var(--transition);
-    }
-
-    .language-btn.active i {
-      transform: rotate(180deg);
-    }
-
-    .language-dropdown {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      margin-top: 8px;
-      background: var(--light);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-xl);
-      width: 200px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: var(--transition);
-      border: 1px solid var(--gray-200);
-      overflow: hidden;
-      backdrop-filter: blur(10px);
-    }
-
-    .language-dropdown.active {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .language-option {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 18px;
-      cursor: pointer;
-      transition: var(--transition);
-      border-bottom: 1px solid var(--gray-100);
-    }
-
-    .language-option:last-child {
-      border-bottom: none;
-    }
-
-    .language-option:hover {
-      background: var(--primary-light);
-      color: white;
-    }
-
-    .language-option.active {
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-      font-weight: 600;
-    }
-
-    .flag {
-      width: 28px;
-      height: 20px;
-      border-radius: 4px;
-      object-fit: cover;
-      box-shadow: var(--shadow-sm);
-    }
-
-    /* الهيدر الرئيسي */
-    .main-header {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-      color: white;
-      padding: 80px 20px 60px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .main-header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffffff" opacity="0.1"><polygon points="1000,100 1000,0 0,100"/></svg>');
-      background-size: cover;
-    }
-
-    .header-content {
-      position: relative;
-      z-index: 2;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    h1.site-title {
-      font-size: 3.5rem;
-      font-weight: 800;
-      margin-bottom: 16px;
-      background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.9) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      font-family: 'Merriweather', serif;
-    }
-
-    .site-desc {
-      font-size: 1.2rem;
-      opacity: 0.9;
-      margin-bottom: 8px;
-      font-weight: 300;
-    }
-
-    /* المحتوى الرئيسي */
-    .main-content {
-      max-width: 1400px;
-      margin: -40px auto 40px;
-      padding: 0 20px;
-      position: relative;
-      z-index: 10;
-    }
-
-    /* شريط البحث */
-    .search-section {
-      background: var(--light);
-      border-radius: var(--radius-xl);
-      padding: 30px;
-      margin-bottom: 40px;
-      box-shadow: var(--shadow-lg);
-      border: 1px solid var(--gray-200);
-    }
-
-    .search-container {
-      max-width: 600px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .search-box {
-      width: 100%;
-      padding: 18px 60px 18px 24px;
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-lg);
-      font-size: 1.1rem;
-      background: var(--gray-50);
-      transition: var(--transition);
-      font-weight: 500;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    .search-box:focus {
-      outline: none;
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 4px rgba(94, 160, 255, 0.2);
-      background: var(--light);
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 24px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray-400);
-      font-size: 1.2rem;
-    }
-
-    /* ملاحظة حقوق النشر المحسنة */
-    .copyright-notice {
-      background: var(--light);
-      border: 2px solid var(--primary-light);
-      border-radius: var(--radius-lg);
-      padding: 25px 30px;
-      margin: 30px 0;
-      text-align: center;
-      box-shadow: var(--shadow-md);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .copyright-notice::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    }
-
-    .copyright-icon {
-      font-size: 2rem;
-      color: var(--primary);
-      margin-bottom: 15px;
-    }
-
-    .copyright-text {
-      font-size: 1rem;
-      color: var(--gray-700);
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    .copyright-text strong {
-      color: var(--primary);
-      font-weight: 700;
-    }
-
-    /* شبكة الكتب */
-    .books-section {
-      margin-top: 20px;
-    }
-
-    .section-title {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 30px;
-      text-align: center;
-      position: relative;
-    }
-
-    .section-title::after {
-      content: '';
-      display: block;
-      width: 80px;
-      height: 4px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      margin: 12px auto;
-      border-radius: 2px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 30px;
-      align-items: start;
-    }
-
-    /* بطاقة الكتاب */
-    .card {
-      background: var(--light);
-      border-radius: var(--radius-xl);
-      overflow: hidden;
-      box-shadow: var(--shadow-md);
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      border: 1px solid var(--gray-200);
-      position: relative;
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      z-index: 2;
-    }
-
-    .card:hover {
-      transform: translateY(-12px);
-      box-shadow: var(--shadow-xl);
-    }
-
-    .cover-container {
-      position: relative;
-      padding-bottom: 140%;
-      background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
-      overflow: hidden;
-    }
-
-    .cover {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: var(--transition-slow);
-    }
-
-    .card:hover .cover {
-      transform: scale(1.08);
-    }
-
-    .book-badges {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      z-index: 3;
-    }
-
-    .language-badge {
-      background: rgba(11, 61, 145, 0.95);
-      color: white;
-      padding: 6px 12px;
-      border-radius: var(--radius-sm);
-      font-size: 0.8rem;
-      font-weight: 600;
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .status-badge {
-      background: rgba(16, 185, 129, 0.95);
-      color: white;
-      padding: 6px 12px;
-      border-radius: var(--radius-sm);
-      font-size: 0.8rem;
-      font-weight: 600;
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .book-info {
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      flex-grow: 1;
-    }
-
-    .book-title {
-      font-weight: 700;
-      font-size: 1.3rem;
-      margin: 0;
-      color: var(--dark);
-      font-family: 'Merriweather', serif;
-      line-height: 1.4;
-    }
-
-    .book-description {
-      font-size: 0.95rem;
-      color: var(--gray-600);
-      line-height: 1.6;
-      margin: 0;
-      flex-grow: 1;
-    }
-
-    .book-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 16px;
-      border-top: 1px solid var(--gray-200);
-    }
-
-    .book-actions {
-      display: flex;
-      gap: 12px;
-      width: 100%;
-    }
-
-    .btn {
-      border: none;
-      padding: 12px 16px;
-      border-radius: var(--radius-md);
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: var(--transition);
-      justify-content: center;
-      min-height: 44px;
-      flex: 1;
-      white-space: nowrap;
-      min-width: 0;
-    }
-
-    .btn-download {
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-      box-shadow: var(--shadow-md);
-    }
-
-    .btn-download:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .btn-preview {
-      background: var(--gray-100);
-      color: var(--gray-700);
-      border: 1px solid var(--gray-300);
-    }
-
-    .btn-preview:hover {
-      background: var(--gray-200);
-      transform: translateY(-2px);
-    }
-
-    .btn[aria-disabled="true"] {
-      opacity: 0.6;
-      pointer-events: none;
-      cursor: not-allowed;
-      background: var(--gray-300);
-    }
-
-    /* رسالة عدم العثور على نتائج */
-    .no-results {
-      text-align: center;
-      padding: 80px 40px;
-      color: var(--gray-500);
-      grid-column: 1 / -1;
-    }
-
-    .no-results-icon {
-      font-size: 4rem;
-      margin-bottom: 20px;
-      opacity: 0.5;
-    }
-
-    .no-results h3 {
-      font-size: 1.5rem;
-      margin-bottom: 12px;
-      color: var(--gray-600);
-    }
-
-    .no-results p {
-      font-size: 1.1rem;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    /* الفوتر المعدل */
-    .footer {
-      background: var(--dark);
-      color: white;
-      padding: 60px 20px 40px;
-      text-align: center;
-      margin-top: 80px;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .footer-logo {
-      font-size: 2rem;
-      font-weight: 800;
-      margin-bottom: 16px;
-      background: linear-gradient(135deg, var(--primary-light), var(--accent));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      font-family: 'Merriweather', serif;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      margin-bottom: 40px;
-      flex-wrap: wrap;
-    }
-
-    .footer-link {
-      color: var(--gray-300);
-      text-decoration: none;
-      transition: var(--transition);
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .footer-link:hover {
-      color: var(--primary-light);
-      transform: translateY(-2px);
-    }
-
-    /* نافذة المعاينة */
-    .preview-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-      opacity: 0;
-      visibility: hidden;
-      transition: var(--transition);
-    }
-
-    .preview-modal.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .preview-content {
-      background: white;
-      border-radius: var(--radius-xl);
-      width: 90%;
-      max-width: 900px;
-      max-height: 90vh;
-      overflow: hidden;
-      box-shadow: var(--shadow-xl);
-      transform: scale(0.9);
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .preview-modal.active .preview-content {
-      transform: scale(1);
-    }
-
-    .preview-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 30px;
-      background: var(--primary);
-      color: white;
-      flex-shrink: 0;
-    }
-
-    .preview-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin: 0;
-      flex: 1;
-    }
-
-    .preview-close {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 8px;
-      border-radius: var(--radius-sm);
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-    }
-
-    .preview-close:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .preview-body {
-      padding: 30px;
-      max-height: 60vh;
-      overflow-y: auto;
-      flex: 1;
-    }
-
-    .preview-pages {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-
-    .preview-page {
-      background: var(--gray-50);
-      border-radius: var(--radius-lg);
-      padding: 30px;
-      border: 1px solid var(--gray-200);
-    }
-
-    .preview-page h3 {
-      color: var(--primary);
-      margin-bottom: 15px;
-      font-size: 1.3rem;
-    }
-
-    .preview-page p {
-      line-height: 1.8;
-      margin-bottom: 15px;
-    }
-
-    .preview-page ul {
-      padding-right: 20px;
-      margin-bottom: 15px;
-    }
-
-    .preview-page li {
-      margin-bottom: 8px;
-      line-height: 1.6;
-    }
-
-    .preview-actions {
-      padding: 20px 30px;
-      background: var(--gray-50);
-      border-top: 1px solid var(--gray-200);
-      display: flex;
-      justify-content: flex-end;
-      gap: 15px;
-      flex-shrink: 0;
-    }
-
-    /* التجاوب */
-    @media (max-width: 1200px) {
-      .grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      }
-    }
-
-    @media (max-width: 768px) {
-      h1.site-title {
-        font-size: 2.5rem;
-      }
-      
-      .language-selector {
-        top: 16px;
-        left: 16px;
-      }
-      
-      .language-btn {
-        padding: 10px 14px;
-        font-size: 0.9rem;
-      }
-      
-      .main-content {
-        margin-top: -20px;
-      }
-      
-      .search-section {
-        padding: 20px;
-      }
-      
-      .book-actions {
-        flex-direction: column;
-      }
-      
-      .copyright-notice {
-        padding: 20px;
-      }
-      
-      .copyright-icon {
-        font-size: 1.5rem;
-      }
-      
-      .footer-links {
-        gap: 30px;
-      }
-      
-      .preview-content {
-        width: 95%;
-      }
-      
-      .preview-header {
-        padding: 15px 20px;
-      }
-      
-      .preview-body {
-        padding: 20px;
-        max-height: 50vh;
-      }
-      
-      .preview-actions {
-        padding: 15px 20px;
-        flex-direction: column;
-      }
-      
-      .btn {
-        padding: 12px 14px;
-        font-size: 0.85rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      h1.site-title {
-        font-size: 2rem;
-      }
-      
-      .grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .main-header {
-        padding: 60px 20px 40px;
-      }
-      
-      .language-dropdown {
-        width: 180px;
-      }
-      
-      .footer-links {
-        flex-direction: column;
-        gap: 20px;
-      }
-      
-      .preview-title {
-        font-size: 1.2rem;
-      }
-      
-      .preview-page {
-        padding: 20px;
-      }
-      
-      .btn {
-        padding: 10px 12px;
-        font-size: 0.8rem;
-      }
-    }
-
-    :focus {
-      outline: 3px solid rgba(94, 160, 255, 0.4);
-      outline-offset: 2px;
-      border-radius: var(--radius-md);
-    }
-
-    /* تأثيرات إضافية */
-    .floating-shapes {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .shape {
-      position: absolute;
-      background: linear-gradient(135deg, var(--primary-light), transparent);
-      border-radius: 50%;
-      opacity: 0.1;
-    }
-
-    .shape-1 {
-      width: 300px;
-      height: 300px;
-      top: 10%;
-      left: 10%;
-      animation: float 20s infinite linear;
-    }
-
-    .shape-2 {
-      width: 200px;
-      height: 200px;
-      bottom: 20%;
-      right: 10%;
-      animation: float 15s infinite linear reverse;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translate(0, 0) rotate(0deg);
-      }
-      50% {
-        transform: translate(20px, 20px) rotate(180deg);
-      }
-      100% {
-        transform: translate(0, 0) rotate(360deg);
-      }
-    }
-
-    /* إصلاح اتجاه النص للغات الأجنبية */
-    [dir="ltr"] {
-      direction: ltr;
-      text-align: left;
-    }
-
-    [dir="ltr"] .search-box {
-      padding: 18px 24px 18px 60px;
-    }
-
-    [dir="ltr"] .search-icon {
-      left: auto;
-      right: 24px;
-    }
-
-    [dir="ltr"] .book-badges {
-      left: auto;
-      right: 16px;
-    }
-
-    [dir="ltr"] .book-meta {
-      flex-direction: row;
-    }
-
-    [dir="ltr"] .footer-links {
-      direction: ltr;
-    }
-
-    [dir="ltr"] .preview-page ul {
-      padding-right: 0;
-      padding-left: 20px;
-    }
-
-    [dir="ltr"] .preview-header {
-      flex-direction: row;
-    }
-
-    [dir="ltr"] .preview-actions {
-      justify-content: flex-end;
-    }
-
-    /* إصلاح تخطيط الأزرار في جميع اللغات */
-    .book-actions {
-      flex-direction: row;
-      align-items: stretch;
-    }
-
-    [dir="ltr"] .book-actions {
-      flex-direction: row;
-    }
-
-    [dir="rtl"] .book-actions {
-      flex-direction: row;
-    }
-
-    /* تحسين ظهور الأزرار في جميع اللغات */
-    .btn {
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .btn i {
-      flex-shrink: 0;
-    }
-
-    .btn span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEENWAY Ebook - قيد الإنشاء</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0b3d91 0%, #5ea0ff 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffffff" opacity="0.05"><polygon points="1000,100 1000,0 0,100"/></svg>');
+            background-size: cover;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-container {
+            margin-bottom: 40px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 4.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.9) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            font-family: 'Merriweather', serif;
+            line-height: 1.2;
+            display: block;
+            width: 100%;
+            word-wrap: break-word;
+        }
+
+        .message {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+            width: 100%;
+        }
+
+        .sub-message {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.6;
+            opacity: 0.9;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+            width: 100%;
+        }
+
+        .progress-container {
+            width: 80%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            margin: 30px auto;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            height: 15px;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            border-radius: 20px;
+            width: 65%;
+            animation: progress 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes progress {
+            0% {
+                width: 65%;
+            }
+            100% {
+                width: 68%;
+            }
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin: 40px 0;
+            width: 100%;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            width: 160px;
+            transition: all 0.3s ease;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .feature i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #5ea0ff;
+        }
+
+        .feature p {
+            font-size: 0.9rem;
+            transition: opacity 0.5s ease;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .shape-1 {
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: 10%;
+            animation: float 20s infinite linear;
+        }
+
+        .shape-2 {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            right: 10%;
+            animation: float 15s infinite linear reverse;
+        }
+
+        .shape-3 {
+            width: 100px;
+            height: 100px;
+            top: 50%;
+            left: 80%;
+            animation: float 12s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(20px, 20px) rotate(180deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+
+        .contact {
+            margin-top: 30px;
+            font-size: 1rem;
+            opacity: 0.8;
+            transition: opacity 0.5s ease;
+        }
+
+        .contact a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .contact a:hover {
+            border-bottom: 1px solid white;
+        }
+
+        .language-indicator {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: opacity 0.5s ease;
+        }
+
+        .language-flag {
+            width: 24px;
+            height: 18px;
+            border-radius: 3px;
+            object-fit: cover;
+        }
+
+        /* التجاوب */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3.5rem;
+            }
+            
+            .message {
+                font-size: 2rem;
+                min-height: 60px;
+            }
+            
+            .sub-message {
+                font-size: 1rem;
+                min-height: 60px;
+            }
+            
+            .features {
+                gap: 15px;
+            }
+            
+            .feature {
+                width: 140px;
+                padding: 15px;
+                min-height: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 30px 15px;
+            }
+            
+            .logo {
+                font-size: 2.8rem;
+            }
+            
+            .message {
+                font-size: 1.8rem;
+            }
+            
+            .features {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .feature {
+                width: 100%;
+                max-width: 250px;
+                min-height: 100px;
+                flex-direction: row;
+                justify-content: flex-start;
+                text-align: left;
+                padding: 15px 20px;
+            }
+            
+            .feature i {
+                margin-bottom: 0;
+                margin-right: 15px;
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .logo {
+                font-size: 2.3rem;
+            }
+            
+            .message {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- أشكال عائمة للخلفية -->
-  <div class="floating-shapes">
-    <div class="shape shape-1"></div>
-    <div class="shape shape-2"></div>
-  </div>
-
-  <!-- زر اختيار اللغة -->
-  <div class="language-selector">
-    <div class="language-btn" id="languageBtn">
-      <i class="fas fa-globe"></i>
-      <span id="currentLanguage">العربية</span>
+    <!-- أشكال عائمة للخلفية -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
     </div>
-    <div class="language-dropdown" id="languageDropdown">
-      <div class="language-option active" data-lang="ar">
-        <img src="https://flagcdn.com/w40/sa.png" class="flag" alt="العربية">
-        <span>العربية</span>
-      </div>
-      <div class="language-option" data-lang="en">
-        <img src="https://flagcdn.com/w40/gb.png" class="flag" alt="English">
-        <span>English</span>
-      </div>
-      <div class="language-option" data-lang="fr">
-        <img src="https://flagcdn.com/w40/fr.png" class="flag" alt="Français">
-        <span>Français</span>
-      </div>
-      <div class="language-option" data-lang="es">
-        <img src="https://flagcdn.com/w40/es.png" class="flag" alt="Español">
-        <span>Español</span>
-      </div>
-      <div class="language-option" data-lang="de">
-        <img src="https://flagcdn.com/w40/de.png" class="flag" alt="Deutsch">
-        <span>Deutsch</span>
-      </div>
-      <div class="language-option" data-lang="tr">
-        <img src="https://flagcdn.com/w40/tr.png" class="flag" alt="Türkçe">
-        <span>Türkçe</span>
-      </div>
-      <div class="language-option" data-lang="ur">
-        <img src="https://flagcdn.com/w40/pk.png" class="flag" alt="اردو">
-        <span>اردو</span>
-      </div>
-      <div class="language-option" data-lang="id">
-        <img src="https://flagcdn.com/w40/id.png" class="flag" alt="Bahasa Indonesia">
-        <span>Indonesia</span>
-      </div>
-    </div>
-  </div>
 
-  <!-- الهيدر الرئيسي -->
-  <header class="main-header">
-    <div class="header-content">
-      <h1 class="site-title">DEENWAY Ebook</h1>
-      <p class="site-desc">One truth — eight languages</p>
-    </div>
-  </header>
-
-  <!-- المحتوى الرئيسي -->
-  <main class="main-content">
-    <!-- شريط البحث -->
-    <section class="search-section">
-      <div class="search-container">
-        <input 
-          type="text" 
-          class="search-box" 
-          id="searchBox"
-          placeholder="ابحث عن كتاب..." 
-          aria-label="بحث في الكتب"
-        >
-        <div class="search-icon">
-          <i class="fas fa-search"></i>
+    <div class="container">
+        <div class="logo-container">
+            <div class="logo">DEENWAY EBook</div>
         </div>
-      </div>
-    </section>
-
-    <!-- قسم الكتب -->
-    <section class="books-section">
-      <h2 class="section-title" id="sectionTitle">أحدث الكتب</h2>
-      
-      <!-- ملاحظة حقوق النشر المحسنة -->
-      <div class="copyright-notice" id="copyrightNotice">
-        <div class="copyright-icon">
-          <i class="fas fa-shield-alt"></i>
+        
+        <h1 class="message" id="mainMessage">الموقع قيد الإنشاء</h1>
+        <p class="sub-message" id="subMessage">نعمل حالياً على تجميع الكتب وإعداد المكتبة الإلكترونية. سنعود قريباً بمحتوى قيم ومفيد لكم.</p>
+        
+        <div class="progress-container">
+            <div class="progress-bar"></div>
         </div>
-        <p class="copyright-text" id="copyrightText">
-          جميع الكتب من تأليف وإعداد فريق DEENWAY.
-        </p>
-      </div>
+        
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-book"></i>
+                <p id="feature1">كتب إلكترونية</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-globe"></i>
+                <p id="feature2">ثماني لغات</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-download"></i>
+                <p id="feature3">تحميل مجاني</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-mobile-alt"></i>
+                <p id="feature4">متوافق مع جميع الأجهزة</p>
+            </div>
+        </div>
+        
+        <div class="contact" id="contactSection">
+            <p id="contactText">للتواصل: <a href="mailto:contact@ondeenway.org">contact@ondeenway.org</a></p>
+        </div>
 
-      <div class="grid" id="grid">
-        <!-- سيتم ملؤه بواسطة JavaScript -->
-      </div>
-    </section>
-  </main>
-
-  <!-- الفوتر المعدل -->
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-logo">DEENWAY</div>
-      
-      <div class="footer-links">
-        <a href="https://about.ondeenway.org/" class="footer-link" id="footerAbout" target="_blank">
-          <i class="fas fa-users"></i>
-          <span class="footer-link-text">من نحن</span>
-        </a>
-        <a href="https://faq.ondeenway.org/" class="footer-link" id="footerFaq" target="_blank">
-          <i class="fas fa-question-circle"></i>
-          <span class="footer-link-text">الأسئلة الشائعة</span>
-        </a>
-        <a href="https://contact.ondeenway.org/" class="footer-link" id="footerContact" target="_blank">
-          <i class="fas fa-envelope"></i>
-          <span class="footer-link-text">اتصل بنا</span>
-        </a>
-        <a href="https://www.ondeenway.org/" class="footer-link" id="footerWebsite" target="_blank">
-          <i class="fas fa-globe"></i>
-          <span class="footer-link-text">الموقع الرسمي</span>
-        </a>
-      </div>
+        <div class="language-indicator">
+            <img id="currentFlag" src="https://flagcdn.com/w40/sa.png" class="language-flag" alt="العربية">
+            <span id="currentLanguage">العربية</span>
+        </div>
     </div>
-  </footer>
 
-  <!-- نافذة المعاينة -->
-  <div class="preview-modal" id="previewModal">
-    <div class="preview-content">
-      <div class="preview-header">
-        <h3 class="preview-title" id="previewTitle">معاينة الكتاب</h3>
-        <button class="preview-close" id="previewClose">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="preview-body" id="previewBody">
-        <!-- محتوى المعاينة سيتم إضافته ديناميكياً -->
-      </div>
-      <div class="preview-actions">
-        <button class="btn btn-download" id="previewDownload">
-          <i class="fas fa-download"></i>
-          تحميل الكتاب الكامل
-        </button>
-        <button class="btn btn-preview" id="previewCloseBtn">
-          <i class="fas fa-times"></i>
-          إغلاق
-        </button>
-      </div>
-    </div>
-  </div>
+    <script>
+        // نصوص الواجهة لكل لغة
+        const uiTexts = {
+            'ar': {
+                message: 'الموقع قيد الإنشاء',
+                subMessage: 'نعمل حالياً على تجميع الكتب وإعداد المكتبة الإلكترونية. سنعود قريباً بمحتوى قيم ومفيد لكم.',
+                feature1: 'كتب إلكترونية',
+                feature2: 'ثماني لغات',
+                feature3: 'تحميل مجاني',
+                feature4: 'متوافق مع جميع الأجهزة',
+                contact: 'للتواصل',
+                flag: 'https://flagcdn.com/w40/sa.png',
+                language: 'العربية'
+            },
+            'en': {
+                message: 'Website Under Construction',
+                subMessage: 'We are currently compiling books and preparing the e-library. We will be back soon with valuable and useful content for you.',
+                feature1: 'E-books',
+                feature2: 'Eight Languages',
+                feature3: 'Free Download',
+                feature4: 'Compatible with All Devices',
+                contact: 'For Contact',
+                flag: 'https://flagcdn.com/w40/gb.png',
+                language: 'English'
+            },
+            'fr': {
+                message: 'Site en Construction',
+                subMessage: 'Nous compilons actuellement des livres et préparons la bibliothèque électronique. Nous reviendrons bientôt avec un contenu précieux et utile pour vous.',
+                feature1: 'Livres électroniques',
+                feature2: 'Huit Langues',
+                feature3: 'Téléchargement Gratuit',
+                feature4: 'Compatible avec Tous les Appareils',
+                contact: 'Pour Contact',
+                flag: 'https://flagcdn.com/w40/fr.png',
+                language: 'Français'
+            },
+            'es': {
+                message: 'Sitio en Construcción',
+                subMessage: 'Actualmente estamos compilando libros y preparando la biblioteca electrónica. Volveremos pronto con contenido valioso y útil para usted.',
+                feature1: 'Libros electrónicos',
+                feature2: 'Ocho Idiomas',
+                feature3: 'Descarga Gratuita',
+                feature4: 'Compatible con Todos los Dispositivos',
+                contact: 'Para Contacto',
+                flag: 'https://flagcdn.com/w40/es.png',
+                language: 'Español'
+            },
+            'de': {
+                message: 'Website im Aufbau',
+                subMessage: 'Wir sammeln derzeit Bücher und bereiten die E-Bibliothek vor. Wir werden bald mit wertvollen und nützlichen Inhalten für Sie zurückkehren.',
+                feature1: 'E-Bücher',
+                feature2: 'Acht Sprachen',
+                feature3: 'Kostenloser Download',
+                feature4: 'Kompatibel mit Allen Geräten',
+                contact: 'Für Kontakt',
+                flag: 'https://flagcdn.com/w40/de.png',
+                language: 'Deutsch'
+            },
+            'tr': {
+                message: 'Web Sitesi Yapım Aşamasında',
+                subMessage: 'Şu anda kitapları derliyor ve e-kütüphaneyi hazırlıyoruz. Yakında sizin için değerli ve faydalı içeriklerle geri döneceğiz.',
+                feature1: 'E-Kitaplar',
+                feature2: 'Sekiz Dil',
+                feature3: 'Ücretsiz İndirme',
+                feature4: 'Tüm Cihazlarla Uyumlu',
+                contact: 'İletişim İçin',
+                flag: 'https://flagcdn.com/w40/tr.png',
+                language: 'Türkçe'
+            },
+            'ur': {
+                message: 'ویب سائٹ زیر تعمیر',
+                subMessage: 'ہم فی الحال کتابیں جمع کر رہے ہیں اور ای لائبریری تیار کر رہے ہیں۔ ہم جلد ہی آپ کے لیے قیمتی اور مفید مواد کے ساتھ واپس آئیں گے۔',
+                feature1: 'ای بکس',
+                feature2: 'آٹھ زبانیں',
+                feature3: 'مفت ڈاؤن لوڈ',
+                feature4: 'تمام آلات کے ساتھ مطابقت',
+                contact: 'رابطے کے لیے',
+                flag: 'https://flagcdn.com/w40/pk.png',
+                language: 'اردو'
+            },
+            'id': {
+                message: 'Situs Sedang Dibangun',
+                subMessage: 'Kami sedang mengumpulkan buku dan menyiapkan perpustakaan elektronik. Kami akan segera kembali dengan konten yang berharga dan bermanfaat untuk Anda.',
+                feature1: 'Buku Elektronik',
+                feature2: 'Delapan Bahasa',
+                feature3: 'Unduhan Gratis',
+                feature4: 'Kompatibel dengan Semua Perangkat',
+                contact: 'Untuk Hubungi',
+                flag: 'https://flagcdn.com/w40/id.png',
+                language: 'Bahasa Indonesia'
+            }
+        };
 
-  <script>
-    // بيانات الكتب المحسنة
-    const books = [
-      {
-        title: 'الطريق إلى الله',
-        description: 'كتاب يشرح الأسس الإيمانية والروحية للتقرب إلى الله تعالى من خلال فهم أسمائه الحسنى وصفاته العليا.',
-        coverPath: '',
-        pdfPath: '',
-        language: 'العربية',
-        pages: 240,
-        category: 'العقيدة',
-        previewContent: [
-          {
-            title: 'مقدمة الكتاب',
-            content: `
-              <p>بسم الله الرحمن الرحيم، والحمد لله رب العالمين، والصلاة والسلام على سيدنا محمد وعلى آله وصحبه أجمعين.</p>
-              <p>يسرني أن أقدم لكم هذا الكتاب الذي يتناول موضوعاً غاية في الأهمية، وهو الطريق إلى الله تعالى. هذا الكتاب يهدف إلى مساعدة القارئ على فهم كيفية التقرب إلى الله من خلال معرفة أسمائه الحسنى وصفاته العليا.</p>
-              <p>سنجد في هذا الكتاب:</p>
-              <ul>
-                <li>فهم معاني أسماء الله الحسنى</li>
-                <li>كيفية التعبد لله بأسمائه وصفاته</li>
-                <li>تأثير معرفة الله على حياة المسلم</li>
-                <li>وسائل التقرب إلى الله تعالى</li>
-              </ul>
-            `
-          },
-          {
-            title: 'الفصل الأول: أهمية معرفة الله',
-            content: `
-              <p>معرفة الله تعالى هي أساس الدين وأصل كل عبادة. فبمعرفة الله تحيا القلوب وتنشرح الصدور، وتستقيم الجوارح على طاعته.</p>
-              <p>قال تعالى: "وَمَا خَلَقْتُ الْجِنَّ وَالْإِنْسَ إِلَّا لِيَعْبُدُونِ" (الذاريات: 56).</p>
-              <p>ولما سئل النبي صلى الله عليه وسلم عن الإحسان قال: "أن تعبد الله كأنك تراه، فإن لم تكن تراه فإنه يراك".</p>
-              <p>فمعرفة الله تورث في القلب الخشية والمحبة والرجاء، وهي التي تحول العبادة من مجرد حركات وسكنات إلى معانٍ روحية عميقة.</p>
-            `
-          }
-        ]
-      },
-      {
-        title: 'نور اليقين',
-        description: 'مجموعة من الخواطر والتأملات الإيمانية التي تنير القلب وتقوي الصلة بالله تعالى في الحياة اليومية.',
-        coverPath: '',
-        pdfPath: '',
-        language: 'العربية', 
-        pages: 180,
-        category: 'التزكية',
-        previewContent: [
-          {
-            title: 'مقدمة: نور القلوب',
-            content: `
-              <p>الحمد لله الذي أنار القلوب بنور اليقين، وجعل الإيمان نوراً يهتدي به العباد في ظلمات الحياة.</p>
-              <p>هذا الكتاب مجموعة من الخواطر والتأملات التي تهدف إلى إضاءة الطريق أمام المسلم، وتذكيره بجمال الإيمان وحلاوة الطاعة.</p>
-              <p>في صفحات هذا الكتاب ستجد:</p>
-              <ul>
-                <li>تأملات في آيات القرآن الكريم</li>
-                <li>خواطر من السنة النبوية</li>
-                <li>مواعظ وتذكيرات إيمانية</li>
-                <li>نصائح عملية لتزكية النفس</li>
-              </ul>
-            `
-          }
-        ]
-      },
-      {
-        title: 'The Path to God',
-        description: 'A comprehensive guide to understanding Islamic monotheism and developing a closer relationship with Allah through His beautiful names and attributes.',
-        coverPath: '',
-        pdfPath: '',
-        language: 'English',
-        pages: 220,
-        category: 'Aqeedah',
-        previewContent: [
-          {
-            title: 'Introduction',
-            content: `
-              <p>In the name of Allah, the Most Gracious, the Most Merciful. All praise is due to Allah, the Lord of all worlds, and may peace and blessings be upon Prophet Muhammad and his family and companions.</p>
-              <p>This book aims to guide the reader on the path to developing a closer relationship with Allah through understanding His beautiful names and attributes.</p>
-              <p>In this book, you will discover:</p>
-              <ul>
-                <li>The meanings of Allah's beautiful names</li>
-                <li>How to worship Allah through His names and attributes</li>
-                <li>The impact of knowing Allah on a Muslim's life</li>
-                <li>Practical ways to draw closer to Allah</li>
-              </ul>
-            `
-          }
-        ]
-      }
-    ];
+        // ترتيب اللغات للدوران
+        const languages = ['ar', 'en', 'fr', 'es', 'de', 'tr', 'ur', 'id'];
+        let currentLangIndex = 0;
 
-    // العناصر الرئيسية
-    const grid = document.getElementById('grid');
-    const searchBox = document.getElementById('searchBox');
-    const sectionTitle = document.getElementById('sectionTitle');
-    const copyrightText = document.getElementById('copyrightText');
-    const languageBtn = document.getElementById('languageBtn');
-    const languageDropdown = document.getElementById('languageDropdown');
-    const currentLanguage = document.getElementById('currentLanguage');
-    const languageOptions = document.querySelectorAll('.language-option');
-    const footerAbout = document.getElementById('footerAbout');
-    const footerFaq = document.getElementById('footerFaq');
-    const footerContact = document.getElementById('footerContact');
-    const footerWebsite = document.getElementById('footerWebsite');
-    const previewModal = document.getElementById('previewModal');
-    const previewTitle = document.getElementById('previewTitle');
-    const previewBody = document.getElementById('previewBody');
-    const previewClose = document.getElementById('previewClose');
-    const previewCloseBtn = document.getElementById('previewCloseBtn');
-    const previewDownload = document.getElementById('previewDownload');
-
-    // اللغة الحالية
-    let currentLang = localStorage.getItem('preferredLanguage') || 'ar';
-    let searchTerm = '';
-    let currentPreviewBook = null;
-
-    // نصوص الواجهة لكل لغة
-    const uiTexts = {
-      'ar': {
-        searchPlaceholder: 'ابحث عن كتاب...',
-        sectionTitle: 'أحدث الكتب',
-        copyrightText: 'جميع الكتب من تأليف وإعداد فريق DEENWAY.',
-        noResults: 'لم يتم العثور على كتب تطابق بحثك.',
-        noBooks: 'لا توجد كتب متاحة باللغة العربية حالياً.',
-        download: 'تحميل',
-        preview: 'معاينة',
-        pages: 'صفحة',
-        footerAbout: 'من نحن',
-        footerFaq: 'الأسئلة الشائعة',
-        footerContact: 'اتصل بنا',
-        footerWebsite: 'الموقع الرسمي',
-        previewTitle: 'معاينة الكتاب',
-        previewDownload: 'تحميل الكتاب الكامل',
-        previewClose: 'إغلاق'
-      },
-      'en': {
-        searchPlaceholder: 'Search for a book...',
-        sectionTitle: 'Latest Books',
-        copyrightText: 'All books are authored and prepared by the DEENWAY team.',
-        noResults: 'No books found matching your search.',
-        noBooks: 'No books available in English at the moment.',
-        download: 'Download',
-        preview: 'Preview',
-        pages: 'pages',
-        footerAbout: 'About Us',
-        footerFaq: 'FAQ',
-        footerContact: 'Contact Us',
-        footerWebsite: 'Official Website',
-        previewTitle: 'Book Preview',
-        previewDownload: 'Download Full Book',
-        previewClose: 'Close'
-      },
-      'fr': {
-        searchPlaceholder: 'Rechercher un livre...',
-        sectionTitle: 'Derniers Livres',
-        copyrightText: 'Tous les livres sont rédigés et préparés par l\'équipe DEENWAY.',
-        noResults: 'Aucun livre trouvé correspondant à votre recherche.',
-        noBooks: 'Aucun livre disponible en français pour le moment.',
-        download: 'Télécharger',
-        preview: 'Aperçu',
-        pages: 'pages',
-        footerAbout: 'À propos',
-        footerFaq: 'FAQ',
-        footerContact: 'Contactez-nous',
-        footerWebsite: 'Site Officiel',
-        previewTitle: 'Aperçu du Livre',
-        previewDownload: 'Télécharger le Livre Complet',
-        previewClose: 'Fermer'
-      },
-      'es': {
-        searchPlaceholder: 'Buscar un libro...',
-        sectionTitle: 'Últimos Libros',
-        copyrightText: 'Todos los libros sont écritos y preparados por el equipo DEENWAY.',
-        noResults: 'No se encontraron libros que coincidan con su búsqueda.',
-        noBooks: 'No hay libros disponibles en español en este momento.',
-        download: 'Descargar',
-        preview: 'Vista previa',
-        pages: 'páginas',
-        footerAbout: 'Acerca de',
-        footerFaq: 'Preguntas Frecuentes',
-        footerContact: 'Contáctenos',
-        footerWebsite: 'Sitio Oficial',
-        previewTitle: 'Vista Previa del Libro',
-        previewDownload: 'Descargar Libro Completo',
-        previewClose: 'Cerrar'
-      },
-      'de': {
-        searchPlaceholder: 'Buch suchen...',
-        sectionTitle: 'Neueste Bücher',
-        copyrightText: 'Alle Bücher werden vom DEENWAY-Team verfasst und vorbereitet.',
-        noResults: 'Keine Bücher gefunden, die Ihrer Suche entsprechen.',
-        noBooks: 'Derzeit sind keine Bücher auf Deutsch verfügbar.',
-        download: 'Herunterladen',
-        preview: 'Vorschau',
-        pages: 'Seiten',
-        footerAbout: 'Über uns',
-        footerFaq: 'FAQ',
-        footerContact: 'Kontakt',
-        footerWebsite: 'Offizielle Website',
-        previewTitle: 'Buchvorschau',
-        previewDownload: 'Vollständiges Buch Herunterladen',
-        previewClose: 'Schließen'
-      },
-      'tr': {
-        searchPlaceholder: 'Kitap ara...',
-        sectionTitle: 'Son Kitaplar',
-        copyrightText: 'Tüm kitaplar DEENWAY ekibi tarafından yazılmış ve hazırlanmıştır.',
-        noResults: 'Aramanızla eşleşen kitap bulunamadı.',
-        noBooks: 'Şu anda Türkçe kitap mevcut değil.',
-        download: 'İndir',
-        preview: 'Önizleme',
-        pages: 'sayfa',
-        footerAbout: 'Hakkımızda',
-        footerFaq: 'SSS',
-        footerContact: 'İletişim',
-        footerWebsite: 'Resmi Web Sitesi',
-        previewTitle: 'Kitap Önizleme',
-        previewDownload: 'Tam Kitabı İndir',
-        previewClose: 'Kapat'
-      },
-      'ur': {
-        searchPlaceholder: 'کتاب تلاش کریں...',
-        sectionTitle: 'تازہ کتابیں',
-        copyrightText: 'تمام کتابیں DEENWAY ٹیم کی تالیف کردہ ہیں۔',
-        noResults: 'آپ کی تلاش سے مماثل کوئی کتاب نہیں ملی۔',
-        noBooks: 'فی الحال اردو میں کوئی کتاب دستیاب نہیں ہے۔',
-        download: 'ڈاؤن لوڈ',
-        preview: 'پیش نظارہ',
-        pages: 'صفحات',
-        footerAbout: 'ہمارے بارے میں',
-        footerFaq: 'عمومی سوالات',
-        footerContact: 'ہم سے رابطہ کریں',
-        footerWebsite: 'سرکاری ویب سائٹ',
-        previewTitle: 'کتاب کا پیش نظارہ',
-        previewDownload: 'مکمل کتاب ڈاؤن لوڈ کریں',
-        previewClose: 'بند کریں'
-      },
-      'id': {
-        searchPlaceholder: 'Cari buku...',
-        sectionTitle: 'Buku Terbaru',
-        copyrightText: 'Semua buku ditulis dan disiapkan oleh tim DEENWAY.',
-        noResults: 'Tidak ada buku yang ditemukan sesuai pencarian Anda.',
-        noBooks: 'Tidak ada buku yang tersedia dalam bahasa Indonesia saat ini.',
-        download: 'Unduh',
-        preview: 'Pratinjau',
-        pages: 'halaman',
-        footerAbout: 'Tentang Kami',
-        footerFaq: 'FAQ',
-        footerContact: 'Hubungi Kami',
-        footerWebsite: 'Situs Resmi',
-        previewTitle: 'Pratinjau Buku',
-        previewDownload: 'Unduh Buku Lengkap',
-        previewClose: 'Tutup'
-      }
-    };
-
-    // الحصول على اسم اللغة من الكود
-    function getLanguageName(langCode) {
-      const langMap = {
-        'ar': 'العربية',
-        'en': 'English',
-        'fr': 'Français', 
-        'es': 'Español',
-        'de': 'Deutsch',
-        'tr': 'Türkçe',
-        'ur': 'اردو',
-        'id': 'Indonesia'
-      };
-      return langMap[langCode] || 'العربية';
-    }
-
-    // تحديث اتجاه النص بناءً على اللغة
-    function updateTextDirection() {
-      const isRTL = ['ar', 'ur'].includes(currentLang);
-      document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
-      document.documentElement.lang = currentLang;
-    }
-
-    // تحديث واجهة اللغة
-    function updateLanguageInterface() {
-      const langName = getLanguageName(currentLang);
-      currentLanguage.textContent = langName;
-      sectionTitle.textContent = uiTexts[currentLang].sectionTitle;
-      copyrightText.textContent = uiTexts[currentLang].copyrightText;
-      
-      // تحديث نص الفوتر
-      footerAbout.querySelector('.footer-link-text').textContent = uiTexts[currentLang].footerAbout;
-      footerFaq.querySelector('.footer-link-text').textContent = uiTexts[currentLang].footerFaq;
-      footerContact.querySelector('.footer-link-text').textContent = uiTexts[currentLang].footerContact;
-      footerWebsite.querySelector('.footer-link-text').textContent = uiTexts[currentLang].footerWebsite;
-      
-      // تحديث نص نافذة المعاينة
-      previewTitle.textContent = uiTexts[currentLang].previewTitle;
-      previewDownload.innerHTML = `<i class="fas fa-download"></i> ${uiTexts[currentLang].previewDownload}`;
-      previewCloseBtn.innerHTML = `<i class="fas fa-times"></i> ${uiTexts[currentLang].previewClose}`;
-      
-      // تحديث الحالة النشطة في القائمة
-      languageOptions.forEach(opt => {
-        if (opt.getAttribute('data-lang') === currentLang) {
-          opt.classList.add('active');
-        } else {
-          opt.classList.remove('active');
+        // تحديث النصوص بناءً على اللغة الحالية
+        function updateLanguage(langCode) {
+            const texts = uiTexts[langCode];
+            
+            // تحديث النصوص مع تأثير التلاشي
+            const elements = [
+                { id: 'mainMessage', text: texts.message },
+                { id: 'subMessage', text: texts.subMessage },
+                { id: 'feature1', text: texts.feature1 },
+                { id: 'feature2', text: texts.feature2 },
+                { id: 'feature3', text: texts.feature3 },
+                { id: 'feature4', text: texts.feature4 },
+                { id: 'contactText', text: `${texts.contact}: <a href="mailto:contact@ondeenway.org">contact@ondeenway.org</a>` }
+            ];
+            
+            elements.forEach(element => {
+                const el = document.getElementById(element.id);
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    if (element.id === 'contactText') {
+                        el.innerHTML = element.text;
+                    } else {
+                        el.textContent = element.text;
+                    }
+                    el.style.opacity = '1';
+                }, 500);
+            });
+            
+            // تحديث العلم واللغة
+            document.getElementById('currentFlag').src = texts.flag;
+            document.getElementById('currentLanguage').textContent = texts.language;
+            
+            // تحديث اتجاه النص
+            document.documentElement.dir = ['ar', 'ur'].includes(langCode) ? 'rtl' : 'ltr';
+            document.documentElement.lang = langCode;
         }
-      });
-      
-      // تحديث نص البحث
-      searchBox.placeholder = uiTexts[currentLang].searchPlaceholder;
-      
-      // تحديث اتجاه النص
-      updateTextDirection();
-      
-      // إعادة عرض الكتب لتحديث الأزرار
-      render();
-    }
 
-    // تصفية الكتب حسب اللغة والبحث
-    function getFilteredBooks() {
-      return books.filter(book => {
-        // التصفية حسب اللغة
-        const langMatch = book.language === getLanguageName(currentLang);
-        
-        // التصفية حسب البحث (إن وجد)
-        const searchMatch = !searchTerm || 
-          book.title.toLowerCase().includes(searchTerm) ||
-          (book.description && book.description.toLowerCase().includes(searchTerm)) ||
-          (book.category && book.category.toLowerCase().includes(searchTerm));
-        
-        return langMatch && searchMatch;
-      });
-    }
-
-    // إنشاء غلاف افتراضي جميل بدون نص
-    function defaultCover() {
-      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'>
-        <defs>
-          <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#0b3d91;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#5ea0ff;stop-opacity:1" />
-          </linearGradient>
-          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.3"/>
-          </filter>
-        </defs>
-        
-        <rect width="100%" height="100%" fill="url(#bg)"/>
-        
-        <!-- نمط خلفية -->
-        <circle cx="80%" cy="20%" r="120" fill="white" opacity="0.1"/>
-        <circle cx="20%" cy="80%" r="80" fill="white" opacity="0.1"/>
-        
-        <!-- محتوى الغلاف -->
-        <rect x="40" y="40" width="520" height="720" rx="20" fill="white" opacity="0.9" filter="url(#shadow)"/>
-        
-        <!-- زخرفة سفلية -->
-        <rect x="100" y="700" width="400" height="4" fill="#0b3d91" opacity="0.7"/>
-      </svg>`;
-      
-      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
-    }
-
-    // فتح نافذة المعاينة
-    function openPreview(book) {
-      currentPreviewBook = book;
-      previewTitle.textContent = `${uiTexts[currentLang].previewTitle}: ${book.title}`;
-      
-      // تحديث زر التحميل
-      if (book.pdfPath && book.pdfPath.trim()) {
-        previewDownload.href = book.pdfPath;
-        previewDownload.target = '_blank';
-        previewDownload.setAttribute('download', '');
-        previewDownload.setAttribute('aria-disabled', 'false');
-        previewDownload.style.display = 'flex';
-      } else {
-        previewDownload.setAttribute('aria-disabled', 'true');
-        previewDownload.style.display = 'none';
-      }
-      
-      // إضافة محتوى المعاينة
-      previewBody.innerHTML = '';
-      const pagesContainer = document.createElement('div');
-      pagesContainer.className = 'preview-pages';
-      
-      if (book.previewContent && book.previewContent.length > 0) {
-        book.previewContent.forEach(page => {
-          const pageElement = document.createElement('div');
-          pageElement.className = 'preview-page';
-          pageElement.innerHTML = `
-            <h3>${page.title}</h3>
-            <div>${page.content}</div>
-          `;
-          pagesContainer.appendChild(pageElement);
-        });
-      } else {
-        // محتوى افتراضي إذا لم يكن هناك محتوى معاينة
-        const defaultPage = document.createElement('div');
-        defaultPage.className = 'preview-page';
-        defaultPage.innerHTML = `
-          <h3>مقدمة الكتاب</h3>
-          <p>هذا عرض مبسط لمحتوى الكتاب "${book.title}". يمكنك معاينة الأجزاء الأولى من الكتاب هنا قبل اتخاذ قرار التحميل.</p>
-          <p>الكتاب يحتوي على ${book.pages} صفحة ويغطي موضوع ${book.category}.</p>
-          <p>${book.description}</p>
-          <p>لقراءة الكتاب كاملاً، يرجى تحميله باستخدام زر التحميل الموجود أدناه.</p>
-        `;
-        pagesContainer.appendChild(defaultPage);
-      }
-      
-      previewBody.appendChild(pagesContainer);
-      previewModal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    // إغلاق نافذة المعاينة
-    function closePreview() {
-      previewModal.classList.remove('active');
-      document.body.style.overflow = '';
-      setTimeout(() => {
-        previewBody.innerHTML = '';
-      }, 300);
-    }
-
-    // إنشاء بطاقة كتاب
-    function createCard(book) {
-      const article = document.createElement('article');
-      article.className = 'card';
-      article.setAttribute('role', 'listitem');
-      article.setAttribute('tabindex', '0');
-      article.setAttribute('aria-label', `${book.title} - ${book.language}`);
-
-      // حاوية الغلاف
-      const coverContainer = document.createElement('div');
-      coverContainer.className = 'cover-container';
-      
-      const img = document.createElement('img');
-      img.className = 'cover';
-      img.loading = 'lazy';
-      img.alt = `${book.title} - غلاف الكتاب`;
-      img.src = (book.coverPath && book.coverPath.trim()) ? 
-                book.coverPath : 
-                defaultCover();
-      coverContainer.appendChild(img);
-
-      // الشارات
-      const badges = document.createElement('div');
-      badges.className = 'book-badges';
-      
-      const langBadge = document.createElement('div');
-      langBadge.className = 'language-badge';
-      langBadge.textContent = book.language;
-      badges.appendChild(langBadge);
-      
-      if (book.pdfPath && book.pdfPath.trim()) {
-        const statusBadge = document.createElement('div');
-        statusBadge.className = 'status-badge';
-        statusBadge.innerHTML = '<i class="fas fa-check"></i> متاح';
-        badges.appendChild(statusBadge);
-      }
-      
-      coverContainer.appendChild(badges);
-
-      // معلومات الكتاب
-      const info = document.createElement('div');
-      info.className = 'book-info';
-      
-      const title = document.createElement('h3');
-      title.className = 'book-title';
-      title.textContent = book.title || '';
-      info.appendChild(title);
-
-      if (book.description) {
-        const desc = document.createElement('p');
-        desc.className = 'book-description';
-        desc.textContent = book.description;
-        info.appendChild(desc);
-      }
-
-      // البيانات الوصفية والإجراءات
-      const meta = document.createElement('div');
-      meta.className = 'book-meta';
-      
-      const actions = document.createElement('div');
-      actions.className = 'book-actions';
-      
-      const download = document.createElement('a');
-      download.className = 'btn btn-download';
-      download.innerHTML = `<i class="fas fa-download"></i> <span>${uiTexts[currentLang].download}</span>`;
-      
-      if (book.pdfPath && book.pdfPath.trim()) {
-        download.href = book.pdfPath;
-        download.target = '_blank';
-        download.setAttribute('download', '');
-        download.setAttribute('aria-disabled', 'false');
-      } else {
-        download.href = '#';
-        download.setAttribute('aria-disabled', 'true');
-        download.addEventListener('click', (e) => { 
-          e.preventDefault(); 
-          alert('جاري إعداد رابط التحميل لهذا الكتاب. سيتم رفعه قريباً بإذن الله.'); 
-        });
-      }
-      
-      actions.appendChild(download);
-      
-      // زر المعاينة
-      const preview = document.createElement('button');
-      preview.className = 'btn btn-preview';
-      preview.innerHTML = `<i class="fas fa-eye"></i> <span>${uiTexts[currentLang].preview}</span>`;
-      preview.addEventListener('click', () => {
-        openPreview(book);
-      });
-      actions.appendChild(preview);
-      
-      meta.appendChild(actions);
-      info.appendChild(meta);
-      
-      article.appendChild(coverContainer);
-      article.appendChild(info);
-
-      return article;
-    }
-
-    // عرض الكتب
-    function render() {
-      const filteredBooks = getFilteredBooks();
-      grid.innerHTML = '';
-      
-      if (filteredBooks.length === 0) {
-        const noResults = document.createElement('div');
-        noResults.className = 'no-results';
-        noResults.innerHTML = `
-          <div class="no-results-icon">
-            <i class="fas fa-book-open"></i>
-          </div>
-          <h3>${searchTerm ? uiTexts[currentLang].noResults : uiTexts[currentLang].noBooks}</h3>
-          <p>${!searchTerm ? 'جاري العمل على إضافة المزيد من الكتب بهذه اللغة قريباً بإذن الله.' : 'جرب استخدام كلمات بحث مختلفة أو تصفح الكتب بلغة أخرى.'}</p>
-        `;
-        grid.appendChild(noResults);
-      } else {
-        filteredBooks.forEach((book) => grid.appendChild(createCard(book)));
-      }
-    }
-
-    // البحث
-    function initSearch() {
-      searchBox.addEventListener('input', (e) => {
-        searchTerm = e.target.value.toLowerCase().trim();
-        render();
-      });
-    }
-
-    // اختيار اللغة
-    function initLanguageSelector() {
-      languageBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        languageBtn.classList.toggle('active');
-        languageDropdown.classList.toggle('active');
-      });
-
-      languageOptions.forEach(option => {
-        option.addEventListener('click', () => {
-          const lang = option.getAttribute('data-lang');
-          currentLang = lang;
-          updateLanguageInterface();
-          
-          languageBtn.classList.remove('active');
-          languageDropdown.classList.remove('active');
-          
-          localStorage.setItem('preferredLanguage', lang);
-        });
-      });
-
-      document.addEventListener('click', () => {
-        languageBtn.classList.remove('active');
-        languageDropdown.classList.remove('active');
-      });
-    }
-
-    // تهيئة نافذة المعاينة
-    function initPreviewModal() {
-      previewClose.addEventListener('click', closePreview);
-      previewCloseBtn.addEventListener('click', closePreview);
-      
-      // إغلاق النافذة عند النقر خارج المحتوى
-      previewModal.addEventListener('click', (e) => {
-        if (e.target === previewModal) {
-          closePreview();
+        // تغيير اللغة كل 4 ثوانٍ
+        function rotateLanguage() {
+            currentLangIndex = (currentLangIndex + 1) % languages.length;
+            updateLanguage(languages[currentLangIndex]);
         }
-      });
-      
-      // إغلاق النافذة بمفتاح ESC
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && previewModal.classList.contains('active')) {
-          closePreview();
-        }
-      });
-    }
 
-    // تهيئة التطبيق
-    function initApp() {
-      updateLanguageInterface();
-      render();
-      initSearch();
-      initLanguageSelector();
-      initPreviewModal();
-    }
-
-    document.addEventListener('DOMContentLoaded', initApp);
-  </script>
+        // تهيئة التطبيق
+        document.addEventListener('DOMContentLoaded', function() {
+            // بدء من اللغة العربية
+            updateLanguage('ar');
+            
+            // بدء دوران اللغات كل 4 ثوانٍ
+            setInterval(rotateLanguage, 4000);
+            
+            // إضافة تأثيرات تفاعلية للمربعات
+            const features = document.querySelectorAll('.feature');
+            
+            features.forEach(feature => {
+                feature.addEventListener('mouseenter', function() {
+                    this.style.background = 'rgba(255, 255, 255, 0.2)';
+                });
+                
+                feature.addEventListener('mouseleave', function() {
+                    this.style.background = 'rgba(255, 255, 255, 0.1)';
+                });
+            });
+        });
+    </script>
 </body>
 </html>
