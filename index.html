@@ -5,503 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DEENWAY Ebook - قيد الإنشاء</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Reset وإعدادات أساسية */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #0b3d91;
-            --primary-light: #5ea0ff;
-            --accent: #10b981;
-            --gold: #ffd700;
-            --neon: #00ffff;
-        }
-
-        html, body {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            cursor: default;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0a1f44 0%, #1a3a6c 50%, #0b3d91 100%);
-            color: white;
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            overflow: hidden;
-        }
-
-        /* النجوم المتلألئة */
-        .stars {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        /* تأثير الجسيمات */
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .particle {
-            position: absolute;
-            background: radial-gradient(circle, var(--neon) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: float 6s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.7; }
-            90% { opacity: 0.7; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-        }
-
-        /* الحاوية الرئيسية - معدلة للعرض الكامل */
-        .main-wrapper {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 5vh 5vw;
-            box-sizing: border-box;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            height: auto;
-            max-height: 90vh;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2vh;
-            position: relative;
-            transform: scale(1);
-        }
-
-        /* الشعار مع حجم مناسب */
-        .logo-container {
-            position: relative;
-            margin-bottom: 1vh;
-            perspective: 1000px;
-        }
-
-        .logo {
-            font-size: min(8vw, 5rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, 
-                #ffffff 0%, 
-                #ffd700 25%, 
-                #00ffff 50%, 
-                #ff6b6b 75%, 
-                #ffffff 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 
-                0 0 30px rgba(255, 215, 0, 0.5),
-                0 0 60px rgba(0, 255, 255, 0.3),
-                0 0 90px rgba(255, 107, 107, 0.2);
-            font-family: 'Merriweather', serif;
-            line-height: 1.1;
-            animation: logoGlow 4s ease-in-out infinite alternate;
-        }
-
-        @keyframes logoGlow {
-            0% { 
-                text-shadow: 
-                    0 0 30px rgba(255, 215, 0, 0.5),
-                    0 0 60px rgba(0, 255, 255, 0.3),
-                    0 0 90px rgba(255, 107, 107, 0.2);
-                transform: scale(1);
-            }
-            100% { 
-                text-shadow: 
-                    0 0 40px rgba(255, 215, 0, 0.8),
-                    0 0 80px rgba(0, 255, 255, 0.5),
-                    0 0 120px rgba(255, 107, 107, 0.4);
-                transform: scale(1.02);
-            }
-        }
-
-        .logo-subtitle {
-            font-size: min(3vw, 1.5rem);
-            font-weight: 300;
-            color: var(--neon);
-            margin-top: 1vh;
-            text-shadow: 0 0 20px var(--neon);
-            animation: subtitlePulse 3s ease-in-out infinite;
-        }
-
-        @keyframes subtitlePulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
-        }
-
-        /* الرسائل الرئيسية بحجم مناسب */
-        .message-container {
-            position: relative;
-            background: linear-gradient(135deg, 
-                rgba(11, 61, 145, 0.3) 0%, 
-                rgba(94, 160, 255, 0.2) 100%);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: min(4vw, 30px);
-            margin: 1vh 0;
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            animation: containerFloat 6s ease-in-out infinite;
-            width: 90%;
-            max-width: 800px;
-        }
-
-        @keyframes containerFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .message {
-            font-size: min(5vw, 2.5rem);
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff, #a0e7ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            margin-bottom: 1vh;
-            transition: all 0.5s ease;
-            line-height: 1.2;
-        }
-
-        .sub-message {
-            font-size: min(3vw, 1.3rem);
-            line-height: 1.4;
-            opacity: 0.9;
-            font-weight: 300;
-            transition: all 0.5s ease;
-        }
-
-        /* شريط التقدم */
-        .progress-section {
-            width: 90%;
-            max-width: 500px;
-            margin: 2vh 0;
-        }
-
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1vh;
-            font-size: min(3vw, 1.1rem);
-            font-weight: 600;
-            color: var(--neon);
-        }
-
-        .progress-container {
-            width: 100%;
-            height: min(2vw, 15px);
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 
-                inset 0 2px 5px rgba(0, 0, 0, 0.3),
-                0 5px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, 
-                #10b981, 
-                #34d399, 
-                #00ffaa);
-            border-radius: 10px;
-            width: 65%;
-            animation: 
-                progress 3s ease-in-out infinite alternate,
-                progressShine 2s ease-in-out infinite;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.4), 
-                transparent);
-            animation: shine 2s ease-in-out infinite;
-        }
-
-        @keyframes progress {
-            0% { width: 65%; }
-            100% { width: 68%; }
-        }
-
-        @keyframes shine {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        /* المربعات المميزة بحجم مناسب */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: min(3vw, 20px);
-            margin: 2vh 0;
-            width: 90%;
-            max-width: 600px;
-        }
-
-        .feature {
-            background: linear-gradient(135deg, 
-                rgba(11, 61, 145, 0.4) 0%, 
-                rgba(94, 160, 255, 0.3) 100%);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
-            padding: min(4vw, 25px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            min-height: min(20vw, 120px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .feature::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.1), 
-                transparent);
-            transition: left 0.6s ease;
-        }
-
-        .feature:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(94, 160, 255, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .feature:hover::before {
-            left: 100%;
-        }
-
-        .feature i {
-            font-size: min(6vw, 2.5rem);
-            margin-bottom: 1vh;
-            background: linear-gradient(135deg, var(--gold), var(--neon));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
-            transition: all 0.4s ease;
-        }
-
-        .feature:hover i {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .feature p {
-            font-size: min(3vw, 1.1rem);
-            font-weight: 600;
-            transition: all 0.4s ease;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        /* معلومات الاتصال */
-        .contact-section {
-            margin-top: 2vh;
-            font-size: min(3vw, 1.2rem);
-            position: relative;
-        }
-
-        .contact {
-            background: linear-gradient(135deg, 
-                rgba(255, 215, 0, 0.1) 0%, 
-                rgba(0, 255, 255, 0.1) 100%);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: min(3vw, 15px) min(5vw, 25px);
-            transition: all 0.4s ease;
-        }
-
-        .contact:hover {
-            transform: scale(1.03);
-            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
-        }
-
-        .contact a {
-            color: var(--neon);
-            text-decoration: none;
-            font-weight: 600;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 20px var(--neon);
-        }
-
-        .contact a:hover {
-            border-bottom: 2px solid var(--neon);
-            text-shadow: 0 0 30px var(--neon);
-        }
-
-        /* مؤشر اللغة */
-        .language-indicator {
-            margin-top: 2vh;
-            font-size: min(3vw, 1rem);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: min(2vw, 10px);
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: min(2vw, 10px) min(4vw, 20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s ease;
-        }
-
-        .language-indicator:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: scale(1.03);
-        }
-
-        .language-flag {
-            width: min(6vw, 28px);
-            height: min(4vw, 21px);
-            border-radius: 3px;
-            object-fit: cover;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .language-indicator:hover .language-flag {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        /* التوهج الخلفي */
-        .glow {
-            position: absolute;
-            width: min(80vw, 500px);
-            height: min(80vw, 500px);
-            background: radial-gradient(circle, 
-                rgba(94, 160, 255, 0.3) 0%, 
-                rgba(0, 255, 255, 0.2) 30%, 
-                transparent 70%);
-            border-radius: 50%;
-            filter: blur(min(10vw, 50px));
-            animation: glowMove 10s ease-in-out infinite alternate;
-            z-index: -1;
-        }
-
-        @keyframes glowMove {
-            0% { transform: translate(-20vw, -15vh) scale(1); }
-            100% { transform: translate(20vw, 15vh) scale(1.2); }
-        }
-
-        /* منع التكبير/التصغير على الجوال */
-        @media (max-width: 768px) {
-            .features {
-                grid-template-columns: 1fr;
-                max-width: 400px;
-            }
-            
-            .feature {
-                min-height: min(25vw, 100px);
-            }
-        }
-
-        /* تعديلات للشاشات الصغيرة جداً */
-        @media (max-width: 480px) {
-            .main-wrapper {
-                padding: 2vh 3vw;
-            }
-            
-            .message-container {
-                padding: min(5vw, 20px);
-            }
-            
-            .feature {
-                padding: min(5vw, 15px);
-            }
-        }
-
-        /* تعديلات للشاشات الطويلة */
-        @media (max-height: 600px) {
-            .container {
-                gap: 1vh;
-                transform: scale(0.9);
-            }
-            
-            .features {
-                display: none;
-            }
-        }
-
-        /* منع اختيار النص والتكبير */
-        * {
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
@@ -509,124 +19,452 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* إصلاح مشكلة viewport على iOS */
-        @supports (-webkit-touch-callout: none) {
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        body {
+            font-family: 'El Messiri', sans-serif;
+            background: linear-gradient(135deg, #0b3d91 0%, #1e4fa8 50%, #0b3d91 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* الحاوية الرئيسية */
+        .main-container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* الشعار */
+        .logo-section {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            margin-bottom: 8px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .logo-subtitle {
+            font-size: 1.1rem;
+            color: #a0e7ff;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* رسالة البناء */
+        .construction-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px 25px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .construction-icon {
+            font-size: 3rem;
+            color: #ffd700;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .construction-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .construction-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e0f7ff;
+            opacity: 0.9;
+        }
+
+        /* الميزات */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            color: #5ea0ff;
+            margin-bottom: 10px;
+        }
+
+        .feature-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        /* شريط الحالة */
+        .status-section {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .status-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #a0e7ff;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            border-radius: 10px;
+            width: 75%;
+            animation: progressPulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes progressPulse {
+            0% { width: 72%; }
+            100% { width: 78%; }
+        }
+
+        /* زر اللغة */
+        .language-section {
+            margin: 15px 0;
+        }
+
+        .language-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 12px 25px;
+            color: white;
+            font-family: 'El Messiri', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .language-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        .language-btn i {
+            font-size: 1.1rem;
+        }
+
+        /* قائمة اللغة */
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(11, 61, 145, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 10px;
+            margin-top: 10px;
+            width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .language-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .language-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .flag {
+            width: 25px;
+            height: 18px;
+            border-radius: 3px;
+            object-fit: cover;
+        }
+
+        /* معلومات الاتصال */
+        .contact-section {
+            margin-top: 10px;
+        }
+
+        .contact-info {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px 20px;
+            font-size: 0.95rem;
+        }
+
+        .contact-info a {
+            color: #5ea0ff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* تأثيرات خلفية بسيطة */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(94, 160, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        /* التجاوب */
+        @media (max-width: 480px) {
+            .main-container {
+                gap: 20px;
+            }
+
+            .logo {
+                font-size: 2.2rem;
+            }
+
+            .construction-section {
+                padding: 25px 20px;
+            }
+
+            .construction-title {
+                font-size: 1.5rem;
+            }
+
+            .construction-text {
+                font-size: 1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .feature-card {
+                padding: 15px 12px;
+            }
+        }
+
+        /* منع التكبير على الجوال */
+        @media (max-width: 768px) {
             body {
-                height: -webkit-fill-available;
+                font-size: 14px;
+            }
+        }
+
+        /* إصلاح خاص للشاشات الصغيرة */
+        @media (max-height: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .main-container {
+                gap: 15px;
+            }
+            
+            .construction-section {
+                padding: 20px 15px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- النجوم -->
-    <div class="stars" id="stars"></div>
-    
-    <!-- الجسيمات -->
-    <div class="particles" id="particles"></div>
-    
-    <!-- التوهج الخلفي -->
-    <div class="glow"></div>
+    <!-- نمط الخلفية -->
+    <div class="bg-pattern"></div>
 
-    <div class="main-wrapper">
-        <div class="container">
-            <div class="logo-container">
-                <div class="logo">DEENWAY EBook</div>
-                <div class="logo-subtitle">One truth — eight languages</div>
+    <!-- المحتوى الرئيسي -->
+    <div class="main-container">
+        <!-- الشعار -->
+        <div class="logo-section">
+            <div class="logo">DEENWAY EBook</div>
+            <div class="logo-subtitle">One truth — eight languages</div>
+        </div>
+
+        <!-- رسالة البناء -->
+        <div class="construction-section">
+            <div class="construction-icon">
+                <i class="fas fa-tools"></i>
             </div>
-            
-            <div class="message-container">
-                <h1 class="message" id="mainMessage">الموقع قيد الإنشاء</h1>
-                <p class="sub-message" id="subMessage">نعمل حالياً على تجميع الكتب وإعداد المكتبة الإلكترونية. سنعود قريباً بمحتوى قيم ومفيد لكم.</p>
-            </div>
-            
-            <div class="progress-section">
-                <div class="progress-label">
-                    <span>جاري التحميل</span>
-                    <span id="progressPercent">65%</span>
-                </div>
-                <div class="progress-container">
-                    <div class="progress-bar"></div>
-                </div>
-            </div>
-            
-            <div class="features">
-                <div class="feature">
+            <h1 class="construction-title" id="mainMessage">الموقع قيد الإنشاء</h1>
+            <p class="construction-text" id="subMessage">نعمل حالياً على تجميع الكتب وإعداد المكتبة الإلكترونية. بإذن الله سنعود قريباً بمحتوى قيم ومفيد لكم.</p>
+        </div>
+
+        <!-- الميزات -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
                     <i class="fas fa-book"></i>
-                    <p id="feature1">كتب إلكترونية</p>
                 </div>
-                <div class="feature">
+                <div class="feature-text" id="feature1">كتب إلكترونية</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
                     <i class="fas fa-globe"></i>
-                    <p id="feature2">ثماني لغات</p>
                 </div>
-                <div class="feature">
+                <div class="feature-text" id="feature2">ثماني لغات</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
                     <i class="fas fa-download"></i>
-                    <p id="feature3">تحميل مجاني</p>
                 </div>
-                <div class="feature">
+                <div class="feature-text" id="feature3">تحميل مجاني</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
                     <i class="fas fa-mobile-alt"></i>
-                    <p id="feature4">متوافق مع جميع الأجهزة</p>
                 </div>
+                <div class="feature-text" id="feature4">متوافق مع جميع الأجهزة</div>
             </div>
-            
-            <div class="contact-section">
-                <div class="contact" id="contactSection">
-                    <p id="contactText">للتواصل: <a href="mailto:contact@ondeenway.org">contact@ondeenway.org</a></p>
-                </div>
-            </div>
+        </div>
 
-            <div class="language-indicator">
-                <img id="currentFlag" src="https://flagcdn.com/w40/sa.png" class="language-flag" alt="العربية">
+        <!-- شريط الحالة -->
+        <div class="status-section">
+            <div class="status-label">
+                <span>قيد الإعداد</span>
+                <span>قريباً بإذن الله</span>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+
+        <!-- اختيار اللغة -->
+        <div class="language-section">
+            <button class="language-btn" id="languageBtn">
+                <i class="fas fa-globe"></i>
                 <span id="currentLanguage">العربية</span>
+            </button>
+            <div class="language-dropdown" id="languageDropdown">
+                <div class="language-option active" data-lang="ar">
+                    <img src="https://flagcdn.com/w40/sa.png" class="flag" alt="العربية">
+                    <span>العربية</span>
+                </div>
+                <div class="language-option" data-lang="en">
+                    <img src="https://flagcdn.com/w40/gb.png" class="flag" alt="English">
+                    <span>English</span>
+                </div>
+                <div class="language-option" data-lang="fr">
+                    <img src="https://flagcdn.com/w40/fr.png" class="flag" alt="Français">
+                    <span>Français</span>
+                </div>
+                <div class="language-option" data-lang="es">
+                    <img src="https://flagcdn.com/w40/es.png" class="flag" alt="Español">
+                    <span>Español</span>
+                </div>
+                <div class="language-option" data-lang="de">
+                    <img src="https://flagcdn.com/w40/de.png" class="flag" alt="Deutsch">
+                    <span>Deutsch</span>
+                </div>
+                <div class="language-option" data-lang="tr">
+                    <img src="https://flagcdn.com/w40/tr.png" class="flag" alt="Türkçe">
+                    <span>Türkçe</span>
+                </div>
+                <div class="language-option" data-lang="ur">
+                    <img src="https://flagcdn.com/w40/pk.png" class="flag" alt="اردو">
+                    <span>اردو</span>
+                </div>
+                <div class="language-option" data-lang="id">
+                    <img src="https://flagcdn.com/w40/id.png" class="flag" alt="Bahasa Indonesia">
+                    <span>Indonesia</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- معلومات الاتصال -->
+        <div class="contact-section">
+            <div class="contact-info">
+                <p id="contactText">للتواصل: <a href="mailto:contact@ondeenway.org">contact@ondeenway.org</a></p>
             </div>
         </div>
     </div>
 
     <script>
-        // إنشاء النجوم
-        function createStars() {
-            const stars = document.getElementById('stars');
-            const starCount = Math.min(100, window.innerWidth * window.innerHeight / 5000);
-            
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.width = Math.random() * 2 + 1 + 'px';
-                star.style.height = star.style.width;
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                stars.appendChild(star);
-            }
-        }
-
-        // إنشاء الجسيمات
-        function createParticles() {
-            const particles = document.getElementById('particles');
-            const particleCount = Math.min(30, window.innerWidth * window.innerHeight / 10000);
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.width = Math.random() * 4 + 2 + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
-                particles.appendChild(particle);
-            }
-        }
-
         // نصوص الواجهة لكل لغة
         const uiTexts = {
             'ar': {
                 message: 'الموقع قيد الإنشاء',
-                subMessage: 'نعمل حالياً على تجميع الكتب وإعداد المكتبة الإلكترونية. سنعود قريباً بمحتوى قيم ومفيد لكم.',
+                subMessage: 'نعمل حالياً على تجميع الكتب وإعداد المكتبة الإلكترونية. بإذن الله سنعود قريباً بمحتوى قيم ومفيد لكم.',
                 feature1: 'كتب إلكترونية',
                 feature2: 'ثماني لغات',
                 feature3: 'تحميل مجاني',
                 feature4: 'متوافق مع جميع الأجهزة',
                 contact: 'للتواصل',
-                flag: 'https://flagcdn.com/w40/sa.png',
                 language: 'العربية'
             },
             'en': {
@@ -637,7 +475,6 @@
                 feature3: 'Free Download',
                 feature4: 'All Devices Compatible',
                 contact: 'Contact',
-                flag: 'https://flagcdn.com/w40/gb.png',
                 language: 'English'
             },
             'fr': {
@@ -648,7 +485,6 @@
                 feature3: 'Téléchargement Gratuit',
                 feature4: 'Tous Appareils Compatibles',
                 contact: 'Contact',
-                flag: 'https://flagcdn.com/w40/fr.png',
                 language: 'Français'
             },
             'es': {
@@ -659,7 +495,6 @@
                 feature3: 'Descarga Gratuita',
                 feature4: 'Todos Dispositivos Compatibles',
                 contact: 'Contacto',
-                flag: 'https://flagcdn.com/w40/es.png',
                 language: 'Español'
             },
             'de': {
@@ -670,7 +505,6 @@
                 feature3: 'Kostenloser Download',
                 feature4: 'Alle Geräte Kompatibel',
                 contact: 'Kontakt',
-                flag: 'https://flagcdn.com/w40/de.png',
                 language: 'Deutsch'
             },
             'tr': {
@@ -681,7 +515,6 @@
                 feature3: 'Ücretsiz İndirme',
                 feature4: 'Tüm Cihazlar Uyumlu',
                 contact: 'İletişim',
-                flag: 'https://flagcdn.com/w40/tr.png',
                 language: 'Türkçe'
             },
             'ur': {
@@ -692,7 +525,6 @@
                 feature3: 'مفت ڈاؤن لوڈ',
                 feature4: 'تمام آلات کے ساتھ مطابقت',
                 contact: 'رابطہ',
-                flag: 'https://flagcdn.com/w40/pk.png',
                 language: 'اردو'
             },
             'id': {
@@ -703,14 +535,16 @@
                 feature3: 'Unduhan Gratis',
                 feature4: 'Semua Perangkat Kompatibel',
                 contact: 'Kontak',
-                flag: 'https://flagcdn.com/w40/id.png',
                 language: 'Indonesia'
             }
         };
 
-        // ترتيب اللغات للدوران
-        const languages = ['ar', 'en', 'fr', 'es', 'de', 'tr', 'ur', 'id'];
-        let currentLangIndex = 0;
+        // عناصر DOM
+        const languageBtn = document.getElementById('languageBtn');
+        const languageDropdown = document.getElementById('languageDropdown');
+        const currentLanguage = document.getElementById('currentLanguage');
+        const languageOptions = document.querySelectorAll('.language-option');
+        let currentLang = 'ar';
 
         // تحديث النصوص بناءً على اللغة الحالية
         function updateLanguage(langCode) {
@@ -728,74 +562,61 @@
             
             elements.forEach(element => {
                 const el = document.getElementById(element.id);
-                el.style.opacity = '0';
-                setTimeout(() => {
-                    if (element.id === 'contactText') {
-                        el.innerHTML = element.text;
-                    } else {
-                        el.textContent = element.text;
-                    }
-                    el.style.opacity = '1';
-                }, 300);
+                if (element.id === 'contactText') {
+                    el.innerHTML = element.text;
+                } else {
+                    el.textContent = element.text;
+                }
             });
             
-            document.getElementById('currentFlag').src = texts.flag;
-            document.getElementById('currentLanguage').textContent = texts.language;
+            currentLanguage.textContent = texts.language;
+            currentLang = langCode;
             
             document.documentElement.dir = ['ar', 'ur'].includes(langCode) ? 'rtl' : 'ltr';
             document.documentElement.lang = langCode;
         }
 
-        // تغيير اللغة كل 4 ثوانٍ
-        function rotateLanguage() {
-            currentLangIndex = (currentLangIndex + 1) % languages.length;
-            updateLanguage(languages[currentLangIndex]);
+        // إدارة اختيار اللغة
+        function initLanguageSelector() {
+            languageBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                languageDropdown.classList.toggle('active');
+            });
+
+            languageOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    const lang = option.getAttribute('data-lang');
+                    updateLanguage(lang);
+                    
+                    // تحديث الحالة النشطة
+                    languageOptions.forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
+                    
+                    languageDropdown.classList.remove('active');
+                });
+            });
+
+            document.addEventListener('click', () => {
+                languageDropdown.classList.remove('active');
+            });
         }
 
         // تهيئة التطبيق
         document.addEventListener('DOMContentLoaded', function() {
-            createStars();
-            createParticles();
+            initLanguageSelector();
             
             // بدء من اللغة العربية
             updateLanguage('ar');
-            
-            // بدء دوران اللغات كل 4 ثوانٍ
-            setInterval(rotateLanguage, 4000);
             
             // منع السكرول والزووم
             document.body.style.overflow = 'hidden';
             document.addEventListener('wheel', preventScroll, { passive: false });
             document.addEventListener('touchmove', preventScroll, { passive: false });
-            document.addEventListener('gesturestart', function(e) {
-                e.preventDefault();
-            });
             
             function preventScroll(e) {
                 e.preventDefault();
                 return false;
             }
-
-            // إصلاح للشاشات الصغيرة
-            function adjustLayout() {
-                const container = document.querySelector('.container');
-                const windowHeight = window.innerHeight;
-                const windowWidth = window.innerWidth;
-                
-                if (windowHeight < 600) {
-                    container.style.gap = '1vh';
-                    container.style.transform = 'scale(0.85)';
-                } else if (windowHeight < 700) {
-                    container.style.gap = '1.5vh';
-                    container.style.transform = 'scale(0.9)';
-                } else {
-                    container.style.gap = '2vh';
-                    container.style.transform = 'scale(1)';
-                }
-            }
-
-            window.addEventListener('resize', adjustLayout);
-            adjustLayout();
         });
     </script>
 </body>
