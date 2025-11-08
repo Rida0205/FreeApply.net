@@ -80,10 +80,140 @@
             width: 100%;
         }
 
+        /* حاوية الأيقونة المتحركة */
+        .icon-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px auto;
+        }
+
+        /* الأيقونة الرئيسية */
         .construction-icon {
-            font-size: 3.5rem;
+            font-size: 4rem;
             color: #0b3d91;
-            margin-bottom: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        /* تأثير الهالة حول الأيقونة */
+        .icon-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(11, 61, 145, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+
+        /* العناصر المتحركة حول الأيقونة */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .floating-element {
+            position: absolute;
+            font-size: 1.2rem;
+            color: #0b3d91;
+            opacity: 0.7;
+        }
+
+        .element-1 {
+            top: 10%;
+            left: 20%;
+            animation: orbit1 4s linear infinite;
+        }
+
+        .element-2 {
+            top: 20%;
+            right: 10%;
+            animation: orbit2 5s linear infinite;
+        }
+
+        .element-3 {
+            bottom: 15%;
+            left: 15%;
+            animation: orbit3 6s linear infinite;
+        }
+
+        .element-4 {
+            bottom: 10%;
+            right: 20%;
+            animation: orbit4 4.5s linear infinite;
+        }
+
+        /* حركات الأيقونة */
+        @keyframes iconFloat {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+            25% {
+                transform: translate(-50%, -55%) scale(1.05) rotate(5deg);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1) rotate(0deg);
+            }
+            75% {
+                transform: translate(-50%, -45%) scale(1.05) rotate(-5deg);
+            }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+        }
+
+        /* حركات العناصر المتحركة */
+        @keyframes orbit1 {
+            0% {
+                transform: rotate(0deg) translateX(40px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(40px) rotate(-360deg);
+            }
+        }
+
+        @keyframes orbit2 {
+            0% {
+                transform: rotate(45deg) translateX(35px) rotate(-45deg);
+            }
+            100% {
+                transform: rotate(405deg) translateX(35px) rotate(-405deg);
+            }
+        }
+
+        @keyframes orbit3 {
+            0% {
+                transform: rotate(90deg) translateX(30px) rotate(-90deg);
+            }
+            100% {
+                transform: rotate(450deg) translateX(30px) rotate(-450deg);
+            }
+        }
+
+        @keyframes orbit4 {
+            0% {
+                transform: rotate(135deg) translateX(25px) rotate(-135deg);
+            }
+            100% {
+                transform: rotate(495deg) translateX(25px) rotate(-495deg);
+            }
         }
 
         .construction-title {
@@ -91,33 +221,12 @@
             font-weight: 700;
             color: #0b3d91;
             margin-bottom: 15px;
-            transition: opacity 0.5s ease;
         }
 
         .construction-text {
             font-size: 1.1rem;
             color: #666;
             line-height: 1.6;
-            transition: opacity 0.5s ease;
-        }
-
-        /* مؤشر اللغة */
-        .language-indicator {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            transition: opacity 0.5s ease;
-        }
-
-        .flag {
-            width: 24px;
-            height: 18px;
-            border-radius: 2px;
-            object-fit: cover;
         }
 
         /* الفوتر */
@@ -166,6 +275,15 @@
             .construction-text {
                 font-size: 1rem;
             }
+
+            .icon-container {
+                width: 100px;
+                height: 100px;
+            }
+
+            .construction-icon {
+                font-size: 3rem;
+            }
         }
 
         @media (max-height: 600px) {
@@ -190,17 +308,19 @@
     <main class="main-content">
         <!-- رسالة البناء -->
         <div class="construction-section">
-            <div class="construction-icon">
-                <i class="fas fa-tools"></i>
+            <!-- الأيقونة المتحركة -->
+            <div class="icon-container">
+                <div class="icon-glow"></div>
+                <i class="fas fa-tools construction-icon"></i>
+                <div class="floating-elements">
+                    <i class="fas fa-book floating-element element-1"></i>
+                    <i class="fas fa-globe floating-element element-2"></i>
+                    <i class="fas fa-download floating-element element-3"></i>
+                    <i class="fas fa-mobile-alt floating-element element-4"></i>
+                </div>
             </div>
-            <h1 class="construction-title" id="mainMessage">الموقع قيد الإنشاء</h1>
-            <p class="construction-text" id="subMessage">نعمل حالياً على تجميع الكتب وإعداد المكتبة الإلكترونية. بإذن الله سنعود قريباً بمحتوى قيم ومفيد لكم.</p>
-        </div>
-
-        <!-- مؤشر اللغة -->
-        <div class="language-indicator">
-            <img id="currentFlag" src="https://flagcdn.com/w40/sa.png" class="flag" alt="العربية">
-            <span id="currentLanguage">العربية</span>
+            <h1 class="construction-title">الموقع قيد الإنشاء</h1>
+            <p class="construction-text">نعمل حالياً على تجميع الكتب وإعداد المكتبة الإلكترونية. بإذن الله سنعود قريباً بمحتوى قيم ومفيد لكم.</p>
         </div>
     </main>
 
@@ -210,105 +330,8 @@
     </footer>
 
     <script>
-        // نصوص الواجهة لكل لغة
-        const uiTexts = {
-            'ar': {
-                message: 'الموقع قيد الإنشاء',
-                subMessage: 'نعمل حالياً على تجميع الكتب وإعداد المكتبة الإلكترونية. بإذن الله سنعود قريباً بمحتوى قيم ومفيد لكم.',
-                flag: 'https://flagcdn.com/w40/sa.png',
-                language: 'العربية'
-            },
-            'en': {
-                message: 'Website Under Construction',
-                subMessage: 'We are currently compiling books and preparing the e-library. We will be back soon with valuable content.',
-                flag: 'https://flagcdn.com/w40/gb.png',
-                language: 'English'
-            },
-            'fr': {
-                message: 'Site en Construction',
-                subMessage: 'Nous préparons la bibliothèque électronique. Nous reviendrons bientôt.',
-                flag: 'https://flagcdn.com/w40/fr.png',
-                language: 'Français'
-            },
-            'es': {
-                message: 'Sitio en Construcción',
-                subMessage: 'Preparamos la biblioteca electrónica. Volveremos pronto.',
-                flag: 'https://flagcdn.com/w40/es.png',
-                language: 'Español'
-            },
-            'de': {
-                message: 'Website im Aufbau',
-                subMessage: 'Wir bereiten die E-Bibliothek vor. Wir kehren bald zurück.',
-                flag: 'https://flagcdn.com/w40/de.png',
-                language: 'Deutsch'
-            },
-            'tr': {
-                message: 'Site Yapım Aşamasında',
-                subMessage: 'E-kütüphaneyi hazırlıyoruz. Yakında döneceğiz.',
-                flag: 'https://flagcdn.com/w40/tr.png',
-                language: 'Türkçe'
-            },
-            'ur': {
-                message: 'ویب سائٹ زیر تعمیر',
-                subMessage: 'ہم ای لائبریری تیار کر رہے ہیں۔ جلد واپس آئیں گے۔',
-                flag: 'https://flagcdn.com/w40/pk.png',
-                language: 'اردو'
-            },
-            'id': {
-                message: 'Situs Dibangun',
-                subMessage: 'Kami menyiapkan perpustakaan elektronik. Segera kembali.',
-                flag: 'https://flagcdn.com/w40/id.png',
-                language: 'Indonesia'
-            }
-        };
-
-        // ترتيب اللغات للدوران
-        const languages = ['ar', 'en', 'fr', 'es', 'de', 'tr', 'ur', 'id'];
-        let currentLangIndex = 0;
-
-        // تحديث النصوص بناءً على اللغة الحالية
-        function updateLanguage(langCode) {
-            const texts = uiTexts[langCode];
-            
-            const elements = [
-                { id: 'mainMessage', text: texts.message },
-                { id: 'subMessage', text: texts.subMessage }
-            ];
-            
-            // تأثير التلاشي
-            elements.forEach(element => {
-                const el = document.getElementById(element.id);
-                el.style.opacity = '0';
-                setTimeout(() => {
-                    el.textContent = element.text;
-                    el.style.opacity = '1';
-                }, 250);
-            });
-            
-            // تحديث العلم واللغة
-            document.getElementById('currentFlag').src = texts.flag;
-            document.getElementById('currentLanguage').textContent = texts.language;
-            
-            // تحديث اتجاه النص
-            document.documentElement.dir = ['ar', 'ur'].includes(langCode) ? 'rtl' : 'ltr';
-            document.documentElement.lang = langCode;
-        }
-
-        // تغيير اللغة كل 5 ثوانٍ
-        function rotateLanguage() {
-            currentLangIndex = (currentLangIndex + 1) % languages.length;
-            updateLanguage(languages[currentLangIndex]);
-        }
-
-        // تهيئة التطبيق
+        // منع السكرول والزووم
         document.addEventListener('DOMContentLoaded', function() {
-            // بدء من اللغة العربية
-            updateLanguage('ar');
-            
-            // بدء دوران اللغات كل 5 ثوانٍ
-            setInterval(rotateLanguage, 5000);
-            
-            // منع السكرول والزووم
             document.body.style.overflow = 'hidden';
             document.addEventListener('wheel', preventScroll, { passive: false });
             document.addEventListener('touchmove', preventScroll, { passive: false });
