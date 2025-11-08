@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DEENWAY Ebook - قيد الإنشاء</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Reset وإعدادات أساسية */
+        /* Reset بسيط */
         * {
             margin: 0;
             padding: 0;
@@ -16,514 +16,128 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        html {
+        html, body {
             width: 100%;
             height: 100%;
             overflow: hidden;
         }
 
         body {
-            font-family: 'El Messiri', sans-serif;
-            background: linear-gradient(135deg, #0b3d91 0%, #1e4fa8 50%, #0b3d91 100%);
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #0b3d91 0%, #1a478f 100%);
             color: white;
-            width: 100vw;
+            display: flex;
+            flex-direction: column;
             height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
             padding: 0;
-            margin: 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            overflow: hidden;
         }
 
-        /* الهيدر المحسن */
+        /* الهيدر */
         .header {
-            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
             padding: 25px 20px;
-            background: linear-gradient(135deg, 
-                rgba(11, 61, 145, 0.95) 0%, 
-                rgba(94, 160, 255, 0.8) 100%);
-            backdrop-filter: blur(20px);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .header-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            max-width: 600px;
-            width: 100%;
-        }
-
-        .logo-main {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 5px;
-        }
-
-        .logo-icon {
-            font-size: 2.5rem;
-            color: #ffd700;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-            animation: iconFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
         }
 
         .logo {
             font-size: 2.5rem;
-            font-weight: 800;
-            color: white;
-            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            margin-bottom: 2px;
-            font-family: 'Merriweather', serif;
-            line-height: 1.1;
-            background: linear-gradient(135deg, #ffffff, #ffd700, #a0e7ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-weight: 700;
+            color: #0b3d91;
+            margin-bottom: 8px;
         }
 
         .logo-subtitle {
             font-size: 1.1rem;
-            color: #e0f7ff;
-            font-weight: 500;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            letter-spacing: 0.5px;
+            color: #666;
+            font-weight: 400;
         }
 
-        .header-decoration {
-            width: 80%;
-            height: 3px;
-            background: linear-gradient(90deg, 
-                transparent, 
-                #ffd700, 
-                #00ffff, 
-                #ffd700, 
-                transparent);
-            border-radius: 2px;
-            margin-top: 8px;
-            opacity: 0.8;
-            animation: lineGlow 2s ease-in-out infinite;
-        }
-
-        @keyframes lineGlow {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        /* الحاوية الرئيسية مع سكرول */
-        .scroll-container {
-            width: 100%;
-            height: 100vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding-top: 140px; /* مساحة للهيدر المحسن */
-            padding-bottom: 80px; /* مساحة للفوتر */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
+        /* المحتوى الرئيسي */
         .main-content {
-            width: 100%;
-            max-width: 600px;
+            flex: 1;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
+            padding: 0 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
             gap: 30px;
-            padding: 20px;
         }
 
         /* رسالة البناء */
         .construction-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 35px 30px;
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             width: 100%;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .construction-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #ffd700, #00ffff, #ffd700);
-            animation: borderGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes borderGlow {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
         }
 
         .construction-icon {
             font-size: 3.5rem;
-            color: #ffd700;
+            color: #0b3d91;
             margin-bottom: 20px;
-            text-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
-            animation: iconPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes iconPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
         }
 
         .construction-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
+            color: #0b3d91;
             margin-bottom: 15px;
-            color: white;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: opacity 0.5s ease;
         }
 
         .construction-text {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            color: #e0f7ff;
-            opacity: 0.9;
-        }
-
-        /* الميزات */
-        .features-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            width: 100%;
-            margin: 20px 0;
-        }
-
-        .feature-card {
-            background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.1) 0%, 
-                rgba(255, 255, 255, 0.05) 100%);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
-            padding: 25px 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.1), 
-                transparent);
-            transition: left 0.5s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-            background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.15) 0%, 
-                rgba(255, 255, 255, 0.08) 100%);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.25);
-        }
-
-        .feature-card:hover::before {
-            left: 100%;
-        }
-
-        .feature-icon {
-            font-size: 2.2rem;
-            color: #5ea0ff;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover .feature-icon {
-            transform: scale(1.2);
-            color: #ffd700;
-        }
-
-        .feature-text {
-            font-size: 1rem;
-            font-weight: 600;
-            color: white;
-        }
-
-        /* شريط الحالة */
-        .status-section {
-            width: 100%;
-            margin: 20px 0;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-        }
-
-        .status-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 1rem;
-            color: #a0e7ff;
-            font-weight: 600;
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #10b981, #34d399, #00ffaa);
-            border-radius: 10px;
-            width: 75%;
-            animation: progressPulse 2s ease-in-out infinite alternate;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.4), 
-                transparent);
-            animation: shine 2s ease-in-out infinite;
-        }
-
-        @keyframes progressPulse {
-            0% { width: 72%; }
-            100% { width: 78%; }
-        }
-
-        @keyframes shine {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        /* زر اللغة */
-        .language-section {
-            margin: 20px 0;
-            position: relative;
-        }
-
-        .language-btn {
-            background: linear-gradient(135deg, 
-                rgba(255, 215, 0, 0.2) 0%, 
-                rgba(0, 255, 255, 0.2) 100%);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 25px;
-            padding: 15px 30px;
-            color: white;
-            font-family: 'El Messiri', sans-serif;
             font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            color: #666;
+            line-height: 1.6;
+            transition: opacity 0.5s ease;
+        }
+
+        /* مؤشر اللغة */
+        .language-indicator {
             display: flex;
             align-items: center;
-            gap: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .language-btn:hover {
-            background: linear-gradient(135deg, 
-                rgba(255, 215, 0, 0.3) 0%, 
-                rgba(0, 255, 255, 0.3) 100%);
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        .language-btn i {
-            font-size: 1.3rem;
-            transition: transform 0.3s ease;
-        }
-
-        .language-btn:hover i {
-            transform: rotate(15deg);
-        }
-
-        /* قائمة اللغة */
-        .language-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, 
-                rgba(11, 61, 145, 0.95) 0%, 
-                rgba(94, 160, 255, 0.9) 100%);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 15px;
-            padding: 15px;
-            margin-top: 10px;
-            width: 220px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .language-dropdown.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .language-option {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px 15px;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: all 0.2s ease;
-            margin-bottom: 5px;
-        }
-
-        .language-option:last-child {
-            margin-bottom: 0;
-        }
-
-        .language-option:hover {
-            background: linear-gradient(135deg, 
-                rgba(255, 215, 0, 0.2) 0%, 
-                rgba(0, 255, 255, 0.2) 100%);
-            transform: translateX(5px);
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: opacity 0.5s ease;
         }
 
         .flag {
-            width: 28px;
-            height: 21px;
-            border-radius: 4px;
+            width: 24px;
+            height: 18px;
+            border-radius: 2px;
             object-fit: cover;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: transform 0.3s ease;
         }
 
-        .language-option:hover .flag {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        /* الفوتر المحسن */
+        /* الفوتر */
         .footer {
-            width: 100%;
-            padding: 25px 20px;
-            background: linear-gradient(135deg, 
-                rgba(11, 61, 145, 0.9) 0%, 
-                rgba(94, 160, 255, 0.7) 100%);
-            backdrop-filter: blur(15px);
-            border-top: 2px solid rgba(255, 255, 255, 0.2);
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            z-index: 1000;
-            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            flex-shrink: 0;
         }
 
-        .contact-info {
-            font-size: 1rem;
-            color: #e0f7ff;
+        .email-link {
+            font-size: 0.95rem;
+            color: #0b3d91;
+            text-decoration: none;
             font-weight: 500;
         }
 
-        .contact-info a {
-            color: #ffd700;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border-bottom: 1px solid transparent;
-        }
-
-        .contact-info a:hover {
-            color: #00ffff;
-            border-bottom: 1px solid #00ffff;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-        }
-
-        /* تأثيرات خلفية */
-        .bg-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(94, 160, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
-            z-index: -1;
-        }
-
-        /* تخصيص شريط السكرول */
-        .scroll-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .scroll-container::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-        }
-
-        .scroll-container::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #ffd700, #00ffff);
-            border-radius: 4px;
-        }
-
-        .scroll-container::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #ffed4e, #4dffff);
+        .email-link:hover {
+            text-decoration: underline;
         }
 
         /* التجاوب */
@@ -536,167 +150,63 @@
                 font-size: 2rem;
             }
 
-            .logo-icon {
-                font-size: 2rem;
-            }
-
-            .logo-subtitle {
-                font-size: 0.9rem;
-            }
-
-            .scroll-container {
-                padding-top: 120px;
-                padding-bottom: 70px;
-            }
-
             .main-content {
-                padding: 15px;
+                padding: 0 15px;
                 gap: 25px;
             }
 
             .construction-section {
-                padding: 25px 20px;
+                padding: 30px 20px;
             }
 
             .construction-title {
-                font-size: 1.6rem;
+                font-size: 1.5rem;
             }
 
             .construction-text {
                 font-size: 1rem;
             }
+        }
 
-            .features-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
+        @media (max-height: 600px) {
+            .main-content {
+                gap: 20px;
             }
-
-            .feature-card {
-                padding: 20px 15px;
+            
+            .construction-section {
+                padding: 25px 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- نمط الخلفية -->
-    <div class="bg-pattern"></div>
-
-    <!-- الهيدر المحسن -->
+    <!-- الهيدر -->
     <header class="header">
-        <div class="header-content">
-            <div class="logo-main">
-                <div class="logo-icon">
-                    <i class="fas fa-book-open"></i>
-                </div>
-                <div class="logo-text">
-                    <div class="logo">DEENWAY EBook</div>
-                    <div class="logo-subtitle">One truth — eight languages</div>
-                </div>
-            </div>
-            <div class="header-decoration"></div>
-        </div>
+        <div class="logo">DEENWAY EBook</div>
+        <div class="logo-subtitle">One truth — eight languages</div>
     </header>
 
-    <!-- المحتوى الرئيسي مع سكرول -->
-    <div class="scroll-container">
-        <div class="main-content">
-            <!-- رسالة البناء -->
-            <div class="construction-section">
-                <div class="construction-icon">
-                    <i class="fas fa-tools"></i>
-                </div>
-                <h1 class="construction-title" id="mainMessage">الموقع قيد الإنشاء</h1>
-                <p class="construction-text" id="subMessage">نعمل حالياً على تجميع الكتب وإعداد المكتبة الإلكترونية. بإذن الله سنعود قريباً بمحتوى قيم ومفيد لكم.</p>
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <!-- رسالة البناء -->
+        <div class="construction-section">
+            <div class="construction-icon">
+                <i class="fas fa-tools"></i>
             </div>
-
-            <!-- الميزات -->
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <div class="feature-text" id="feature1">كتب إلكترونية</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <div class="feature-text" id="feature2">ثماني لغات</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-download"></i>
-                    </div>
-                    <div class="feature-text" id="feature3">تحميل مجاني</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="feature-text" id="feature4">متوافق مع جميع الأجهزة</div>
-                </div>
-            </div>
-
-            <!-- شريط الحالة -->
-            <div class="status-section">
-                <div class="status-label">
-                    <span>قيد الإعداد</span>
-                    <span>قريباً بإذن الله</span>
-                </div>
-                <div class="progress-container">
-                    <div class="progress-bar"></div>
-                </div>
-            </div>
-
-            <!-- اختيار اللغة -->
-            <div class="language-section">
-                <button class="language-btn" id="languageBtn">
-                    <i class="fas fa-globe"></i>
-                    <span id="currentLanguage">العربية</span>
-                </button>
-                <div class="language-dropdown" id="languageDropdown">
-                    <div class="language-option active" data-lang="ar">
-                        <img src="https://flagcdn.com/w40/sa.png" class="flag" alt="العربية">
-                        <span>العربية</span>
-                    </div>
-                    <div class="language-option" data-lang="en">
-                        <img src="https://flagcdn.com/w40/gb.png" class="flag" alt="English">
-                        <span>English</span>
-                    </div>
-                    <div class="language-option" data-lang="fr">
-                        <img src="https://flagcdn.com/w40/fr.png" class="flag" alt="Français">
-                        <span>Français</span>
-                    </div>
-                    <div class="language-option" data-lang="es">
-                        <img src="https://flagcdn.com/w40/es.png" class="flag" alt="Español">
-                        <span>Español</span>
-                    </div>
-                    <div class="language-option" data-lang="de">
-                        <img src="https://flagcdn.com/w40/de.png" class="flag" alt="Deutsch">
-                        <span>Deutsch</span>
-                    </div>
-                    <div class="language-option" data-lang="tr">
-                        <img src="https://flagcdn.com/w40/tr.png" class="flag" alt="Türkçe">
-                        <span>Türkçe</span>
-                    </div>
-                    <div class="language-option" data-lang="ur">
-                        <img src="https://flagcdn.com/w40/pk.png" class="flag" alt="اردو">
-                        <span>اردو</span>
-                    </div>
-                    <div class="language-option" data-lang="id">
-                        <img src="https://flagcdn.com/w40/id.png" class="flag" alt="Bahasa Indonesia">
-                        <span>Indonesia</span>
-                    </div>
-                </div>
-            </div>
+            <h1 class="construction-title" id="mainMessage">الموقع قيد الإنشاء</h1>
+            <p class="construction-text" id="subMessage">نعمل حالياً على تجميع الكتب وإعداد المكتبة الإلكترونية. بإذن الله سنعود قريباً بمحتوى قيم ومفيد لكم.</p>
         </div>
-    </div>
 
-    <!-- الفوتر المحسن -->
+        <!-- مؤشر اللغة -->
+        <div class="language-indicator">
+            <img id="currentFlag" src="https://flagcdn.com/w40/sa.png" class="flag" alt="العربية">
+            <span id="currentLanguage">العربية</span>
+        </div>
+    </main>
+
+    <!-- الفوتر -->
     <footer class="footer">
-        <div class="contact-info">
-            <p id="contactText">للتواصل: <a href="mailto:contact@ondeenway.org">contact@ondeenway.org</a></p>
-        </div>
+        <a href="mailto:contact@ondeenway.org" class="email-link">contact@ondeenway.org</a>
     </footer>
 
     <script>
@@ -705,91 +215,56 @@
             'ar': {
                 message: 'الموقع قيد الإنشاء',
                 subMessage: 'نعمل حالياً على تجميع الكتب وإعداد المكتبة الإلكترونية. بإذن الله سنعود قريباً بمحتوى قيم ومفيد لكم.',
-                feature1: 'كتب إلكترونية',
-                feature2: 'ثماني لغات',
-                feature3: 'تحميل مجاني',
-                feature4: 'متوافق مع جميع الأجهزة',
-                contact: 'للتواصل',
+                flag: 'https://flagcdn.com/w40/sa.png',
                 language: 'العربية'
             },
             'en': {
                 message: 'Website Under Construction',
                 subMessage: 'We are currently compiling books and preparing the e-library. We will be back soon with valuable content.',
-                feature1: 'E-books',
-                feature2: 'Eight Languages',
-                feature3: 'Free Download',
-                feature4: 'All Devices Compatible',
-                contact: 'Contact',
+                flag: 'https://flagcdn.com/w40/gb.png',
                 language: 'English'
             },
             'fr': {
                 message: 'Site en Construction',
                 subMessage: 'Nous préparons la bibliothèque électronique. Nous reviendrons bientôt.',
-                feature1: 'Livres électroniques',
-                feature2: 'Huit Langues',
-                feature3: 'Téléchargement Gratuit',
-                feature4: 'Tous Appareils Compatibles',
-                contact: 'Contact',
+                flag: 'https://flagcdn.com/w40/fr.png',
                 language: 'Français'
             },
             'es': {
                 message: 'Sitio en Construcción',
                 subMessage: 'Preparamos la biblioteca electrónica. Volveremos pronto.',
-                feature1: 'Libros electrónicos',
-                feature2: 'Ocho Idiomas',
-                feature3: 'Descarga Gratuita',
-                feature4: 'Todos Dispositivos Compatibles',
-                contact: 'Contacto',
+                flag: 'https://flagcdn.com/w40/es.png',
                 language: 'Español'
             },
             'de': {
                 message: 'Website im Aufbau',
                 subMessage: 'Wir bereiten die E-Bibliothek vor. Wir kehren bald zurück.',
-                feature1: 'E-Bücher',
-                feature2: 'Acht Sprachen',
-                feature3: 'Kostenloser Download',
-                feature4: 'Alle Geräte Kompatibel',
-                contact: 'Kontakt',
+                flag: 'https://flagcdn.com/w40/de.png',
                 language: 'Deutsch'
             },
             'tr': {
                 message: 'Site Yapım Aşamasında',
                 subMessage: 'E-kütüphaneyi hazırlıyoruz. Yakında döneceğiz.',
-                feature1: 'E-Kitaplar',
-                feature2: 'Sekiz Dil',
-                feature3: 'Ücretsiz İndirme',
-                feature4: 'Tüm Cihazlar Uyumlu',
-                contact: 'İletişim',
+                flag: 'https://flagcdn.com/w40/tr.png',
                 language: 'Türkçe'
             },
             'ur': {
                 message: 'ویب سائٹ زیر تعمیر',
                 subMessage: 'ہم ای لائبریری تیار کر رہے ہیں۔ جلد واپس آئیں گے۔',
-                feature1: 'ای بکس',
-                feature2: 'آٹھ زبانیں',
-                feature3: 'مفت ڈاؤن لوڈ',
-                feature4: 'تمام آلات کے ساتھ مطابقت',
-                contact: 'رابطہ',
+                flag: 'https://flagcdn.com/w40/pk.png',
                 language: 'اردو'
             },
             'id': {
                 message: 'Situs Dibangun',
                 subMessage: 'Kami menyiapkan perpustakaan elektronik. Segera kembali.',
-                feature1: 'E-books',
-                feature2: 'Delapan Bahasa',
-                feature3: 'Unduhan Gratis',
-                feature4: 'Semua Perangkat Kompatibel',
-                contact: 'Kontak',
+                flag: 'https://flagcdn.com/w40/id.png',
                 language: 'Indonesia'
             }
         };
 
-        // عناصر DOM
-        const languageBtn = document.getElementById('languageBtn');
-        const languageDropdown = document.getElementById('languageDropdown');
-        const currentLanguage = document.getElementById('currentLanguage');
-        const languageOptions = document.querySelectorAll('.language-option');
-        let currentLang = 'ar';
+        // ترتيب اللغات للدوران
+        const languages = ['ar', 'en', 'fr', 'es', 'de', 'tr', 'ur', 'id'];
+        let currentLangIndex = 0;
 
         // تحديث النصوص بناءً على اللغة الحالية
         function updateLanguage(langCode) {
@@ -797,69 +272,51 @@
             
             const elements = [
                 { id: 'mainMessage', text: texts.message },
-                { id: 'subMessage', text: texts.subMessage },
-                { id: 'feature1', text: texts.feature1 },
-                { id: 'feature2', text: texts.feature2 },
-                { id: 'feature3', text: texts.feature3 },
-                { id: 'feature4', text: texts.feature4 },
-                { id: 'contactText', text: `${texts.contact}: <a href="mailto:contact@ondeenway.org">contact@ondeenway.org</a>` }
+                { id: 'subMessage', text: texts.subMessage }
             ];
             
+            // تأثير التلاشي
             elements.forEach(element => {
                 const el = document.getElementById(element.id);
-                if (element.id === 'contactText') {
-                    el.innerHTML = element.text;
-                } else {
+                el.style.opacity = '0';
+                setTimeout(() => {
                     el.textContent = element.text;
-                }
+                    el.style.opacity = '1';
+                }, 250);
             });
             
-            currentLanguage.textContent = texts.language;
-            currentLang = langCode;
+            // تحديث العلم واللغة
+            document.getElementById('currentFlag').src = texts.flag;
+            document.getElementById('currentLanguage').textContent = texts.language;
             
+            // تحديث اتجاه النص
             document.documentElement.dir = ['ar', 'ur'].includes(langCode) ? 'rtl' : 'ltr';
             document.documentElement.lang = langCode;
         }
 
-        // إدارة اختيار اللغة
-        function initLanguageSelector() {
-            languageBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                languageDropdown.classList.toggle('active');
-            });
-
-            languageOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    const lang = option.getAttribute('data-lang');
-                    updateLanguage(lang);
-                    
-                    // تحديث الحالة النشطة
-                    languageOptions.forEach(opt => opt.classList.remove('active'));
-                    option.classList.add('active');
-                    
-                    languageDropdown.classList.remove('active');
-                });
-            });
-
-            document.addEventListener('click', () => {
-                languageDropdown.classList.remove('active');
-            });
+        // تغيير اللغة كل 5 ثوانٍ
+        function rotateLanguage() {
+            currentLangIndex = (currentLangIndex + 1) % languages.length;
+            updateLanguage(languages[currentLangIndex]);
         }
 
         // تهيئة التطبيق
         document.addEventListener('DOMContentLoaded', function() {
-            initLanguageSelector();
-            
             // بدء من اللغة العربية
             updateLanguage('ar');
             
-            // السماح بالسكرول فقط في الحاوية المخصصة
-            document.addEventListener('wheel', function(e) {
-                const scrollContainer = document.querySelector('.scroll-container');
-                if (!scrollContainer.contains(e.target)) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
+            // بدء دوران اللغات كل 5 ثوانٍ
+            setInterval(rotateLanguage, 5000);
+            
+            // منع السكرول والزووم
+            document.body.style.overflow = 'hidden';
+            document.addEventListener('wheel', preventScroll, { passive: false });
+            document.addEventListener('touchmove', preventScroll, { passive: false });
+            
+            function preventScroll(e) {
+                e.preventDefault();
+                return false;
+            }
         });
     </script>
 </body>
